@@ -103,6 +103,7 @@
         .criteria {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 10px;
         }
 
@@ -118,11 +119,45 @@
             font-size: 14px;
         }
 
+        /* Center Tooltip */
+        .tooltip-container {
+            width: 30%;
+            text-align: center;
+        }
+
         .tooltip-icon {
             margin-left: 5px;
             cursor: pointer;
             font-size: 14px;
             color: #ff6347;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #444;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
         }
 
         .criteria select {
@@ -200,22 +235,50 @@
             color: #f5f5f5;
         }
 
-        /* Championship Fight Checkbox */
-        .championship-check {
-            text-align: center;
-            margin-top: 10px;
+        /* Toggle Switch Styling */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
         }
 
-        .championship-check label {
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
             cursor: pointer;
-            font-size: 16px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
         }
 
-        .championship-check input[type="checkbox"]:checked + label {
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
             background-color: #27ae60;
-            color: white;
-            border-radius: 5px;
-            padding: 5px 10px;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
         }
 
         /* Results Section */
@@ -303,7 +366,7 @@
 
             <div class="criteria">
                 <div class="select-red">
-                    <label for="damageRed-round1">Damage by Red Corner <span class="tooltip-icon">ⓘ</span></label>
+                    <label for="damageRed-round1">Damage by Red Corner</label>
                     <select id="damageRed-round1">
                         <option value="">Select Damage</option>
                         <option value="0">0 - No effective damage</option>
@@ -313,8 +376,15 @@
                     </select>
                 </div>
 
+                <div class="tooltip-container">
+                    <div class="tooltip">
+                        <span class="tooltip-icon">ⓘ</span>
+                        <span class="tooltiptext">Damage refers to effective strikes that significantly impact your opponent. Higher scores reflect noticeable or fight-altering damage.</span>
+                    </div>
+                </div>
+
                 <div class="select-blue">
-                    <label for="damageBlue-round1">Damage by Blue Corner <span class="tooltip-icon">ⓘ</span></label>
+                    <label for="damageBlue-round1">Damage by Blue Corner</label>
                     <select id="damageBlue-round1">
                         <option value="">Select Damage</option>
                         <option value="0">0 - No effective damage</option>
@@ -327,7 +397,7 @@
 
             <div class="criteria">
                 <div class="select-red">
-                    <label for="controlRed-round1">Control by Red Corner <span class="tooltip-icon">ⓘ</span></label>
+                    <label for="controlRed-round1">Control by Red Corner</label>
                     <select id="controlRed-round1">
                         <option value="">Select Control</option>
                         <option value="0">0 - No control</option>
@@ -337,8 +407,15 @@
                     </select>
                 </div>
 
+                <div class="tooltip-container">
+                    <div class="tooltip">
+                        <span class="tooltip-icon">ⓘ</span>
+                        <span class="tooltiptext">Control refers to dominance in the fight, including ground control, cage control, and overall pressure exerted.</span>
+                    </div>
+                </div>
+
                 <div class="select-blue">
-                    <label for="controlBlue-round1">Control by Blue Corner <span class="tooltip-icon">ⓘ</span></label>
+                    <label for="controlBlue-round1">Control by Blue Corner</label>
                     <select id="controlBlue-round1">
                         <option value="">Select Control</option>
                         <option value="0">0 - No control</option>
@@ -351,7 +428,7 @@
 
             <div class="criteria">
                 <div class="select-red">
-                    <label for="defenseRed-round1">Defense by Red Corner <span class="tooltip-icon">ⓘ</span></label>
+                    <label for="defenseRed-round1">Defense by Red Corner</label>
                     <select id="defenseRed-round1">
                         <option value="">Select Defense</option>
                         <option value="0">0 - Ineffective defense</option>
@@ -361,8 +438,15 @@
                     </select>
                 </div>
 
+                <div class="tooltip-container">
+                    <div class="tooltip">
+                        <span class="tooltip-icon">ⓘ</span>
+                        <span class="tooltiptext">Defense includes avoiding strikes, blocking, countering attacks, and preventing takedowns, showing mastery in minimizing damage received.</span>
+                    </div>
+                </div>
+
                 <div class="select-blue">
-                    <label for="defenseBlue-round1">Defense by Blue Corner <span class="tooltip-icon">ⓘ</span></label>
+                    <label for="defenseBlue-round1">Defense by Blue Corner</label>
                     <select id="defenseBlue-round1">
                         <option value="">Select Defense</option>
                         <option value="0">0 - Ineffective defense</option>
@@ -373,9 +457,13 @@
                 </div>
             </div>
 
-            <div class="championship-check">
-                <input type="checkbox" id="championshipFight" onclick="toggleChampionshipFight()">
-                <label for="championshipFight">5 Rounds</label>
+            <!-- Toggle Switch for Championship Fight -->
+            <div class="championship-check" style="text-align: center; margin-top: 10px;">
+                <label for="championshipFightToggle">Championship Fight (5 Rounds)</label>
+                <label class="switch">
+                    <input type="checkbox" id="championshipFightToggle" onclick="toggleChampionshipFight()">
+                    <span class="slider"></span>
+                </label>
             </div>
 
             <button class="submit-button" onclick="submitRound()">Submit Round 1</button>
@@ -408,7 +496,7 @@
         let hashtag = '';
 
         function toggleChampionshipFight() {
-            championshipFight = document.getElementById('championshipFight').checked;
+            championshipFight = document.getElementById('championshipFightToggle').checked;
         }
 
         function lockInNames() {
@@ -578,7 +666,7 @@
             document.querySelector('.submit-button').disabled = false;
 
             document.querySelector('.share-scorecard-button').style.display = "none";
-            document.getElementById('championshipFight').checked = false;
+            document.getElementById('championshipFightToggle').checked = false;
             document.getElementById('hashtag').value = "";
             document.getElementById('hashtag').disabled = false;
             hashtag = "";

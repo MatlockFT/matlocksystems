@@ -53,12 +53,12 @@
         /* Input, Button, and Select Styles */
         input, button, select {
             width: 100%;
-            padding: 12px 15px;
+            padding: 10px 12px;
             font-size: 16px;
             color: #f0f0f0;
             background-color: #2a2a2a;
             border: 1px solid #444;
-            border-radius: 8px;
+            border-radius: 5px;
             margin-bottom: 15px;
             outline: none;
             transition: all 0.3s ease;
@@ -80,6 +80,7 @@
             cursor: pointer;
             font-weight: bold;
             transition: background-color 0.3s ease;
+            border-radius: 5px;
         }
 
         /* Button Hover Styles */
@@ -123,19 +124,22 @@
         /* Corners Section */
         .corners {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
+            align-items: center;
             width: 100%;
             margin-bottom: 20px;
         }
 
         .corners input {
-            width: 45%;
+            width: 40%;
             text-align: center;
+            margin: 0 5px;
         }
 
         .corners button {
-            width: 30%;
+            width: 15%;
             font-weight: bold;
+            margin: 0 5px;
         }
 
         /* Toggle Switch Container */
@@ -309,6 +313,20 @@
             margin-bottom: 15px;
         }
 
+        /* Buttons Container */
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .buttons-container button {
+            width: 45%;
+            margin: 0 5px;
+        }
+
         /* Share Button Styles */
         .share-button {
             background-color: #1da1f2;
@@ -350,7 +368,7 @@
 
         <!-- Hashtag Section -->
         <div class="hashtag-container">
-            <input type="text" id="hashtag" placeholder="Enter event, for example #UFC300, #RIZIN100, #UFCAPEX" oninput="checkInputs()">
+            <input type="text" id="hashtag" placeholder="#EventHashtag" oninput="handleHashtagInput()">
         </div>
 
         <!-- Corners Section -->
@@ -469,7 +487,12 @@
                 </div>
             </div>
 
-            <button class="submit-button" id="submitButton" onclick="submitRound()" disabled>Submit Round Score</button>
+            <!-- Buttons Container -->
+            <div class="buttons-container">
+                <button class="submit-button" id="submitButton" onclick="submitRound()" disabled>Submit Round Score</button>
+                <button class="share-round-button" id="shareRoundButton" onclick="shareRoundScore()" disabled>Share Round Score</button>
+            </div>
+
             <button class="reset-button" onclick="resetScorecard()">Reset Scorecard</button>
             <button class="share-scorecard-button" style="display:none" onclick="shareToTwitter()">Share My Scorecard</button>
         </div>
@@ -508,6 +531,16 @@
             document.getElementById('lockInButton').disabled = !(eventName && redCorner && blueCorner);
         }
 
+        function handleHashtagInput() {
+            const hashtagField = document.getElementById('hashtag');
+            let value = hashtagField.value.replace(/\s+/g, ''); // Remove spaces
+            if (!value.startsWith('#')) {
+                value = '#' + value.replace('#', '');
+            }
+            hashtagField.value = value;
+            checkInputs();
+        }
+
         function checkRoundInputs() {
             const damageRed = document.getElementById('damageRed').value;
             const damageBlue = document.getElementById('damageBlue').value;
@@ -516,8 +549,9 @@
             const defenseRed = document.getElementById('defenseRed').value;
             const defenseBlue = document.getElementById('defenseBlue').value;
 
-            // Enable the submit button only when all fields are filled
-            document.getElementById('submitButton').disabled = !(damageRed && damageBlue && controlRed && controlBlue && defenseRed && defenseBlue);
+            const allFilled = damageRed && damageBlue && controlRed && controlBlue && defenseRed && defenseBlue;
+            document.getElementById('submitButton').disabled = !allFilled;
+            document.getElementById('shareRoundButton').disabled = !allFilled;
         }
 
         function lockInNames() {
@@ -594,10 +628,12 @@
             if (currentRound > totalRounds) {
                 declareWinner();
                 document.getElementById('submitButton').disabled = true;
+                document.getElementById('shareRoundButton').disabled = true;
                 document.querySelector('.share-scorecard-button').style.display = "block";
             } else {
                 document.getElementById('roundHeading').textContent = `Round ${currentRound}`;
                 document.getElementById('submitButton').disabled = true;  // Disable until new scores are entered
+                document.getElementById('shareRoundButton').disabled = true;
                 checkRoundInputs();  // Ensure the submit button reflects the state of the inputs
             }
         }
@@ -659,6 +695,7 @@
             document.getElementById('winnerAnnouncement').textContent = "";
             document.getElementById('results').innerHTML = "<h3>Results</h3>";
             document.getElementById('submitButton').disabled = true;
+            document.getElementById('shareRoundButton').disabled = true;
             document.querySelector('.share-scorecard-button').style.display = "none";
             document.getElementById('lockInButton').disabled = true;
             document.getElementById('lockInButton').textContent = "LOCK IN";
@@ -674,6 +711,25 @@
             });
 
             checkInputs(); // To update the lock-in button state
+        }
+
+        function shareRoundScore() {
+            const redCornerName = document.getElementById('redCornerName').value;
+            const blueCornerName = document.getElementById('blueCornerName').value;
+            const eventName = document.getElementById('hashtag').value.trim();
+            let tweetText = `Round ${currentRound} Score for ${eventName}:\n`;
+
+            const redScore = calculateScore('Red');
+            const blueScore = calculateScore('Blue');
+
+            const redTotalUpToNow = redScores.reduce((acc, score) => acc + score, 0) + redScore;
+            const blueTotalUpToNow = blueScores.reduce((acc, score) => acc + score, 0) + blueScore;
+
+            tweetText += `${redCornerName}: ${redScore.toFixed(1)} (${redTotalUpToNow.toFixed(1)} total)\n`;
+            tweetText += `${blueCornerName}: ${blueScore.toFixed(1)} (${blueTotalUpToNow.toFixed(1)} total)`;
+
+            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+            window.open(url, '_blank');
         }
 
         function shareToTwitter() {

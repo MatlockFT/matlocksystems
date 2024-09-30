@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MATLOCK SCORING SYSTEM</title>
+    <style>
+        /* Base Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1c1c1c;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .scorecard {
+            background-color: #2c2c2c;
+            padding: 20px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            overflow-y: auto;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #ff6347;
+        }
+
+        /* Corners Inputs and Lock-in Button */
+        .corners {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .corners input {
+            flex: 1;
+            margin: 0 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            border: 1px solid transparent;
+            background-color: #444;
+            color: #f5f5f5;
+        }
+
+        #redCornerName {
+            background-color: #e74c3c;
+        }
+
+        #blueCornerName {
+            background-color: #3498db;
+        }
+
+        .corners button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #f1c40f;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .corners button.locked {
+            background-color: #27ae60;
+        }
+
+        /* Round Section */
+        .round {
+            background-color: #333333;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .round.active {
+            display: block;
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        /* Criteria Styling */
+        .criteria {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .criteria div {
+            width: 30%;
+        }
+
+        .criteria label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .tooltip-icon {
+            margin-left: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #ff6347;
+        }
+
+        .criteria select {
+            width: 100%;
+            padding: 5px;
+            font-size: 16px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .select-red select {
+            border: 1px solid #e74c3c;
+            background-color: #e74c3c;
+            color: #f5f5f5;
+        }
+
+        .select-blue select {
+            border: 1px solid #3498db;
+            background-color: #3498db;
+            color: #f5f5f5;
+        }
+
+        .criteria select option {
+            background-color: #444444;
+            color: #f5f5f5;
+        }
+
+        /* Hashtag Section */
+        .hashtag-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .hashtag-container input {
+            width: 50%;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            background-color: #444;
+            color: #f5f5f5;
+        }
+
+        /* Buttons */
+        .submit-button,
+        .reset-button,
+        .share-scorecard-button {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            text-align: center;
+            border-radius: 5px;
+            border: none;
+            background-color: #ff6347;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-button:hover,
+        .reset-button:hover,
+        .share-scorecard-button:hover {
+            background-color: #ff4500;
+        }
+
+        .share-scorecard-button {
+            display: none;
+        }
+
+        .green-field {
+            background-color: #27ae60 !important;
+            color: #f5f5f5;
+        }
+
+        /* Championship Fight Checkbox */
+        .championship-check {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .championship-check label {
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .championship-check input[type="checkbox"]:checked + label {
+            background-color: #27ae60;
+            color: white;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+
+        /* Results Section */
+        .results {
+            text-align: center;
+            background-color: #444;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .round-result {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        /* Total Score */
+        .total-score {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .total-score span {
+            display: block;
+        }
+
+        .version-info {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .scorecard {
+                width: 700px;
+                padding: 30px;
+            }
+
+            .hashtag-container input {
+                width: 60%;
+            }
+
+            h2 {
+                font-size: 36px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .scorecard {
+                width: 800px;
+                padding: 40px;
+            }
+
+            .hashtag-container input {
+                width: 70%;
+            }
+
+            h2 {
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scorecard">
+        <h2>MATLOCK SCORING SYSTEM</h2>
+
+        <div class="corners">
+            <input type="text" id="redCornerName" placeholder="Enter Red Corner Name">
+            <button id="lockInButton" onclick="lockInNames()">LOCK IN</button>
+            <input type="text" id="blueCornerName" placeholder="Enter Blue Corner Name">
+        </div>
+
+        <div class="hashtag-container">
+            <input type="text" id="hashtag" placeholder="Enter Hashtag" oninput="autoAddHashtag()">
+        </div>
+
+        <div id="round1" class="round active">
+            <h3 id="roundHeading">Round 1</h3>
+
+            <div class="criteria">
+                <div class="select-red">
+                    <label for="damageRed-round1">Damage by Red Corner <span class="tooltip-icon">ⓘ</span></label>
+                    <select id="damageRed-round1">
+                        <option value="">Select Damage</option>
+                        <option value="0">0 - No effective damage</option>
+                        <option value="1">1 - Minor damage</option>
+                        <option value="2">2 - Visible damage</option>
+                        <option value="3">3 - Significant damage</option>
+                    </select>
+                </div>
+
+                <div class="select-blue">
+                    <label for="damageBlue-round1">Damage by Blue Corner <span class="tooltip-icon">ⓘ</span></label>
+                    <select id="damageBlue-round1">
+                        <option value="">Select Damage</option>
+                        <option value="0">0 - No effective damage</option>
+                        <option value="1">1 - Minor damage</option>
+                        <option value="2">2 - Visible damage</option>
+                        <option value="3">3 - Significant damage</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="criteria">
+                <div class="select-red">
+                    <label for="controlRed-round1">Control by Red Corner <span class="tooltip-icon">ⓘ</span></label>
+                    <select id="controlRed-round1">
+                        <option value="">Select Control</option>
+                        <option value="0">0 - No control</option>
+                        <option value="1">1 - Brief control</option>
+                        <option value="2">2 - Majority control</option>
+                        <option value="3">3 - Complete control</option>
+                    </select>
+                </div>
+
+                <div class="select-blue">
+                    <label for="controlBlue-round1">Control by Blue Corner <span class="tooltip-icon">ⓘ</span></label>
+                    <select id="controlBlue-round1">
+                        <option value="">Select Control</option>
+                        <option value="0">0 - No control</option>
+                        <option value="1">1 - Brief control</option>
+                        <option value="2">2 - Majority control</option>
+                        <option value="3">3 - Complete control</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="criteria">
+                <div class="select-red">
+                    <label for="defenseRed-round1">Defense by Red Corner <span class="tooltip-icon">ⓘ</span></label>
+                    <select id="defenseRed-round1">
+                        <option value="">Select Defense</option>
+                        <option value="0">0 - Ineffective defense</option>
+                        <option value="1">1 - Minimal defense</option>
+                        <option value="2">2 - Effective defense</option>
+                        <option value="3">3 - Excellent defense</option>
+                    </select>
+                </div>
+
+                <div class="select-blue">
+                    <label for="defenseBlue-round1">Defense by Blue Corner <span class="tooltip-icon">ⓘ</span></label>
+                    <select id="defenseBlue-round1">
+                        <option value="">Select Defense</option>
+                        <option value="0">0 - Ineffective defense</option>
+                        <option value="1">1 - Minimal defense</option>
+                        <option value="2">2 - Effective defense</option>
+                        <option value="3">3 - Excellent defense</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="championship-check">
+                <input type="checkbox" id="championshipFight" onclick="toggleChampionshipFight()">
+                <label for="championshipFight">5 Rounds</label>
+            </div>
+
+            <button class="submit-button" onclick="submitRound()">Submit Round 1</button>
+            <button class="reset-button" onclick="resetScorecard()">Reset Scorecard</button>
+            <button class="share-scorecard-button" onclick="shareScorecard()">Share My Scorecard</button>
+        </div>
+
+        <div class="results" id="results">
+            <h3>Results</h3>
+        </div>
+
+        <div class="total-score">
+            <span id="redCornerTotal">Red Corner Total Score: 0</span>
+            <span id="blueCornerTotal">Blue Corner Total Score: 0</span>
+            <span id="winnerAnnouncement"></span>
+        </div>
+
+        <div class="version-info">
+            V.1.0
+        </div>
+    </div>
+
+    <script>
+        let currentRound = 1;
+        let championshipFight = false;
+        let redTotalScore = 0;
+        let blueTotalScore = 0;
+        const maxRounds = 5;
+        const normalRounds = 3;
+        let hashtag = '';
+
+        function toggleChampionshipFight() {
+            championshipFight = document.getElementById('championshipFight').checked;
+        }
+
+        function lockInNames() {
+            const redCornerName = document.getElementById('redCornerName').value.trim();
+            const blueCornerName = document.getElementById('blueCornerName').value.trim();
+
+            if (!redCornerName || !blueCornerName) {
+                alert("Please enter both fighter names.");
+                return;
+            }
+
+            if (!hashtag) {
+                hashtag = document.getElementById('hashtag').value.trim();
+                if (hashtag) {
+                    document.getElementById('hashtag').disabled = true;
+                }
+            }
+
+            document.getElementById('redCornerName').disabled = true;
+            document.getElementById('blueCornerName').disabled = true;
+            document.getElementById('redCornerName').classList.add("green-field");
+            document.getElementById('blueCornerName').classList.add("green-field");
+            document.getElementById('hashtag').classList.add("green-field");
+
+            const lockInButton = document.getElementById('lockInButton');
+            lockInButton.textContent = "Locked In".toUpperCase();
+            lockInButton.classList.add("locked");
+
+            updateLabelsWithNames(redCornerName, blueCornerName, currentRound);
+        }
+
+        function updateLabelsWithNames(redCornerName, blueCornerName, round) {
+            document.getElementById(`redCornerLabel-damage-round${round}`).textContent = `Damage by ${redCornerName}`;
+            document.getElementById(`blueCornerLabel-damage-round${round}`).textContent = `Damage by ${blueCornerName}`;
+            document.getElementById(`redCornerLabel-control-round${round}`).textContent = `Control by ${redCornerName}`;
+            document.getElementById(`blueCornerLabel-control-round${round}`).textContent = `Control by ${blueCornerName}`;
+            document.getElementById(`redCornerLabel-defense-round${round}`).textContent = `Defense by ${redCornerName}`;
+            document.getElementById(`blueCornerLabel-defense-round${round}`).textContent = `Defense by ${blueCornerName}`;
+        }
+
+        function submitRound() {
+            const redCornerName = document.getElementById('redCornerName').value;
+            const blueCornerName = document.getElementById('blueCornerName').value;
+
+            const damageRed = parseInt(document.getElementById(`damageRed-round${currentRound}`).value);
+            const controlRed = parseInt(document.getElementById(`controlRed-round${currentRound}`).value);
+            const defenseRed = parseInt(document.getElementById(`defenseRed-round${currentRound}`).value);
+            const damageBlue = parseInt(document.getElementById(`damageBlue-round${currentRound}`).value);
+            const controlBlue = parseInt(document.getElementById(`controlBlue-round${currentRound}`).value);
+            const defenseBlue = parseInt(document.getElementById(`defenseBlue-round${currentRound}`).value);
+
+            if ([damageRed, controlRed, defenseRed, damageBlue, controlBlue, defenseBlue].includes(NaN)) {
+                alert("Please select a value for each criterion.");
+                return;
+            }
+
+            const redScore = (damageRed * 0.5) + (controlRed * 0.3) + (defenseRed * 0.2);
+            const blueScore = (damageBlue * 0.5) + (controlBlue * 0.3) + (defenseBlue * 0.2);
+
+            redTotalScore += redScore;
+            blueTotalScore += blueScore;
+
+            const roundWinner = redScore > blueScore ? redCornerName : blueScore > redScore ? blueCornerName : 'Draw';
+            document.getElementById('results').innerHTML += `
+                <div class="round-result">
+                    <strong>Round ${currentRound} To ${roundWinner}:</strong><br>
+                    ${redCornerName}: ${redScore.toFixed(1)} (${redTotalScore.toFixed(1)})<br>
+                    ${blueCornerName}: ${blueScore.toFixed(1)} (${blueTotalScore.toFixed(1)})
+                </div>
+            `;
+
+            updateTotalScores();
+            shareRoundToTwitter(currentRound, redCornerName, blueCornerName, redScore, blueScore, redTotalScore, blueTotalScore);
+            prepareNextRoundOrEndFight();
+        }
+
+        function updateTotalScores() {
+            document.getElementById('redCornerTotal').textContent = `${document.getElementById('redCornerName').value} Total Score: ${redTotalScore.toFixed(1)}`;
+            document.getElementById('blueCornerTotal').textContent = `${document.getElementById('blueCornerName').value} Total Score: ${blueTotalScore.toFixed(1)}`;
+        }
+
+        function prepareNextRoundOrEndFight() {
+            const roundsLimit = championshipFight ? maxRounds : normalRounds;
+
+            document.getElementById('roundHeading').textContent = `Round ${currentRound + 1}`;
+            document.querySelector('.submit-button').textContent = `Submit Round ${currentRound + 1}`;
+            currentRound++;
+
+            if (currentRound <= roundsLimit) {
+                resetRoundSelects(currentRound);
+                document.querySelector('.round.active').classList.remove('active');
+                createNewRound(currentRound);
+            } else {
+                document.querySelector('.submit-button').disabled = true;
+                declareWinner();
+                document.querySelector('.share-scorecard-button').style.display = "block";
+            }
+        }
+
+        function resetRoundSelects(round) {
+            document.querySelectorAll(`#round${round} select`).forEach(select => select.value = "");
+        }
+
+        function createNewRound(round) {
+            const roundDiv = document.createElement('div');
+            roundDiv.id = `round${round}`;
+            roundDiv.classList.add('round', 'active');
+            roundDiv.innerHTML = document.getElementById('round1').innerHTML.replace(/round1/g, `round${round}`);
+            document.querySelector('.scorecard').insertBefore(roundDiv, document.getElementById('results'));
+
+            const redCornerName = document.getElementById('redCornerName').value;
+            const blueCornerName = document.getElementById('blueCornerName').value;
+            updateLabelsWithNames(redCornerName, blueCornerName, round);
+        }
+
+        function declareWinner() {
+            const winnerAnnouncement = document.getElementById('winnerAnnouncement');
+            if (redTotalScore > blueTotalScore) {
+                winnerAnnouncement.textContent = `Winner: ${document.getElementById('redCornerName').value}`;
+            } else if (blueTotalScore > redTotalScore) {
+                winnerAnnouncement.textContent = `Winner: ${document.getElementById('blueCornerName').value}`;
+            } else {
+                winnerAnnouncement.textContent = "It's a Draw!";
+            }
+        }
+
+        function shareRoundToTwitter(round, redCornerName, blueCornerName, redScore, blueScore, redTotal, blueTotal) {
+            let tweetText = `Round ${round} Results:\n\n${redCornerName}: ${redScore.toFixed(1)} (${redTotal.toFixed(1)})\n${blueCornerName}: ${blueScore.toFixed(1)} (${blueTotal.toFixed(1)})`;
+            if (hashtag) tweetText += `\n${hashtag}`;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank');
+        }
+
+        function shareScorecard() {
+            const redCornerName = document.getElementById('redCornerName').value;
+            const blueCornerName = document.getElementById('blueCornerName').value;
+            const winnerAnnouncement = document.getElementById('winnerAnnouncement').textContent;
+
+            let tweetText = `Fight Results:\n\n`;
+            document.querySelectorAll('.round-result').forEach(roundResult => {
+                tweetText += `${roundResult.textContent}\n\n`;
+            });
+            tweetText += `${winnerAnnouncement}`;
+            if (hashtag) tweetText += `\n${hashtag}`;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank');
+        }
+
+        function resetScorecard() {
+            document.getElementById('redCornerName').value = "";
+            document.getElementById('blueCornerName').value = "";
+            document.getElementById('redCornerName').disabled = false;
+            document.getElementById('blueCornerName').disabled = false;
+
+            for (let round = 1; round <= maxRounds; round++) {
+                if (document.getElementById(`round${round}`)) resetRoundSelects(round);
+            }
+
+            redTotalScore = 0;
+            blueTotalScore = 0;
+            document.getElementById('redCornerTotal').textContent = "Red Corner Total Score: 0";
+            document.getElementById('blueCornerTotal').textContent = "Blue Corner Total Score: 0";
+            document.getElementById('winnerAnnouncement').textContent = "";
+            document.getElementById('results').innerHTML = "<h3>Results</h3>";
+
+            currentRound = 1;
+            document.getElementById('roundHeading').textContent = "Round 1";
+            document.querySelector('.submit-button').textContent = "Submit Round 1";
+            document.querySelector('.submit-button').disabled = false;
+
+            document.querySelector('.share-scorecard-button').style.display = "none";
+            document.getElementById('championshipFight').checked = false;
+            document.getElementById('hashtag').value = "";
+            document.getElementById('hashtag').disabled = false;
+            hashtag = "";
+
+            document.querySelectorAll('.round').forEach(round => round.classList.remove('active'));
+            document.getElementById('round1').classList.add('active');
+            document.querySelector('.corners button').textContent = "Lock In".toUpperCase();
+            document.querySelector('.corners button').classList.remove("locked");
+            document.querySelectorAll('.green-field').forEach(field => field.classList.remove("green-field"));
+        }
+
+        function autoAddHashtag() {
+            const hashtagField = document.getElementById('hashtag');
+            if (!hashtagField.value.startsWith('#')) {
+                hashtagField.value = '#' + hashtagField.value.replace('#', '');
+            }
+        }
+    </script>
+</body>
+</html>

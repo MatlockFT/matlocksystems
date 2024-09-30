@@ -55,11 +55,16 @@
         /* Heading Styles */
         h2 {
             font-size: 38px;
-            color: #e67e22;
+            color: #e64823;
             margin-bottom: 10px;
             letter-spacing: 1.5px;
             text-align: center;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 a {
+            text-decoration: none;
+            color: inherit;
         }
 
         /* Subheading */
@@ -83,7 +88,7 @@
         }
 
         .social-icons a:hover {
-            color: #e67e22;
+            color: #e64823;
         }
 
         /* Input, Button, and Select Styles */
@@ -110,13 +115,13 @@
 
         /* Focus Styles */
         input:focus, select:focus {
-            border-color: #e67e22;
-            box-shadow: 0 0 5px rgba(230, 126, 34, 0.5);
+            border-color: #e64823;
+            box-shadow: 0 0 5px rgba(230, 72, 35, 0.5);
         }
 
         /* Button Styles */
         button {
-            background-color: #e67e22;
+            background-color: #e64823;
             cursor: pointer;
             font-weight: bold;
             transition: background-color 0.3s ease, transform 0.2s ease;
@@ -134,6 +139,19 @@
         }
 
         .submit-button:hover {
+            background-color: #d35400;
+        }
+
+        /* Share Button Styles */
+        .share-button {
+            background-color: #e64823;
+            margin-top: 30px;
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+        }
+
+        .share-button:hover {
             background-color: #d35400;
         }
 
@@ -172,7 +190,7 @@
             color: white;
         }
 
-        /* Green Field Styles */
+        /* Locked Field Styles */
         .locked-field {
             background-color: #2c3e50;
             color: white;
@@ -276,7 +294,7 @@
 
         /* Checked Styles */
         input:checked + .slider {
-            background-color: #e67e22;
+            background-color: #e64823;
         }
 
         input:checked + .slider:before {
@@ -307,7 +325,7 @@
             flex: 1;
             margin: 0;
             font-size: 24px;
-            color: #e67e22;
+            color: #e64823;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
 
@@ -336,7 +354,7 @@
             text-align: center;
             font-size: 18px;
             margin-bottom: 15px;
-            color: #e67e22;
+            color: #e64823;
             position: relative;
             font-variant: small-caps;
             cursor: pointer;
@@ -383,6 +401,7 @@
             opacity: 1;
         }
 
+        /* Criterion Dropdowns */
         .criterion-dropdowns {
             display: flex;
             justify-content: space-between;
@@ -444,16 +463,6 @@
             line-height: 1.5;
         }
 
-        /* Share Button Styles */
-        .share-button {
-            background-color: #1da1f2;
-            margin-top: 30px;
-        }
-
-        .share-button:hover {
-            background-color: #1991da;
-        }
-
         /* Version Info */
         .version-info {
             margin-top: 30px;
@@ -475,7 +484,7 @@
         }
 
         .explanation h2 {
-            color: #e67e22;
+            color: #e64823;
             text-align: center;
             margin-bottom: 20px;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
@@ -484,7 +493,7 @@
 
         .explanation h3 {
             font-size: 24px;
-            color: #e67e22;
+            color: #e64823;
             margin-bottom: 20px;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
@@ -503,7 +512,7 @@
         }
 
         .explanation strong {
-            color: #e67e22;
+            color: #e64823;
         }
 
         /* Mobile Specific Styles */
@@ -571,7 +580,7 @@
             <a href="https://www.instagram.com/matlockfighttalk/" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
 
-        <h2>Weighted Scoring</h2>
+        <h2><a href="#revised-scoring-system">Weighted Scoring</a></h2>
         <h3 class="subheading">by Matlock Fight Talk</h3>
 
         <!-- Hashtag Section -->
@@ -720,8 +729,6 @@
                 <button id="shareRoundButton" class="small-button"><i class="fab fa-twitter"></i></button>
                 <button id="resetButton" class="small-button"><i class="fas fa-redo-alt"></i></button>
             </div>
-
-            <button id="shareScorecardButton" style="display:none">Share My Scorecard</button>
         </div>
 
         <div class="results" id="results">
@@ -734,13 +741,13 @@
             <span id="winnerAnnouncement"></span>
         </div>
 
-        <button class="share-button" id="shareButton">Share on Twitter</button>
+        <button class="share-button" id="shareButton">Share Full Score To X (Formerly Known As Twitter)</button>
 
-        <div class="version-info">V.1.08</div>
+        <div class="version-info">V.1.09</div>
     </div>
 
     <!-- Explanation Section -->
-    <div class="explanation">
+    <div class="explanation" id="revised-scoring-system">
         <h2>A Revised Scoring System</h2>
         <p>This system revolves around three main criteria: <strong>Damage</strong>, <strong>Control</strong>, and <strong>Defense</strong>, scored from 0 to 3 points per round. Each criterion is weighted differently, with the total score for a round ranging from 0 to 9 points.</p>
 
@@ -826,7 +833,6 @@
             const submitButton = document.getElementById('submitButton');
             const shareRoundButton = document.getElementById('shareRoundButton');
             const resetButton = document.getElementById('resetButton');
-            const shareScorecardButton = document.getElementById('shareScorecardButton');
             const shareButton = document.getElementById('shareButton');
 
             const hashtagError = document.getElementById('hashtagError');
@@ -842,7 +848,6 @@
             submitButton.addEventListener('click', submitRound);
             shareRoundButton.addEventListener('click', shareRoundScore);
             resetButton.addEventListener('click', resetScorecard);
-            shareScorecardButton.addEventListener('click', shareToTwitter);
             shareButton.addEventListener('click', shareToTwitter);
 
             const selectElements = document.querySelectorAll('#roundScoring select');
@@ -958,7 +963,6 @@
                 if (currentRound > totalRounds) {
                     declareWinner();
                     submitButton.disabled = true;
-                    shareScorecardButton.style.display = "block";
                 } else {
                     document.getElementById('roundHeading').textContent = `Round ${currentRound}`;
                     submitButton.disabled = true;
@@ -1070,7 +1074,6 @@
                 lockInButton.classList.remove("locked");
 
                 submitButton.disabled = true;
-                shareScorecardButton.style.display = "none";
 
                 document.getElementById('roundHeading').textContent = "Round 1";
 

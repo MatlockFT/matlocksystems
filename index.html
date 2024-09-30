@@ -4,8 +4,12 @@
     <!-- Meta and Title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MATLOCK SCORING SYSTEM</title>
+    <title>Weighted Scoring - by Matlock Fight Talk</title>
     
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> 
+
     <!-- Styles -->
     <style>
         /* CSS Reset and Box Sizing */
@@ -17,7 +21,7 @@
 
         /* Body Styles */
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Roboto', sans-serif;
             background: linear-gradient(135deg, #0d0d0d, #1a1a1a); /* Subtle background gradient */
             color: #f0f0f0;
             display: flex;
@@ -44,12 +48,20 @@
 
         /* Heading Styles */
         h2 {
-            font-size: 36px;
+            font-size: 42px;
             color: #ff6347;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             letter-spacing: 1.5px;
             text-align: center;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Subheading */
+        h3.subheading {
+            font-size: 20px;
+            color: #888;
+            margin-bottom: 30px;
+            text-align: center;
         }
 
         /* Input, Button, and Select Styles */
@@ -409,7 +421,8 @@
 </head>
 <body>
     <div class="scorecard">
-        <h2>MATLOCK SCORING SYSTEM</h2>
+        <h2>Weighted Scoring</h2>
+        <h3 class="subheading">by Matlock Fight Talk</h3>
 
         <!-- Hashtag Section -->
         <div class="hashtag-container">
@@ -557,7 +570,7 @@
 
         <button class="share-button" id="shareButton">Share on Twitter</button>
 
-        <div class="version-info">V.1.0</div>
+        <div class="version-info">V.1.01</div>
     </div>
 
     <!-- Scripts -->
@@ -744,13 +757,13 @@
                 roundResultDiv.appendChild(document.createElement('br'));
 
                 const redScoreText = document.createTextNode(
-                    `${redCornerName}: ${redScore.toFixed(1)} (${redTotalScore.toFixed(1)} total)`
+                    `${redCornerName}: ${redScore.toFixed(1)} (${redScores.slice(0, roundNumber).reduce((a,b) => a+b, 0).toFixed(1)} total)`
                 );
                 roundResultDiv.appendChild(redScoreText);
                 roundResultDiv.appendChild(document.createElement('br'));
 
                 const blueScoreText = document.createTextNode(
-                    `${blueCornerName}: ${blueScore.toFixed(1)} (${blueTotalScore.toFixed(1)} total)`
+                    `${blueCornerName}: ${blueScore.toFixed(1)} (${blueScores.slice(0, roundNumber).reduce((a,b) => a+b, 0).toFixed(1)} total)`
                 );
                 roundResultDiv.appendChild(blueScoreText);
                 roundResultDiv.appendChild(document.createElement('br'));

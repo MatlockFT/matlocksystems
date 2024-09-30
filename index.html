@@ -264,9 +264,8 @@
 
         /* Adjust the widths of the criteria columns */
         .criteria .select-red,
-        .criteria .tooltip-container,
         .criteria .select-blue {
-            width: 30%;
+            width: 45%;
             text-align: center;
         }
 
@@ -280,48 +279,6 @@
         .criteria label {
             margin-bottom: 8px;
             font-size: 16px;
-        }
-
-        /* Tooltip Styles */
-        .tooltip-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 10%;
-        }
-
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-            font-size: 18px;
-            color: #ff6347;
-        }
-
-        .tooltip:hover {
-            color: #e55347;
-        }
-
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 220px;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px;
-            border-radius: 5px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
         }
 
         /* Total Score Section */
@@ -443,7 +400,6 @@
         }
 
         body.mobile .criteria .select-red,
-        body.mobile .criteria .tooltip-container,
         body.mobile .criteria .select-blue {
             width: 100%;
             margin-bottom: 15px;
@@ -506,13 +462,6 @@
                     </select>
                 </div>
 
-                <div class="tooltip-container">
-                    <div class="tooltip">
-                        ⓘ
-                        <span class="tooltiptext">Damage refers to effective strikes that significantly impact your opponent.</span>
-                    </div>
-                </div>
-
                 <div class="select-blue">
                     <label for="damageBlue">Damage by Blue Corner</label>
                     <select id="damageBlue">
@@ -536,13 +485,6 @@
                         <option value="2">2 - Majority control</option>
                         <option value="3">3 - Complete control</option>
                     </select>
-                </div>
-
-                <div class="tooltip-container">
-                    <div class="tooltip">
-                        ⓘ
-                        <span class="tooltiptext">Control refers to dominance, including ground control and overall pressure.</span>
-                    </div>
                 </div>
 
                 <div class="select-blue">
@@ -570,13 +512,6 @@
                     </select>
                 </div>
 
-                <div class="tooltip-container">
-                    <div class="tooltip">
-                        ⓘ
-                        <span class="tooltiptext">Defense refers to blocking, evading, and countering effectively.</span>
-                    </div>
-                </div>
-
                 <div class="select-blue">
                     <label for="defenseBlue">Defense by Blue Corner</label>
                     <select id="defenseBlue">
@@ -585,6 +520,27 @@
                         <option value="1">1 - Minimal defense</option>
                         <option value="2">2 - Effective defense</option>
                         <option value="3">3 - Excellent defense</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Point Deduction Section -->
+            <div class="criteria">
+                <div class="select-red">
+                    <label for="deductionRed">Point Deduction for Red Corner</label>
+                    <select id="deductionRed">
+                        <option value="0">0</option>
+                        <option value="-1">-1</option>
+                        <option value="-2">-2</option>
+                    </select>
+                </div>
+
+                <div class="select-blue">
+                    <label for="deductionBlue">Point Deduction for Blue Corner</label>
+                    <select id="deductionBlue">
+                        <option value="0">0</option>
+                        <option value="-1">-1</option>
+                        <option value="-2">-2</option>
                     </select>
                 </div>
             </div>
@@ -611,7 +567,7 @@
 
         <button class="share-button" id="shareButton">Share on Twitter</button>
 
-        <div class="version-info">V.1.02</div>
+        <div class="version-info">V.1.03</div>
     </div>
 
     <!-- Explanation Section -->
@@ -699,14 +655,14 @@
 
         <h3>4. Total Round Score Calculation</h3>
         <p>The round score is the sum of the points from each criterion, with the weighted formula applied to emphasize the importance of each criterion:</p>
-        <p><strong>Total Round Score = (Damage × 0.5) + (Control × 0.3) + (Defense × 0.2)</strong></p>
+        <p><strong>Total Round Score = (Damage × 0.5) + (Control × 0.3) + (Defense × 0.2) + Point Deductions</strong></p>
         <p><strong>Maximum Score per Round:</strong> 9 points (3 for each category).</p>
         <p><strong>Minimum Score per Round:</strong> 0 points.</p>
 
         <h3>5. Fight Outcome Decision</h3>
         <p><strong>Winner:</strong> The fighter with the highest total score across all rounds wins the fight.</p>
         <p><strong>Draw:</strong> If the total score difference is within 1 point after applying the weighted formula, the fight is declared a draw.</p>
-        <p><strong>Significant Point Deductions:</strong> Infractions such as fouls or stalling can result in a 1-point deduction from the final round score, affecting the weighted total.</p>
+        <p><strong>Significant Point Deductions:</strong> Infractions such as fouls can result in a 1-point deduction from the final round score, affecting the weighted total.</p>
     </div>
 
     <!-- Scripts -->
@@ -844,6 +800,8 @@
                 document.querySelector('label[for="controlBlue"]').textContent = `Control by ${blueCornerName}`;
                 document.querySelector('label[for="defenseRed"]').textContent = `Defense by ${redCornerName}`;
                 document.querySelector('label[for="defenseBlue"]').textContent = `Defense by ${blueCornerName}`;
+                document.querySelector('label[for="deductionRed"]').textContent = `Point Deduction for ${redCornerName}`;
+                document.querySelector('label[for="deductionBlue"]').textContent = `Point Deduction for ${blueCornerName}`;
             }
 
             function submitRound() {
@@ -917,8 +875,11 @@
                 const damage = parseInt(document.getElementById(`damage${color}`).value) || 0;
                 const control = parseInt(document.getElementById(`control${color}`).value) || 0;
                 const defense = parseInt(document.getElementById(`defense${color}`).value) || 0;
+                const deduction = parseInt(document.getElementById(`deduction${color}`).value) || 0;
 
-                return (damage * 0.5) + (control * 0.3) + (defense * 0.2);
+                const score = (damage * 0.5) + (control * 0.3) + (defense * 0.2) + deduction;
+
+                return score;
             }
 
             function updateTotalScores() {
@@ -937,12 +898,14 @@
                 const blueCornerName = blueCornerInput.value;
                 const winnerAnnouncement = document.getElementById('winnerAnnouncement');
 
-                if (redTotalScore > blueTotalScore) {
-                    winnerAnnouncement.textContent = `Winner: ${redCornerName}`;
-                } else if (blueTotalScore > redTotalScore) {
-                    winnerAnnouncement.textContent = `Winner: ${blueCornerName}`;
-                } else {
+                const scoreDifference = Math.abs(redTotalScore - blueTotalScore);
+
+                if (scoreDifference <= 1) {
                     winnerAnnouncement.textContent = "It's a Draw!";
+                } else if (redTotalScore > blueTotalScore) {
+                    winnerAnnouncement.textContent = `Winner: ${redCornerName}`;
+                } else {
+                    winnerAnnouncement.textContent = `Winner: ${blueCornerName}`;
                 }
             }
 

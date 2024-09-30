@@ -5,66 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MATLOCK SCORING SYSTEM</title>
     <style>
-        /* Base Styling */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* Reset Default Styling */
+        * {
             margin: 0;
             padding: 0;
-            background-color: #1c1c1c;
-            color: #fff;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #f0f0f0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            padding: 20px;
         }
 
         .scorecard {
-            background-color: #2c2c2c;
-            padding: 20px;
+            background-color: #1d1d1d;
+            padding: 30px;
             border-radius: 15px;
-            width: 90%;
             max-width: 800px;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 28px;
+            font-size: 32px;
             color: #ff6347;
-        }
-
-        /* Universal Input and Button Styles */
-        input, button, select {
-            padding: 10px;
-            font-size: 16px;
+            margin-bottom: 20px;
+            letter-spacing: 1.2px;
             text-align: center;
-            border-radius: 5px;
-            border: none;
-            outline: none;
         }
 
-        input {
-            background-color: #444;
-            color: #f5f5f5;
+        /* Input, Button, Select Styling */
+        input, button, select {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            color: #f0f0f0;
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: #888;
+        }
+
+        input:focus, select:focus {
+            border-color: #ff6347;
         }
 
         button {
+            background-color: #ff6347;
             cursor: pointer;
-            background-color: #f1c40f;
-            color: #fff;
-            transition: background-color 0.3s;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
-            background-color: #ff6347;
+            background-color: #e55347;
         }
 
-        .green-field {
-            background-color: #27ae60 !important;
-            color: #fff;
+        button:disabled {
+            background-color: #333;
+            color: #888;
+            cursor: not-allowed;
         }
 
         /* Hashtag Section */
@@ -72,49 +87,51 @@
             display: flex;
             justify-content: center;
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .hashtag-container input {
-            width: 50%;
-        }
-
-        .hashtag-container input::placeholder {
-            color: #888;
+            max-width: 70%;
+            text-align: center;
         }
 
         /* Corners Section */
         .corners {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: space-between;
+            width: 100%;
             margin-bottom: 20px;
         }
 
         .corners input {
-            flex: 1;
-            margin: 0 10px;
-            background-color: #444;
-            color: #f5f5f5;
+            width: 45%;
+            text-align: center;
         }
 
-        /* Toggle Switch Section */
+        .corners button {
+            width: 30%;
+            font-weight: bold;
+        }
+
+        /* Toggle Switch Styling */
         .toggle-container {
             display: flex;
             justify-content: center;
             align-items: center;
             margin-bottom: 20px;
+            width: 100%;
         }
 
         .toggle-container label {
             margin-right: 10px;
+            color: #f0f0f0;
         }
 
         .switch {
             position: relative;
             display: inline-block;
             width: 60px;
-            height: 34px;
+            height: 30px;
         }
 
         .switch input {
@@ -129,7 +146,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #ccc;
+            background-color: #444;
             transition: .4s;
             border-radius: 34px;
         }
@@ -137,8 +154,8 @@
         .slider:before {
             position: absolute;
             content: "";
-            height: 26px;
-            width: 26px;
+            height: 22px;
+            width: 22px;
             left: 4px;
             bottom: 4px;
             background-color: white;
@@ -147,40 +164,43 @@
         }
 
         input:checked + .slider {
-            background-color: #27ae60;
+            background-color: #ff6347;
         }
 
         input:checked + .slider:before {
-            transform: translateX(26px);
+            transform: translateX(30px);
         }
 
         /* Round and Criteria Sections */
         .round {
-            background-color: #333;
-            padding: 15px;
+            background-color: #222;
+            padding: 20px;
             border-radius: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            width: 100%;
         }
 
         .criteria {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             width: 100%;
         }
 
         .criteria div {
-            width: 30%;
+            width: 45%;
+        }
+
+        .criteria label {
+            margin-bottom: 5px;
+            font-size: 14px;
         }
 
         /* Tooltip Styling */
-        .tooltip-container {
-            text-align: center;
-            width: 30%;
-        }
-
-        .tooltip-icon {
+        .tooltip {
+            position: relative;
+            display: inline-block;
             cursor: pointer;
             font-size: 14px;
             color: #ff6347;
@@ -189,18 +209,18 @@
         .tooltip .tooltiptext {
             visibility: hidden;
             width: 200px;
-            background-color: #444;
+            background-color: #333;
             color: #fff;
             text-align: center;
-            border-radius: 5px;
             padding: 5px;
+            border-radius: 5px;
             position: absolute;
             z-index: 1;
-            bottom: 125%;
+            bottom: 150%;
             left: 50%;
-            margin-left: -100px;
+            transform: translateX(-50%);
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.3s ease;
         }
 
         .tooltip:hover .tooltiptext {
@@ -211,28 +231,28 @@
         /* Total Score Section */
         .total-score {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 25px;
             font-size: 20px;
             font-weight: bold;
         }
 
         .total-score span {
             display: block;
+            margin-bottom: 5px;
         }
 
         .results {
             text-align: center;
-            background-color: #444;
-            padding: 15px;
+            background-color: #333;
+            padding: 20px;
             border-radius: 10px;
             margin-top: 20px;
+            width: 100%;
         }
 
         /* Version Info */
         .version-info {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
+            margin-top: 20px;
             font-size: 12px;
             color: #888;
         }
@@ -241,11 +261,6 @@
         @media (min-width: 768px) {
             .scorecard {
                 width: 700px;
-                padding: 30px;
-            }
-
-            .hashtag-container input {
-                width: 60%;
             }
 
             h2 {
@@ -256,11 +271,6 @@
         @media (min-width: 1024px) {
             .scorecard {
                 width: 800px;
-                padding: 40px;
-            }
-
-            .hashtag-container input {
-                width: 70%;
             }
 
             h2 {
@@ -273,16 +283,19 @@
     <div class="scorecard">
         <h2>MATLOCK SCORING SYSTEM</h2>
 
+        <!-- Hashtag Section -->
         <div class="hashtag-container">
             <input type="text" id="hashtag" placeholder="Enter event, for example #UFC300, #RIZIN100, #UFCAPEX" oninput="autoAddHashtag()">
         </div>
 
+        <!-- Corners Section -->
         <div class="corners">
             <input type="text" id="redCornerName" placeholder="Enter Red Corner Name">
             <button id="lockInButton" onclick="lockInNames()">LOCK IN</button>
             <input type="text" id="blueCornerName" placeholder="Enter Blue Corner Name">
         </div>
 
+        <!-- Toggle Switch -->
         <div class="toggle-container">
             <label for="championshipFightToggle">Five Round Fight</label>
             <label class="switch">
@@ -291,10 +304,11 @@
             </label>
         </div>
 
+        <!-- Round 1 -->
         <div id="round1" class="round active">
             <h3 id="roundHeading">Round 1</h3>
 
-            <!-- Damage -->
+            <!-- Damage Criterion -->
             <div class="criteria">
                 <div class="select-red">
                     <label for="damageRed-round1">Damage by Red Corner</label>
@@ -309,7 +323,7 @@
 
                 <div class="tooltip-container">
                     <div class="tooltip">
-                        <span class="tooltip-icon">ⓘ</span>
+                        ⓘ
                         <span class="tooltiptext">Damage refers to effective strikes that significantly impact your opponent.</span>
                     </div>
                 </div>
@@ -326,7 +340,7 @@
                 </div>
             </div>
 
-            <!-- Control -->
+            <!-- Control Criterion -->
             <div class="criteria">
                 <div class="select-red">
                     <label for="controlRed-round1">Control by Red Corner</label>
@@ -341,8 +355,8 @@
 
                 <div class="tooltip-container">
                     <div class="tooltip">
-                        <span class="tooltip-icon">ⓘ</span>
-                        <span class="tooltiptext">Control refers to dominance in the fight, including ground control and overall pressure exerted.</span>
+                        ⓘ
+                        <span class="tooltiptext">Control refers to dominance, including ground control and overall pressure.</span>
                     </div>
                 </div>
 
@@ -358,7 +372,7 @@
                 </div>
             </div>
 
-            <!-- Defense -->
+            <!-- Defense Criterion -->
             <div class="criteria">
                 <div class="select-red">
                     <label for="defenseRed-round1">Defense by Red Corner</label>
@@ -373,8 +387,8 @@
 
                 <div class="tooltip-container">
                     <div class="tooltip">
-                        <span class="tooltip-icon">ⓘ</span>
-                        <span class="tooltiptext">Defense refers to the ability to evade strikes, block attacks, and counter effectively.</span>
+                        ⓘ
+                        <span class="tooltiptext">Defense refers to blocking, evading, and countering effectively.</span>
                     </div>
                 </div>
 
@@ -392,7 +406,7 @@
 
             <button class="submit-button" onclick="submitRound()">Submit Round 1</button>
             <button class="reset-button" onclick="resetScorecard()">Reset Scorecard</button>
-            <button class="share-scorecard-button" onclick="shareScorecard()">Share My Scorecard</button>
+            <button class="share-scorecard-button" style="display:none" onclick="shareScorecard()">Share My Scorecard</button>
         </div>
 
         <div class="results" id="results">
@@ -405,9 +419,7 @@
             <span id="winnerAnnouncement"></span>
         </div>
 
-        <div class="version-info">
-            V.1.0
-        </div>
+        <div class="version-info">V.1.0</div>
     </div>
 
     <script>

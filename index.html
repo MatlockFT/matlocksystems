@@ -25,8 +25,8 @@
             background: linear-gradient(135deg, #0d0d0d, #1a1a1a); /* Subtle background gradient */
             color: #f0f0f0;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: center;
             min-height: 100vh;
             padding: 20px;
         }
@@ -385,6 +385,47 @@
             color: #888;
         }
 
+        /* Explanation Section */
+        .explanation {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: rgba(15, 15, 15, 0.95);
+            border-radius: 15px;
+            border: 1px solid #333;
+            color: #f0f0f0;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .explanation h2, .explanation h3 {
+            color: #ff6347;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .explanation h3 {
+            font-size: 24px;
+        }
+
+        .explanation p {
+            margin-bottom: 20px;
+        }
+
+        .explanation ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .explanation li {
+            margin-bottom: 10px;
+        }
+
+        .explanation strong {
+            color: #ff6347;
+        }
+
         /* Mobile Specific Styles */
         body.mobile .corners {
             flex-direction: column;
@@ -570,7 +611,102 @@
 
         <button class="share-button" id="shareButton">Share on Twitter</button>
 
-        <div class="version-info">V.1.01</div>
+        <div class="version-info">V.1.02</div>
+    </div>
+
+    <!-- Explanation Section -->
+    <div class="explanation">
+        <h2>A Revised Scoring System</h2>
+        <h3>by Matlock Fight Talk</h3>
+
+        <p>The scoring system is based on three key criteria: <strong>Damage</strong>, <strong>Control</strong>, and <strong>Defense</strong>. Each criterion is scored from 0 to 3 points per round, with each criterion weighted differently to reflect its importance in determining the overall winner of a fight. The maximum score per round is 9 points, and the minimum is 0 points. Here’s a detailed breakdown of how to score an MMA fight using these criteria:</p>
+
+        <h3>1. Damage (0-3 Points) — Weight: 50%</h3>
+        <p>Damage is the most critical criterion, reflecting the effectiveness and impact of strikes, submissions, and other fight-altering actions. It evaluates the degree to which a fighter causes harm or threatens their opponent with fight-ending potential.</p>
+        <strong>Sub-Criteria for Damage:</strong>
+        <ul>
+            <li><strong>Striking Impact:</strong>
+                <ul>
+                    <li>The severity of strikes landed, such as punches, kicks, elbows, or knees.</li>
+                    <li>Visible effects like cuts, swelling, or visibly stunning the opponent.</li>
+                    <li>Knockdowns or strikes that significantly alter the course of the fight.</li>
+                </ul>
+            </li>
+            <li><strong>Submission Threat:</strong>
+                <ul>
+                    <li>Submission attempts that are deep and require significant defense.</li>
+                    <li>Near-finishes or submission attempts that visibly threaten to end the fight.</li>
+                </ul>
+            </li>
+        </ul>
+        <strong>Scoring Damage:</strong>
+        <ul>
+            <li><strong>3 Points:</strong> Significant, fight-altering damage that visibly affects the opponent (e.g., knockdowns, cuts, or deep submission attempts that almost end the fight).</li>
+            <li><strong>2 Points:</strong> Clear visible damage, but not fight-altering (e.g., cumulative damage like swelling, noticeable reactions to strikes, or significant but unsuccessful submission attempts).</li>
+            <li><strong>1 Point:</strong> Minor damage that doesn’t significantly impact the opponent’s ability to fight (e.g., light strikes, unsuccessful submission attempts with minimal threat).</li>
+            <li><strong>0 Points:</strong> No effective damage inflicted.</li>
+        </ul>
+
+        <h3>2. Control (0-3 Points) — Weight: 30%</h3>
+        <p>Control reflects a fighter’s ability to dictate the pace, position, and overall flow of the fight. It includes both positional dominance and effective aggression in dictating the terms of engagement.</p>
+        <strong>Sub-Criteria for Control:</strong>
+        <ul>
+            <li><strong>Positional Dominance:</strong>
+                <ul>
+                    <li>Securing and maintaining dominant positions such as top control, mount, back control, or side control.</li>
+                    <li>Preventing the opponent from effectively countering or escaping.</li>
+                </ul>
+            </li>
+            <li><strong>Effective Aggression and Octagon Control:</strong>
+                <ul>
+                    <li>Walking down the opponent and cutting off the cage effectively.</li>
+                    <li>Pressing the pace and controlling the distance, forcing the opponent into defensive or reactive positions.</li>
+                </ul>
+            </li>
+        </ul>
+        <strong>Scoring Control:</strong>
+        <ul>
+            <li><strong>3 Points:</strong> Complete control, maintaining dominant positions or pressuring effectively without any significant opposition or ability from the opponent to escape or counter.</li>
+            <li><strong>2 Points:</strong> Majority control, maintaining effective pressure or positional dominance with some resistance from the opponent.</li>
+            <li><strong>1 Point:</strong> Brief control, gaining advantageous positions or effective aggression but not sustaining it long enough to impact the round significantly.</li>
+            <li><strong>0 Points:</strong> No control exhibited, unable to dictate the position or pace of the fight.</li>
+        </ul>
+
+        <h3>3. Defense (0-3 Points) — Weight: 20%</h3>
+        <p>Defense evaluates a fighter’s ability to avoid damage and nullify their opponent’s offense, including striking defense, submission defense, and positional escapes.</p>
+        <strong>Sub-Criteria for Defense:</strong>
+        <ul>
+            <li><strong>Striking Defense:</strong>
+                <ul>
+                    <li>Effectively blocking, parrying, or evading strikes with minimal damage taken.</li>
+                    <li>Countering effectively to nullify the opponent’s offensive attempts.</li>
+                </ul>
+            </li>
+            <li><strong>Grappling Defense:</strong>
+                <ul>
+                    <li>Defending takedown attempts, reversing positions, or escaping from dangerous situations like back control or submissions.</li>
+                    <li>Successfully avoiding submission attempts and turning defense into offense (e.g., countering a submission with your own or escaping to a neutral/dominant position).</li>
+                </ul>
+            </li>
+        </ul>
+        <strong>Scoring Defense:</strong>
+        <ul>
+            <li><strong>3 Points:</strong> Completely nullifies the opponent’s offense with effective counters or escapes, avoiding significant damage or danger entirely.</li>
+            <li><strong>2 Points:</strong> Defends effectively, minimizing damage and avoiding dangerous positions but not completely neutralizing the opponent’s offense.</li>
+            <li><strong>1 Point:</strong> Defends but takes some damage or loses control positions; able to avoid significant threat but still on the defensive.</li>
+            <li><strong>0 Points:</strong> Ineffective defense, unable to avoid damage, getting caught in submissions or dangerous positions frequently.</li>
+        </ul>
+
+        <h3>4. Total Round Score Calculation</h3>
+        <p>The round score is the sum of the points from each criterion, with the weighted formula applied to emphasize the importance of each criterion:</p>
+        <p><strong>Total Round Score = (Damage × 0.5) + (Control × 0.3) + (Defense × 0.2)</strong></p>
+        <p><strong>Maximum Score per Round:</strong> 9 points (3 for each category).</p>
+        <p><strong>Minimum Score per Round:</strong> 0 points.</p>
+
+        <h3>5. Fight Outcome Decision</h3>
+        <p><strong>Winner:</strong> The fighter with the highest total score across all rounds wins the fight.</p>
+        <p><strong>Draw:</strong> If the total score difference is within 1 point after applying the weighted formula, the fight is declared a draw.</p>
+        <p><strong>Significant Point Deductions:</strong> Infractions such as fouls or stalling can result in a 1-point deduction from the final round score, affecting the weighted total.</p>
     </div>
 
     <!-- Scripts -->
@@ -756,14 +892,17 @@
                 roundResultDiv.appendChild(roundTitle);
                 roundResultDiv.appendChild(document.createElement('br'));
 
+                const redScoreTotal = redScores.slice(0, roundNumber).reduce((a,b) => a+b, 0);
+                const blueScoreTotal = blueScores.slice(0, roundNumber).reduce((a,b) => a+b, 0);
+
                 const redScoreText = document.createTextNode(
-                    `${redCornerName}: ${redScore.toFixed(1)} (${redScores.slice(0, roundNumber).reduce((a,b) => a+b, 0).toFixed(1)} total)`
+                    `${redCornerName}: ${redScore.toFixed(1)} (${redScoreTotal.toFixed(1)} total)`
                 );
                 roundResultDiv.appendChild(redScoreText);
                 roundResultDiv.appendChild(document.createElement('br'));
 
                 const blueScoreText = document.createTextNode(
-                    `${blueCornerName}: ${blueScore.toFixed(1)} (${blueScores.slice(0, roundNumber).reduce((a,b) => a+b, 0).toFixed(1)} total)`
+                    `${blueCornerName}: ${blueScore.toFixed(1)} (${blueScoreTotal.toFixed(1)} total)`
                 );
                 roundResultDiv.appendChild(blueScoreText);
                 roundResultDiv.appendChild(document.createElement('br'));

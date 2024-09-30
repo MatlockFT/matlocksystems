@@ -28,6 +28,7 @@
             max-height: 90vh;
             display: flex;
             flex-direction: column;
+            align-items: center;
         }
 
         h2 {
@@ -37,10 +38,33 @@
             color: #ff6347;
         }
 
+        /* Hashtag Section */
+        .hashtag-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .hashtag-container input {
+            width: 50%;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            background-color: #444;
+            color: #f5f5f5;
+        }
+
+        .hashtag-container input::placeholder {
+            color: #888;
+        }
+
         /* Corners Inputs and Lock-in Button */
         .corners {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
+            align-items: center;
             margin-bottom: 20px;
         }
 
@@ -80,35 +104,24 @@
             background-color: #27ae60;
         }
 
-        /* Hashtag Section and Toggle */
-        .hashtag-container {
+        /* Toggle Switch Styling */
+        .toggle-container {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             margin-bottom: 20px;
         }
 
-        .hashtag-container input {
-            flex: 1;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 16px;
-            text-align: center;
-            background-color: #444;
-            color: #f5f5f5;
+        .toggle-container label {
+            color: white;
+            margin-right: 10px;
         }
 
-        .hashtag-container input::placeholder {
-            color: #888;
-        }
-
-        /* Toggle Switch Styling */
         .switch {
             position: relative;
             display: inline-block;
             width: 60px;
             height: 34px;
-            margin-left: 20px;
         }
 
         .switch input {
@@ -357,21 +370,25 @@
     <div class="scorecard">
         <h2>MATLOCK SCORING SYSTEM</h2>
 
+        <!-- Hashtag Event Section (Centered above fighter names) -->
+        <div class="hashtag-container">
+            <input type="text" id="hashtag" placeholder="Enter event, for example #UFC300, #RIZIN100, #UFCAPEX" oninput="autoAddHashtag()">
+        </div>
+
+        <!-- Fighter Names and Lock-In Button (Centered) -->
         <div class="corners">
             <input type="text" id="redCornerName" placeholder="Enter Red Corner Name">
             <button id="lockInButton" onclick="lockInNames()">LOCK IN</button>
             <input type="text" id="blueCornerName" placeholder="Enter Blue Corner Name">
         </div>
 
-        <div class="hashtag-container">
-            <input type="text" id="hashtag" placeholder="Enter event, for example #UFC300, #RIZIN100, #UFCAPEX" oninput="autoAddHashtag()">
-            <div style="display: flex; align-items: center; margin-left: 10px;">
-                <label for="championshipFightToggle" style="color: white; margin-right: 10px;">Five Round Fight</label>
-                <label class="switch">
-                    <input type="checkbox" id="championshipFightToggle">
-                    <span class="slider"></span>
-                </label>
-            </div>
+        <!-- Toggle Switch (Centered below fighter names) -->
+        <div class="toggle-container">
+            <label for="championshipFightToggle">Five Round Fight</label>
+            <label class="switch">
+                <input type="checkbox" id="championshipFightToggle">
+                <span class="slider"></span>
+            </label>
         </div>
 
         <div id="round1" class="round active">

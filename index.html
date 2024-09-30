@@ -18,7 +18,7 @@
         /* Body Styles */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #121212;
+            background-color: #0d0d0d; /* Dark color close to black */
             color: #f0f0f0;
             display: flex;
             justify-content: center;
@@ -29,10 +29,10 @@
 
         /* Scorecard Container */
         .scorecard {
-            background-color: #1d1d1d;
+            background-color: #0d0d0d; /* Same as body background to eliminate any contrast */
             padding: 30px;
             border-radius: 15px;
-            max-width: 800px;
+            max-width: 1000px; /* Increased max-width for larger screens */
             width: 100%;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
             display: flex;
@@ -56,7 +56,7 @@
             padding: 10px 12px;
             font-size: 16px;
             color: #f0f0f0;
-            background-color: #2a2a2a;
+            background-color: #1a1a1a;
             border: 1px solid #444;
             border-radius: 5px;
             margin-bottom: 15px;
@@ -127,19 +127,20 @@
             justify-content: center;
             align-items: center;
             width: 100%;
+            flex-wrap: wrap;
             margin-bottom: 20px;
         }
 
         .corners input {
             width: 40%;
             text-align: center;
-            margin: 0 5px;
+            margin: 5px;
         }
 
         .corners button {
             width: 15%;
             font-weight: bold;
-            margin: 0 5px;
+            margin: 5px;
         }
 
         /* Toggle Switch Container */
@@ -206,7 +207,7 @@
 
         /* Round Container */
         .round {
-            background-color: #222;
+            background-color: #0d0d0d; /* Same as body background */
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
@@ -302,7 +303,7 @@
         /* Results Section */
         .results {
             text-align: center;
-            background-color: #333;
+            background-color: #1a1a1a; /* Slight contrast for readability */
             padding: 20px;
             border-radius: 10px;
             margin-top: 20px;
@@ -316,6 +317,7 @@
         /* Buttons Container */
         .buttons-container {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
             align-items: center;
             width: 100%;
@@ -324,13 +326,19 @@
 
         .buttons-container button {
             width: 45%;
-            margin: 0 5px;
+            margin: 5px;
         }
 
         /* Share Button Styles */
         .share-button {
             background-color: #1da1f2;
             margin-top: 20px;
+        }
+
+        /* Reset Button Styles */
+        .reset-button {
+            width: 94%;
+            margin: 10px 0;
         }
 
         /* Version Info */
@@ -343,7 +351,7 @@
         /* Media Queries */
         @media (min-width: 768px) {
             .scorecard {
-                width: 700px;
+                width: 90%;
             }
 
             h2 {
@@ -353,11 +361,19 @@
 
         @media (min-width: 1024px) {
             .scorecard {
-                width: 800px;
+                width: 80%;
             }
 
             h2 {
                 font-size: 40px;
+            }
+
+            .buttons-container button {
+                width: 30%;
+            }
+
+            .reset-button {
+                width: 30%;
             }
         }
     </style>
@@ -491,9 +507,9 @@
             <div class="buttons-container">
                 <button class="submit-button" id="submitButton" onclick="submitRound()" disabled>Submit Round Score</button>
                 <button class="share-round-button" id="shareRoundButton" onclick="shareRoundScore()" disabled>Share Round Score</button>
+                <button class="reset-button" onclick="resetScorecard()">Reset Scorecard</button>
             </div>
 
-            <button class="reset-button" onclick="resetScorecard()">Reset Scorecard</button>
             <button class="share-scorecard-button" style="display:none" onclick="shareToTwitter()">Share My Scorecard</button>
         </div>
 

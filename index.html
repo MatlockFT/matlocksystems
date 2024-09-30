@@ -420,7 +420,7 @@
                 </div>
             </div>
 
-            <button class="submit-button" id="submitButton" onclick="submitRound()" disabled>Submit Round 1</button>
+            <button class="submit-button" id="submitButton" onclick="submitRound()" disabled>Submit Round Score</button>
             <button class="reset-button" onclick="resetScorecard()">Reset Scorecard</button>
             <button class="share-scorecard-button" style="display:none" onclick="shareScorecard()">Share My Scorecard</button>
         </div>
@@ -512,7 +512,7 @@
             const roundWinner = redScore > blueScore ? redCornerName : blueScore > redScore ? blueCornerName : 'Draw';
             document.getElementById('results').innerHTML += `
                 <div class="round-result">
-                    <strong>Round ${currentRound} To ${roundWinner}:</strong><br>
+                    <strong>Round ${currentRound} Results</strong><br>
                     ${redCornerName}: ${redScore.toFixed(1)} (${redTotalScore.toFixed(1)})<br>
                     ${blueCornerName}: ${blueScore.toFixed(1)} (${blueTotalScore.toFixed(1)})
                 </div>
@@ -540,23 +540,22 @@
             currentRound++;
 
             if (currentRound <= roundsLimit) {
-                resetRoundSelects(currentRound);
-                createNewRound(currentRound);
+                resetRoundSelects(currentRound);  // Reset the dropdowns for the previous round
+                document.getElementById('roundHeading').textContent = `Round ${currentRound}`;  // Update the round heading
             } else {
-                declareWinner();
+                declareWinner();  // Final round reached, declare the winner
                 document.querySelector('.submit-button').disabled = true;
                 document.querySelector('.share-scorecard-button').style.display = "block";
             }
         }
 
-        function createNewRound(round) {
-            const roundDiv = document.createElement('div');
-            roundDiv.id = `round${round}`;
-            roundDiv.classList.add('round', 'active');
-            roundDiv.innerHTML = document.getElementById('round1').innerHTML.replace(/round1/g, `round${round}`);
-            document.querySelector('.scorecard').insertBefore(roundDiv, document.getElementById('results'));
-
-            updateLabelsWithNames(document.getElementById('redCornerName').value, document.getElementById('blueCornerName').value, round);
+        function resetRoundSelects(round) {
+            document.getElementById(`damageRed-round${round - 1}`).value = '';
+            document.getElementById(`damageBlue-round${round - 1}`).value = '';
+            document.getElementById(`controlRed-round${round - 1}`).value = '';
+            document.getElementById(`controlBlue-round${round - 1}`).value = '';
+            document.getElementById(`defenseRed-round${round - 1}`).value = '';
+            document.getElementById(`defenseBlue-round${round - 1}`).value = '';
         }
 
         function declareWinner() {
@@ -588,14 +587,6 @@
 
             currentRound = 1;
             document.getElementById('roundHeading').textContent = "Round 1";
-            document.querySelector('.round.active').classList.remove('active');
-            document.getElementById('round1').classList.add('active');
-            document.getElementById('lockInButton').textContent = "LOCK IN";
-            document.getElementById('lockInButton').classList.remove("locked");
-
-            if (championshipFight) {
-                document.getElementById('championshipFightToggle').disabled = true;
-            }
         }
 
         function autoAddHashtag() {

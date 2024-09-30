@@ -242,23 +242,26 @@
         /* Toggle Switch Container */
         .toggle-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             margin-bottom: 20px;
             width: 100%;
         }
 
         .toggle-container label {
-            margin-right: 10px;
+            margin-bottom: 10px;
             color: #f0f0f0;
+            font-variant: small-caps;
+            font-size: 16px;
+            text-align: center;
         }
 
         /* Switch Styles */
         .switch {
             position: relative;
             display: inline-block;
-            width: 60px;
-            height: 30px;
+            width: 50px;
+            height: 25px;
         }
 
         .switch input {
@@ -283,8 +286,8 @@
         .slider:before {
             position: absolute;
             content: "";
-            height: 22px;
-            width: 22px;
+            height: 17px;
+            width: 17px;
             left: 4px;
             bottom: 4px;
             background-color: white;
@@ -298,7 +301,7 @@
         }
 
         input:checked + .slider:before {
-            transform: translateX(30px);
+            transform: translateX(25px);
         }
 
         /* Round Container */
@@ -348,9 +351,10 @@
         .criterion-group {
             margin-bottom: 20px;
             width: 100%;
+            text-align: center;
         }
 
-        .criterion-group h4 {
+        .criterion-title {
             text-align: center;
             font-size: 18px;
             margin-bottom: 15px;
@@ -361,23 +365,23 @@
             display: inline-block;
         }
 
-        .criterion-group h4 a {
+        .criterion-title a {
             text-decoration: none;
             color: inherit;
         }
 
-        .criterion-group h4:hover {
+        .criterion-title:hover {
             cursor: pointer;
         }
 
-        .criterion-group h4 i {
+        .criterion-title i {
             margin-left: 5px;
             font-size: 14px;
             color: #bdc3c7;
         }
 
         /* Tooltip Styles */
-        .criterion-group h4 .tooltip {
+        .criterion-title .tooltip {
             visibility: hidden;
             background-color: #333;
             color: #fff;
@@ -396,7 +400,7 @@
             transition: opacity 0.3s;
         }
 
-        .criterion-group h4:hover .tooltip {
+        .criterion-title:hover .tooltip {
             visibility: visible;
             opacity: 1;
         }
@@ -563,7 +567,7 @@
 
         /* Tooltip Position Adjustment for Mobile */
         @media (max-width: 600px) {
-            .criterion-group h4 .tooltip {
+            .criterion-title .tooltip {
                 width: 90%;
                 top: 40px;
             }
@@ -600,7 +604,7 @@
 
         <!-- Toggle Switch -->
         <div class="toggle-container">
-            <label for="championshipFightToggle">Five Round Fight</label>
+            <label for="championshipFightToggle">Five Rounds?</label>
             <label class="switch">
                 <input type="checkbox" id="championshipFightToggle">
                 <span class="slider"></span>
@@ -618,7 +622,7 @@
 
             <!-- Damage Criterion -->
             <div class="criterion-group">
-                <h4>
+                <h4 class="criterion-title">
                     <a href="#damage-section">Damage <i class="fas fa-info-circle"></i></a>
                     <span class="tooltip">Assess the harm inflicted through strikes, submissions, and fight-altering actions.</span>
                 </h4>
@@ -646,7 +650,7 @@
 
             <!-- Control Criterion -->
             <div class="criterion-group">
-                <h4>
+                <h4 class="criterion-title">
                     <a href="#control-section">Control <i class="fas fa-info-circle"></i></a>
                     <span class="tooltip">Evaluate the ability to dictate the fight's pace, position, and overall flow.</span>
                 </h4>
@@ -674,7 +678,7 @@
 
             <!-- Defense Criterion -->
             <div class="criterion-group">
-                <h4>
+                <h4 class="criterion-title">
                     <a href="#defense-section">Defense <i class="fas fa-info-circle"></i></a>
                     <span class="tooltip">Measure the ability to avoid damage and neutralize the opponent's offense.</span>
                 </h4>
@@ -702,7 +706,7 @@
 
             <!-- Point Deduction Criterion -->
             <div class="criterion-group">
-                <h4>Point Deduction</h4>
+                <h4 class="criterion-title">Point Deduction</h4>
                 <div class="criterion-dropdowns">
                     <div class="select-red">
                         <select id="deductionRed">
@@ -743,7 +747,7 @@
 
         <button class="share-button" id="shareButton">Share Full Score To X (Formerly Known As Twitter)</button>
 
-        <div class="version-info">V.1.10</div>
+        <div class="version-info">V.1.11</div>
     </div>
 
     <!-- Explanation Section -->

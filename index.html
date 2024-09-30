@@ -15,6 +15,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100vh;
         }
 
         .scorecard {
@@ -293,6 +294,7 @@
         <div id="round1" class="round active">
             <h3 id="roundHeading">Round 1</h3>
 
+            <!-- Damage -->
             <div class="criteria">
                 <div class="select-red">
                     <label for="damageRed-round1">Damage by Red Corner</label>
@@ -324,7 +326,69 @@
                 </div>
             </div>
 
-            <!-- Add other criteria here -->
+            <!-- Control -->
+            <div class="criteria">
+                <div class="select-red">
+                    <label for="controlRed-round1">Control by Red Corner</label>
+                    <select id="controlRed-round1">
+                        <option value="">Select Control</option>
+                        <option value="0">0 - No control</option>
+                        <option value="1">1 - Brief control</option>
+                        <option value="2">2 - Majority control</option>
+                        <option value="3">3 - Complete control</option>
+                    </select>
+                </div>
+
+                <div class="tooltip-container">
+                    <div class="tooltip">
+                        <span class="tooltip-icon">ⓘ</span>
+                        <span class="tooltiptext">Control refers to dominance in the fight, including ground control and overall pressure exerted.</span>
+                    </div>
+                </div>
+
+                <div class="select-blue">
+                    <label for="controlBlue-round1">Control by Blue Corner</label>
+                    <select id="controlBlue-round1">
+                        <option value="">Select Control</option>
+                        <option value="0">0 - No control</option>
+                        <option value="1">1 - Brief control</option>
+                        <option value="2">2 - Majority control</option>
+                        <option value="3">3 - Complete control</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Defense -->
+            <div class="criteria">
+                <div class="select-red">
+                    <label for="defenseRed-round1">Defense by Red Corner</label>
+                    <select id="defenseRed-round1">
+                        <option value="">Select Defense</option>
+                        <option value="0">0 - Ineffective defense</option>
+                        <option value="1">1 - Minimal defense</option>
+                        <option value="2">2 - Effective defense</option>
+                        <option value="3">3 - Excellent defense</option>
+                    </select>
+                </div>
+
+                <div class="tooltip-container">
+                    <div class="tooltip">
+                        <span class="tooltip-icon">ⓘ</span>
+                        <span class="tooltiptext">Defense refers to the ability to evade strikes, block attacks, and counter effectively.</span>
+                    </div>
+                </div>
+
+                <div class="select-blue">
+                    <label for="defenseBlue-round1">Defense by Blue Corner</label>
+                    <select id="defenseBlue-round1">
+                        <option value="">Select Defense</option>
+                        <option value="0">0 - Ineffective defense</option>
+                        <option value="1">1 - Minimal defense</option>
+                        <option value="2">2 - Effective defense</option>
+                        <option value="3">3 - Excellent defense</option>
+                    </select>
+                </div>
+            </div>
 
             <button class="submit-button" onclick="submitRound()">Submit Round 1</button>
             <button class="reset-button" onclick="resetScorecard()">Reset Scorecard</button>
@@ -417,8 +481,10 @@
 
         function calculateScore(color) {
             const damage = parseInt(document.getElementById(`damage${color}-round${currentRound}`).value) || 0;
-            // Add logic for other criteria (control, defense, etc.)
-            return damage * 0.5; // Simplified, adjust based on your criteria
+            const control = parseInt(document.getElementById(`control${color}-round${currentRound}`).value) || 0;
+            const defense = parseInt(document.getElementById(`defense${color}-round${currentRound}`).value) || 0;
+
+            return (damage * 0.5) + (control * 0.3) + (defense * 0.2);
         }
 
         function updateTotalScores() {

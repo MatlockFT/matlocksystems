@@ -365,10 +365,13 @@
 
         <div class="hashtag-container">
             <input type="text" id="hashtag" placeholder="Enter event, for example #UFC300, #RIZIN100, #UFCAPEX" oninput="autoAddHashtag()">
-            <label class="switch">
-                <input type="checkbox" id="championshipFightToggle" onclick="toggleChampionshipFight()">
-                <span class="slider"></span>
-            </label>
+            <div style="display: flex; align-items: center; margin-left: 10px;">
+                <label for="championshipFightToggle" style="color: white; margin-right: 10px;">Five Round Fight</label>
+                <label class="switch">
+                    <input type="checkbox" id="championshipFightToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
         </div>
 
         <div id="round1" class="round active">
@@ -498,36 +501,38 @@
 
         function toggleChampionshipFight() {
             championshipFight = document.getElementById('championshipFightToggle').checked;
-            document.getElementById('championshipFightToggle').disabled = championshipFight;
         }
 
         function lockInNames() {
             const redCornerName = document.getElementById('redCornerName').value.trim();
             const blueCornerName = document.getElementById('blueCornerName').value.trim();
+            const championshipToggle = document.getElementById('championshipFightToggle');
 
             if (!redCornerName || !blueCornerName) {
                 alert("Please enter both fighter names.");
                 return;
             }
 
-            if (!hashtag) {
-                hashtag = document.getElementById('hashtag').value.trim();
-                if (hashtag) {
-                    document.getElementById('hashtag').disabled = true;
-                }
-            }
-
+            // Lock the fighter names, hashtag, and toggle switch
             document.getElementById('redCornerName').disabled = true;
             document.getElementById('blueCornerName').disabled = true;
+            document.getElementById('hashtag').disabled = true;
+            championshipToggle.disabled = true;
+
             document.getElementById('redCornerName').classList.add("green-field");
             document.getElementById('blueCornerName').classList.add("green-field");
             document.getElementById('hashtag').classList.add("green-field");
 
+            // Lock-in button text change
             const lockInButton = document.getElementById('lockInButton');
             lockInButton.textContent = "Locked In".toUpperCase();
             lockInButton.classList.add("locked");
 
+            // Update labels for red/blue corners
             updateLabelsWithNames(redCornerName, blueCornerName, currentRound);
+            
+            // Championship fight status
+            championshipFight = championshipToggle.checked; // Set the championshipFight based on toggle
         }
 
         function updateLabelsWithNames(redCornerName, blueCornerName, round) {
@@ -571,7 +576,20 @@
             `;
 
             updateTotalScores();
+
+            // Ensure Twitter sharing opens
+            shareRoundToTwitter(currentRound, redCornerName, blueCornerName, redScore, blueScore, redTotalScore, blueTotalScore);
+
             prepareNextRoundOrEndFight();
+        }
+
+        function shareRoundToTwitter(round, redCornerName, blueCornerName, redScore, blueScore, redTotal, blueTotal) {
+            const tweetText = `Round ${round} Results:\n\n${redCornerName}: ${redScore.toFixed(1)} (${redTotal.toFixed(1)})\n${blueCornerName}: ${blueScore.toFixed(1)} (${blueTotal.toFixed(1)})`;
+            const hashtagText = document.getElementById('hashtag').value.trim();
+            const fullTweetText = hashtagText ? `${tweetText}\n${hashtagText}` : tweetText;
+
+            const twitterURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(fullTweetText)}`;
+            window.open(twitterURL, '_blank');  // Open Twitter intent
         }
 
         function updateTotalScores() {

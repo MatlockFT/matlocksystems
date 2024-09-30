@@ -224,8 +224,19 @@
             width: 100%;
         }
 
-        .criteria div {
-            width: 45%;
+        /* Adjust the widths of the criteria columns */
+        .criteria .select-red,
+        .criteria .tooltip-container,
+        .criteria .select-blue {
+            width: 30%;
+            text-align: center;
+        }
+
+        .criteria .select-red,
+        .criteria .select-blue {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .criteria label {
@@ -234,15 +245,19 @@
         }
 
         /* Tooltip Styles */
+        .tooltip-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 10%;
+        }
+
         .tooltip {
             position: relative;
             display: inline-block;
             cursor: pointer;
             font-size: 14px;
             color: #ff6347;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         .tooltip .tooltiptext {
@@ -288,6 +303,10 @@
             border-radius: 10px;
             margin-top: 20px;
             width: 100%;
+        }
+
+        .round-result {
+            margin-bottom: 15px;
         }
 
         /* Share Button Styles */
@@ -490,12 +509,12 @@
         }
 
         function checkRoundInputs() {
-            const damageRed = document.getElementById(`damageRed`).value;
-            const damageBlue = document.getElementById(`damageBlue`).value;
-            const controlRed = document.getElementById(`controlRed`).value;
-            const controlBlue = document.getElementById(`controlBlue`).value;
-            const defenseRed = document.getElementById(`defenseRed`).value;
-            const defenseBlue = document.getElementById(`defenseBlue`).value;
+            const damageRed = document.getElementById('damageRed').value;
+            const damageBlue = document.getElementById('damageBlue').value;
+            const controlRed = document.getElementById('controlRed').value;
+            const controlBlue = document.getElementById('controlBlue').value;
+            const defenseRed = document.getElementById('defenseRed').value;
+            const defenseBlue = document.getElementById('defenseBlue').value;
 
             // Enable the submit button only when all fields are filled
             document.getElementById('submitButton').disabled = !(damageRed && damageBlue && controlRed && controlBlue && defenseRed && defenseBlue);

@@ -747,7 +747,7 @@
 
         <button class="share-button" id="shareButton">Share Full Score To X (Formerly Known As Twitter)</button>
 
-        <div class="version-info">V.1.11</div>
+        <div class="version-info">V.1.12</div>
     </div>
 
     <!-- Explanation Section -->
@@ -854,8 +854,17 @@
             resetButton.addEventListener('click', resetScorecard);
             shareButton.addEventListener('click', shareToTwitter);
 
-            const selectElements = document.querySelectorAll('#roundScoring select');
-            selectElements.forEach(select => {
+            // Select Elements for Criteria
+            const damageSelects = document.querySelectorAll('#damageRed, #damageBlue');
+            const controlSelects = document.querySelectorAll('#controlRed, #controlBlue');
+            const defenseSelects = document.querySelectorAll('#defenseRed, #defenseBlue');
+            const mainCriteriaSelects = [...damageSelects, ...controlSelects, ...defenseSelects];
+
+            // Point Deduction Selects
+            const pointDeductionSelects = document.querySelectorAll('#deductionRed, #deductionBlue');
+
+            // Add Event Listeners to Main Criteria Selects
+            mainCriteriaSelects.forEach(select => {
                 select.addEventListener('change', checkRoundInputs);
             });
 
@@ -882,8 +891,8 @@
             }
 
             function checkRoundInputs() {
-                const allFilled = Array.from(selectElements).every(select => select.value !== '');
-                submitButton.disabled = !allFilled;
+                const allMainCriteriaFilled = mainCriteriaSelects.every(select => select.value !== '');
+                submitButton.disabled = !allMainCriteriaFilled;
             }
 
             function lockInNames() {
@@ -1022,8 +1031,11 @@
             }
 
             function resetRoundInputs() {
-                selectElements.forEach(select => {
+                mainCriteriaSelects.forEach(select => {
                     select.value = '';
+                });
+                pointDeductionSelects.forEach(select => {
+                    select.value = '0'; // Reset to default '0'
                 });
             }
 
@@ -1058,8 +1070,12 @@
                     input.classList.remove('locked-field');
                 });
 
-                selectElements.forEach(select => {
+                mainCriteriaSelects.forEach(select => {
                     select.value = '';
+                });
+
+                pointDeductionSelects.forEach(select => {
+                    select.value = '0';
                 });
 
                 championshipToggle.disabled = false;

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MATLOCK SCORING SYSTEM</title>
     <style>
-        /* Reset Default Styling */
         * {
             margin: 0;
             padding: 0;
@@ -18,10 +17,9 @@
             color: #f0f0f0;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Changed to prevent cutoff at the top */
+            align-items: flex-start;
             min-height: 100vh;
             padding: 20px;
-            overflow-y: auto;
         }
 
         .scorecard {
@@ -34,7 +32,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 40px; /* Added to create spacing at the top */
+            margin-top: 40px;
         }
 
         h2 {
@@ -82,6 +80,12 @@
             background-color: #333;
             color: #888;
             cursor: not-allowed;
+        }
+
+        .green-field {
+            background-color: #27ae60;
+            color: white;
+            border-color: #27ae60;
         }
 
         /* Hashtag Section */
@@ -206,7 +210,6 @@
             font-size: 14px;
         }
 
-        /* Tooltip Styling */
         .tooltip {
             position: relative;
             display: inline-block;
@@ -214,7 +217,7 @@
             font-size: 14px;
             color: #ff6347;
             display: flex;
-            justify-content: center; /* Centers the tooltip icon */
+            justify-content: center;
             align-items: center;
         }
 
@@ -262,14 +265,17 @@
             width: 100%;
         }
 
-        /* Version Info */
+        .share-button {
+            background-color: #1da1f2;
+            margin-top: 20px;
+        }
+
         .version-info {
             margin-top: 20px;
             font-size: 12px;
             color: #888;
         }
 
-        /* Responsive Design */
         @media (min-width: 768px) {
             .scorecard {
                 width: 700px;
@@ -431,6 +437,8 @@
             <span id="winnerAnnouncement"></span>
         </div>
 
+        <button class="share-button" onclick="shareToTwitter()">Share on Twitter</button>
+
         <div class="version-info">V.1.0</div>
     </div>
 
@@ -475,7 +483,6 @@
         }
 
         function updateLabelsWithNames(redCornerName, blueCornerName, round) {
-            // Updates labels dynamically (extend for other criteria if needed)
             document.getElementById(`damageRed-round${round}`).previousElementSibling.textContent = `Damage by ${redCornerName}`;
             document.getElementById(`damageBlue-round${round}`).previousElementSibling.textContent = `Damage by ${blueCornerName}`;
         }
@@ -584,6 +591,12 @@
             if (!hashtagField.value.startsWith('#')) {
                 hashtagField.value = '#' + hashtagField.value.replace('#', '');
             }
+        }
+
+        function shareToTwitter() {
+            const tweetText = `Fight Results: \nRed Corner: ${redTotalScore.toFixed(1)}\nBlue Corner: ${blueTotalScore.toFixed(1)}\n#FightScorecard`;
+            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+            window.open(url, '_blank');
         }
     </script>
 </body>

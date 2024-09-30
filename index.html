@@ -186,7 +186,6 @@
             width: 100%;
         }
 
-        /* Centering the Round Number */
         h3#roundHeading {
             text-align: center;
             font-size: 22px;
@@ -243,7 +242,6 @@
             opacity: 1;
         }
 
-        /* Total Score Section */
         .total-score {
             text-align: center;
             margin-top: 25px;
@@ -303,14 +301,14 @@
 
         <!-- Hashtag Section -->
         <div class="hashtag-container">
-            <input type="text" id="hashtag" placeholder="Enter event, for example #UFC300, #RIZIN100, #UFCAPEX" oninput="autoAddHashtag()">
+            <input type="text" id="hashtag" placeholder="Enter event, for example #UFC300, #RIZIN100, #UFCAPEX" oninput="checkInputs()">
         </div>
 
         <!-- Corners Section -->
         <div class="corners">
-            <input type="text" id="redCornerName" placeholder="Enter Red Corner Name">
-            <button id="lockInButton" onclick="lockInNames()">LOCK IN</button>
-            <input type="text" id="blueCornerName" placeholder="Enter Blue Corner Name">
+            <input type="text" id="redCornerName" placeholder="Enter Red Corner Name" oninput="checkInputs()">
+            <button id="lockInButton" onclick="lockInNames()" disabled>LOCK IN</button>
+            <input type="text" id="blueCornerName" placeholder="Enter Blue Corner Name" oninput="checkInputs()">
         </div>
 
         <!-- Toggle Switch -->
@@ -330,7 +328,7 @@
             <div class="criteria">
                 <div class="select-red">
                     <label for="damageRed-round1">Damage by Red Corner</label>
-                    <select id="damageRed-round1">
+                    <select id="damageRed-round1" onchange="checkRoundInputs()">
                         <option value="">Select Damage</option>
                         <option value="0">0 - No effective damage</option>
                         <option value="1">1 - Minor damage</option>
@@ -348,7 +346,7 @@
 
                 <div class="select-blue">
                     <label for="damageBlue-round1">Damage by Blue Corner</label>
-                    <select id="damageBlue-round1">
+                    <select id="damageBlue-round1" onchange="checkRoundInputs()">
                         <option value="">Select Damage</option>
                         <option value="0">0 - No effective damage</option>
                         <option value="1">1 - Minor damage</option>
@@ -362,7 +360,7 @@
             <div class="criteria">
                 <div class="select-red">
                     <label for="controlRed-round1">Control by Red Corner</label>
-                    <select id="controlRed-round1">
+                    <select id="controlRed-round1" onchange="checkRoundInputs()">
                         <option value="">Select Control</option>
                         <option value="0">0 - No control</option>
                         <option value="1">1 - Brief control</option>
@@ -380,7 +378,7 @@
 
                 <div class="select-blue">
                     <label for="controlBlue-round1">Control by Blue Corner</label>
-                    <select id="controlBlue-round1">
+                    <select id="controlBlue-round1" onchange="checkRoundInputs()">
                         <option value="">Select Control</option>
                         <option value="0">0 - No control</option>
                         <option value="1">1 - Brief control</option>
@@ -394,7 +392,7 @@
             <div class="criteria">
                 <div class="select-red">
                     <label for="defenseRed-round1">Defense by Red Corner</label>
-                    <select id="defenseRed-round1">
+                    <select id="defenseRed-round1" onchange="checkRoundInputs()">
                         <option value="">Select Defense</option>
                         <option value="0">0 - Ineffective defense</option>
                         <option value="1">1 - Minimal defense</option>
@@ -412,7 +410,7 @@
 
                 <div class="select-blue">
                     <label for="defenseBlue-round1">Defense by Blue Corner</label>
-                    <select id="defenseBlue-round1">
+                    <select id="defenseBlue-round1" onchange="checkRoundInputs()">
                         <option value="">Select Defense</option>
                         <option value="0">0 - Ineffective defense</option>
                         <option value="1">1 - Minimal defense</option>
@@ -422,7 +420,7 @@
                 </div>
             </div>
 
-            <button class="submit-button" onclick="submitRound()">Submit Round 1</button>
+            <button class="submit-button" id="submitButton" onclick="submitRound()" disabled>Submit Round 1</button>
             <button class="reset-button" onclick="resetScorecard()">Reset Scorecard</button>
             <button class="share-scorecard-button" style="display:none" onclick="shareScorecard()">Share My Scorecard</button>
         </div>
@@ -450,8 +448,22 @@
         const maxRounds = 5;
         const normalRounds = 3;
 
-        function toggleChampionshipFight() {
-            championshipFight = document.getElementById('championshipFightToggle').checked;
+        function checkInputs() {
+            const eventName = document.getElementById('hashtag').value.trim();
+            const redCorner = document.getElementById('redCornerName').value.trim();
+            const blueCorner = document.getElementById('blueCornerName').value.trim();
+            document.getElementById('lockInButton').disabled = !(eventName && redCorner && blueCorner);
+        }
+
+        function checkRoundInputs() {
+            const damageRed = document.getElementById(`damageRed-round${currentRound}`).value;
+            const damageBlue = document.getElementById(`damageBlue-round${currentRound}`).value;
+            const controlRed = document.getElementById(`controlRed-round${currentRound}`).value;
+            const controlBlue = document.getElementById(`controlBlue-round${currentRound}`).value;
+            const defenseRed = document.getElementById(`defenseRed-round${currentRound}`).value;
+            const defenseBlue = document.getElementById(`defenseBlue-round${currentRound}`).value;
+
+            document.getElementById('submitButton').disabled = !(damageRed && damageBlue && controlRed && controlBlue && defenseRed && defenseBlue);
         }
 
         function lockInNames() {

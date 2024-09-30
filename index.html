@@ -80,6 +80,75 @@
             background-color: #27ae60;
         }
 
+        /* Hashtag Section and Toggle */
+        .hashtag-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .hashtag-container input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            background-color: #444;
+            color: #f5f5f5;
+        }
+
+        .hashtag-container input::placeholder {
+            color: #888;
+        }
+
+        /* Toggle Switch Styling */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            margin-left: 20px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #27ae60;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
         /* Round Section */
         .round {
             background-color: #333333;
@@ -185,23 +254,6 @@
             color: #f5f5f5;
         }
 
-        /* Hashtag Section */
-        .hashtag-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .hashtag-container input {
-            width: 50%;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 16px;
-            text-align: center;
-            background-color: #444;
-            color: #f5f5f5;
-        }
-
         /* Buttons */
         .submit-button,
         .reset-button,
@@ -233,52 +285,6 @@
         .green-field {
             background-color: #27ae60 !important;
             color: #f5f5f5;
-        }
-
-        /* Toggle Switch Styling */
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: #27ae60;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
         }
 
         /* Results Section */
@@ -358,7 +364,11 @@
         </div>
 
         <div class="hashtag-container">
-            <input type="text" id="hashtag" placeholder="Enter Hashtag" oninput="autoAddHashtag()">
+            <input type="text" id="hashtag" placeholder="Enter event, for example #UFC300, #RIZIN100, #UFCAPEX" oninput="autoAddHashtag()">
+            <label class="switch">
+                <input type="checkbox" id="championshipFightToggle" onclick="toggleChampionshipFight()">
+                <span class="slider"></span>
+            </label>
         </div>
 
         <div id="round1" class="round active">
@@ -457,15 +467,6 @@
                 </div>
             </div>
 
-            <!-- Toggle Switch for Championship Fight -->
-            <div class="championship-check" style="text-align: center; margin-top: 10px;">
-                <label for="championshipFightToggle">Championship Fight (5 Rounds)</label>
-                <label class="switch">
-                    <input type="checkbox" id="championshipFightToggle" onclick="toggleChampionshipFight()">
-                    <span class="slider"></span>
-                </label>
-            </div>
-
             <button class="submit-button" onclick="submitRound()">Submit Round 1</button>
             <button class="reset-button" onclick="resetScorecard()">Reset Scorecard</button>
             <button class="share-scorecard-button" onclick="shareScorecard()">Share My Scorecard</button>
@@ -497,6 +498,7 @@
 
         function toggleChampionshipFight() {
             championshipFight = document.getElementById('championshipFightToggle').checked;
+            document.getElementById('championshipFightToggle').disabled = championshipFight;
         }
 
         function lockInNames() {
@@ -569,7 +571,6 @@
             `;
 
             updateTotalScores();
-            shareRoundToTwitter(currentRound, redCornerName, blueCornerName, redScore, blueScore, redTotalScore, blueTotalScore);
             prepareNextRoundOrEndFight();
         }
 
@@ -581,8 +582,6 @@
         function prepareNextRoundOrEndFight() {
             const roundsLimit = championshipFight ? maxRounds : normalRounds;
 
-            document.getElementById('roundHeading').textContent = `Round ${currentRound + 1}`;
-            document.querySelector('.submit-button').textContent = `Submit Round ${currentRound + 1}`;
             currentRound++;
 
             if (currentRound <= roundsLimit) {
@@ -623,35 +622,11 @@
             }
         }
 
-        function shareRoundToTwitter(round, redCornerName, blueCornerName, redScore, blueScore, redTotal, blueTotal) {
-            let tweetText = `Round ${round} Results:\n\n${redCornerName}: ${redScore.toFixed(1)} (${redTotal.toFixed(1)})\n${blueCornerName}: ${blueScore.toFixed(1)} (${blueTotal.toFixed(1)})`;
-            if (hashtag) tweetText += `\n${hashtag}`;
-            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank');
-        }
-
-        function shareScorecard() {
-            const redCornerName = document.getElementById('redCornerName').value;
-            const blueCornerName = document.getElementById('blueCornerName').value;
-            const winnerAnnouncement = document.getElementById('winnerAnnouncement').textContent;
-
-            let tweetText = `Fight Results:\n\n`;
-            document.querySelectorAll('.round-result').forEach(roundResult => {
-                tweetText += `${roundResult.textContent}\n\n`;
-            });
-            tweetText += `${winnerAnnouncement}`;
-            if (hashtag) tweetText += `\n${hashtag}`;
-            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank');
-        }
-
         function resetScorecard() {
             document.getElementById('redCornerName').value = "";
             document.getElementById('blueCornerName').value = "";
             document.getElementById('redCornerName').disabled = false;
             document.getElementById('blueCornerName').disabled = false;
-
-            for (let round = 1; round <= maxRounds; round++) {
-                if (document.getElementById(`round${round}`)) resetRoundSelects(round);
-            }
 
             redTotalScore = 0;
             blueTotalScore = 0;
@@ -666,7 +641,6 @@
             document.querySelector('.submit-button').disabled = false;
 
             document.querySelector('.share-scorecard-button').style.display = "none";
-            document.getElementById('championshipFightToggle').checked = false;
             document.getElementById('hashtag').value = "";
             document.getElementById('hashtag').disabled = false;
             hashtag = "";
@@ -676,6 +650,10 @@
             document.querySelector('.corners button').textContent = "Lock In".toUpperCase();
             document.querySelector('.corners button').classList.remove("locked");
             document.querySelectorAll('.green-field').forEach(field => field.classList.remove("green-field"));
+
+            if (championshipFight) {
+                document.getElementById('championshipFightToggle').disabled = true;
+            }
         }
 
         function autoAddHashtag() {

@@ -329,6 +329,30 @@
             font-size: 20px;
             margin-bottom: 15px;
             color: #ff6347;
+            cursor: pointer;
+            position: relative;
+        }
+
+        /* Tooltip Styles */
+        .criterion-group h4 .tooltip {
+            visibility: hidden;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            padding: 10px;
+            border-radius: 5px;
+            position: absolute;
+            z-index: 1;
+            width: 250px;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .criterion-group h4:hover .tooltip {
+            visibility: visible;
         }
 
         .criterion-dropdowns {
@@ -488,6 +512,14 @@
             margin-bottom: 10px;
         }
 
+        /* Tooltip Position Adjustment for Mobile */
+        @media (max-width: 600px) {
+            .criterion-group h4 .tooltip {
+                width: 90%;
+                top: 40px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -537,7 +569,10 @@
 
             <!-- Damage Criterion -->
             <div class="criterion-group">
-                <h4>Damage</h4>
+                <h4>
+                    <a href="#damage-section">Damage</a>
+                    <span class="tooltip">Assess the harm inflicted through strikes, submissions, and fight-altering actions.</span>
+                </h4>
                 <div class="criterion-dropdowns">
                     <div class="select-red">
                         <select id="damageRed">
@@ -562,7 +597,10 @@
 
             <!-- Control Criterion -->
             <div class="criterion-group">
-                <h4>Control</h4>
+                <h4>
+                    <a href="#control-section">Control</a>
+                    <span class="tooltip">Evaluate the ability to dictate the fight's pace, position, and overall flow.</span>
+                </h4>
                 <div class="criterion-dropdowns">
                     <div class="select-red">
                         <select id="controlRed">
@@ -587,7 +625,10 @@
 
             <!-- Defense Criterion -->
             <div class="criterion-group">
-                <h4>Defense</h4>
+                <h4>
+                    <a href="#defense-section">Defense</a>
+                    <span class="tooltip">Measure the ability to avoid damage and neutralize the opponent's offense.</span>
+                </h4>
                 <div class="criterion-dropdowns">
                     <div class="select-red">
                         <select id="defenseRed">
@@ -655,19 +696,63 @@
 
         <button class="share-button" id="shareButton">Share on Twitter</button>
 
-        <div class="version-info">V.1.06</div>
+        <div class="version-info">V.1.07</div>
     </div>
 
     <!-- Explanation Section -->
     <div class="explanation">
         <h2>A Revised Scoring System</h2>
-        <h3>by Matlock Fight Talk</h3>
+        <p>This system revolves around three main criteria: <strong>Damage</strong>, <strong>Control</strong>, and <strong>Defense</strong>, scored from 0 to 3 points per round. Each criterion is weighted differently, with the total score for a round ranging from 0 to 9 points.</p>
 
-        <p>The scoring system is based on three key criteria: <strong>Damage</strong>, <strong>Control</strong>, and <strong>Defense</strong>. Each criterion is scored from 0 to 3 points per round, with each criterion weighted differently to determine the overall winner of a fight. The maximum score per round is 9 points, and the minimum is 0 points. Here’s how it works:</p>
+        <h2 id="damage-section">1. Damage (0-3 points) — 50% Weight</h2>
+        <p><strong>Damage</strong> is the most important factor. You assess how much harm a fighter inflicts, focusing on strikes, submissions, and actions that change the course of the fight. Here's what to look for:</p>
+        <ul>
+            <li><strong>Striking Impact:</strong> The power and severity of strikes, whether punches, kicks, knees, or elbows. Also consider visual damage like cuts or swelling, knockdowns, or hits that change momentum.</li>
+            <li><strong>Submission Threat:</strong> How close a submission attempt comes to finishing the fight or forcing significant defense.</li>
+        </ul>
+        <p><strong>Scoring Damage:</strong></p>
+        <ul>
+            <li><strong>3 Points:</strong> Fight changing damage like knockdowns, severe cuts, or near-finishes from submissions.</li>
+            <li><strong>2 Points:</strong> Noticeable damage, like swelling or strong but defended submission attempts.</li>
+            <li><strong>1 Point:</strong> Minor damage, such as light strikes or submission attempts with minimal threat.</li>
+            <li><strong>0 Points:</strong> No effective damage caused.</li>
+        </ul>
 
-        <!-- [Explanation content remains the same as before] -->
+        <h2 id="control-section">2. Control (0-3 points) — 30% Weight</h2>
+        <p><strong>Control</strong> covers a fighter’s ability to steer the fight’s flow, including maintaining dominant positions and pressuring the opponent.</p>
+        <ul>
+            <li><strong>Positional Dominance:</strong> Holding positions like top control, mount, or back control. Keeping the opponent from escaping or countering is key.</li>
+            <li><strong>Aggression and Cage Control:</strong> Moving forward, cutting off the cage, and forcing the opponent to react defensively.</li>
+        </ul>
+        <p><strong>Scoring Control:</strong></p>
+        <ul>
+            <li><strong>3 Points:</strong> Full control of positions or constant pressure without any significant escape from the opponent.</li>
+            <li><strong>2 Points:</strong> Mostly controlling the fight with occasional resistance.</li>
+            <li><strong>1 Point:</strong> Brief moments of control, but unable to maintain dominance.</li>
+            <li><strong>0 Points:</strong> No control or ability to dictate the fight’s flow.</li>
+        </ul>
 
-        <!-- For brevity, I've omitted the detailed explanation, but it remains unchanged from the previous version -->
+        <h2 id="defense-section">3. Defense (0-3 points) — 20% Weight</h2>
+        <p><strong>Defense</strong> is about preventing damage and neutralizing the opponent’s offense. This includes avoiding strikes, submissions, and escaping bad positions.</p>
+        <ul>
+            <li><strong>Striking Defense:</strong> Effectively blocking or dodging attacks with minimal damage taken.</li>
+            <li><strong>Grappling Defense:</strong> Stopping takedowns, reversing positions, and defending submissions. Escaping from dangerous spots also counts here.</li>
+        </ul>
+        <p><strong>Scoring Defense:</strong></p>
+        <ul>
+            <li><strong>3 Points:</strong> Completely neutralizes the opponent’s offense, turning defense into offense.</li>
+            <li><strong>2 Points:</strong> Avoids most damage and stays out of danger but doesn’t fully shut down the opponent.</li>
+            <li><strong>1 Point:</strong> Defends well but still takes some damage or gets caught in tough positions.</li>
+            <li><strong>0 Points:</strong> Poor defense, takes substantial damage or frequently ends up in submissions or bad spots.</li>
+        </ul>
+
+        <h2 id="total-score-section">Total Round Score Calculation</h2>
+        <p>To calculate the score for a round, add up the points for each criterion and apply the weighted formula:</p>
+        <p><strong>Total Round Score = (Damage × 0.5) + (Control × 0.3) + (Defense × 0.2)</strong></p>
+        <p>The maximum score for a round is 9 points, while the minimum is 0.</p>
+
+        <h2 id="fight-outcome-section">Fight Outcome</h2>
+        <p>At the end of the fight, the total score across all rounds determines the winner. The fighter with the highest score wins. If the score difference is within 1 point, it’s a draw. Any fouls or rule violations can lead to point deductions.</p>
     </div>
 
     <!-- Scripts -->

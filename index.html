@@ -18,7 +18,7 @@
         /* Body Styles */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #0d0d0d; /* Dark color close to black */
+            background: linear-gradient(135deg, #0d0d0d, #1a1a1a); /* Subtle background gradient */
             color: #f0f0f0;
             display: flex;
             justify-content: center;
@@ -29,31 +29,33 @@
 
         /* Scorecard Container */
         .scorecard {
-            background-color: #0d0d0d; /* Same as body background */
+            background-color: rgba(15, 15, 15, 0.95); /* Slight transparency for depth */
             padding: 30px;
             border-radius: 15px;
-            max-width: 1000px; /* Increased max-width for larger screens */
+            max-width: 900px;
             width: 100%;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
             align-items: center;
             margin-top: 40px;
+            border: 1px solid #333;
         }
 
         /* Heading Styles */
         h2 {
             font-size: 36px;
             color: #ff6347;
-            margin-bottom: 20px;
-            letter-spacing: 1.2px;
+            margin-bottom: 30px;
+            letter-spacing: 1.5px;
             text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         /* Input, Button, and Select Styles */
         input, button, select {
             width: 100%;
-            padding: 10px 12px;
+            padding: 12px 15px;
             font-size: 16px;
             color: #f0f0f0;
             background-color: #1a1a1a;
@@ -75,6 +77,7 @@
         /* Focus Styles */
         input:focus, select:focus {
             border-color: #ff6347;
+            box-shadow: 0 0 5px rgba(255, 99, 71, 0.5);
         }
 
         /* Button Styles */
@@ -82,7 +85,7 @@
             background-color: #ff6347;
             cursor: pointer;
             font-weight: bold;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
             border-radius: 5px;
             margin: 5px;
         }
@@ -90,6 +93,8 @@
         /* Button Hover Styles */
         button:hover {
             background-color: #e55347;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
 
         /* Disabled Button Styles */
@@ -97,6 +102,8 @@
             background-color: #333;
             color: #888;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         /* Locked In Button Styles */
@@ -116,7 +123,8 @@
         .hashtag-container {
             width: 100%;
             margin-bottom: 25px;
-            position: relative;
+            display: flex;
+            justify-content: center;
         }
 
         .hashtag-container input {
@@ -222,12 +230,15 @@
             border-radius: 10px;
             margin-bottom: 20px;
             width: 100%;
+            border: 1px solid #333;
         }
 
         h3#roundHeading {
             text-align: center;
-            font-size: 22px;
-            margin-bottom: 15px;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ff6347;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
 
         /* Criteria Section */
@@ -235,7 +246,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             width: 100%;
         }
 
@@ -255,8 +266,8 @@
         }
 
         .criteria label {
-            margin-bottom: 5px;
-            font-size: 14px;
+            margin-bottom: 8px;
+            font-size: 16px;
         }
 
         /* Tooltip Styles */
@@ -271,21 +282,25 @@
             position: relative;
             display: inline-block;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 18px;
             color: #ff6347;
+        }
+
+        .tooltip:hover {
+            color: #e55347;
         }
 
         .tooltip .tooltiptext {
             visibility: hidden;
-            width: 200px;
+            width: 220px;
             background-color: #333;
             color: #fff;
             text-align: center;
-            padding: 5px;
+            padding: 10px;
             border-radius: 5px;
             position: absolute;
             z-index: 1;
-            bottom: 150%;
+            bottom: 125%;
             left: 50%;
             transform: translateX(-50%);
             opacity: 0;
@@ -300,28 +315,31 @@
         /* Total Score Section */
         .total-score {
             text-align: center;
-            margin-top: 25px;
-            font-size: 20px;
+            margin-top: 30px;
+            font-size: 22px;
             font-weight: bold;
         }
 
         .total-score span {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
 
         /* Results Section */
         .results {
             text-align: center;
             background-color: #1a1a1a; /* Slight contrast for readability */
-            padding: 20px;
+            padding: 25px;
             border-radius: 10px;
-            margin-top: 20px;
+            margin-top: 30px;
             width: 100%;
+            border: 1px solid #333;
         }
 
         .round-result {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            line-height: 1.5;
         }
 
         /* Buttons Container */
@@ -330,23 +348,27 @@
             justify-content: center;
             align-items: center;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 20px;
         }
 
         .buttons-container button {
             width: 30%;
-            margin: 5px;
+            margin: 10px;
         }
 
         /* Share Button Styles */
         .share-button {
             background-color: #1da1f2;
-            margin-top: 20px;
+            margin-top: 30px;
+        }
+
+        .share-button:hover {
+            background-color: #1991da;
         }
 
         /* Version Info */
         .version-info {
-            margin-top: 20px;
+            margin-top: 30px;
             font-size: 12px;
             color: #888;
         }
@@ -371,7 +393,7 @@
         body.mobile .criteria .tooltip-container,
         body.mobile .criteria .select-blue {
             width: 100%;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         body.mobile .buttons-container {
@@ -380,7 +402,7 @@
 
         body.mobile .buttons-container button {
             width: 100%;
-            margin: 5px 0;
+            margin: 10px 0;
         }
 
     </style>
@@ -392,8 +414,8 @@
         <!-- Hashtag Section -->
         <div class="hashtag-container">
             <input type="text" id="hashtag" placeholder="#EventHashtag">
-            <span class="error-message" id="hashtagError"></span>
         </div>
+        <span class="error-message" id="hashtagError"></span>
 
         <!-- Corners Section -->
         <div class="corners">
@@ -691,7 +713,7 @@
 
                 const roundWinner = redScore > blueScore ? redCornerName : blueScore > redScore ? blueCornerName : 'Draw';
 
-                appendRoundResult(redCornerName, blueCornerName, redScore, blueScore, roundWinner);
+                appendRoundResult(currentRound, redCornerName, blueCornerName, redScore, blueScore, roundWinner);
 
                 updateTotalScores();
                 resetRoundInputs();
@@ -711,13 +733,13 @@
                 }
             }
 
-            function appendRoundResult(redCornerName, blueCornerName, redScore, blueScore, roundWinner) {
+            function appendRoundResult(roundNumber, redCornerName, blueCornerName, redScore, blueScore, roundWinner) {
                 const resultsDiv = document.getElementById('results');
                 const roundResultDiv = document.createElement('div');
                 roundResultDiv.classList.add('round-result');
 
                 const roundTitle = document.createElement('strong');
-                roundTitle.textContent = `Round ${currentRound - 1} Results`;
+                roundTitle.textContent = `Round ${roundNumber} Results`;
                 roundResultDiv.appendChild(roundTitle);
                 roundResultDiv.appendChild(document.createElement('br'));
 

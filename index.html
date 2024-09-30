@@ -43,7 +43,6 @@
             text-align: center;
         }
 
-        /* Input, Button, Select Styling */
         input, button, select {
             width: 100%;
             padding: 12px 15px;
@@ -88,7 +87,6 @@
             border-color: #27ae60;
         }
 
-        /* Hashtag Section */
         .hashtag-container {
             display: flex;
             justify-content: center;
@@ -101,7 +99,6 @@
             text-align: center;
         }
 
-        /* Corners Section */
         .corners {
             display: flex;
             justify-content: space-between;
@@ -119,7 +116,6 @@
             font-weight: bold;
         }
 
-        /* Toggle Switch Styling */
         .toggle-container {
             display: flex;
             justify-content: center;
@@ -177,7 +173,6 @@
             transform: translateX(30px);
         }
 
-        /* Round and Criteria Sections */
         .round {
             background-color: #222;
             padding: 20px;
@@ -463,6 +458,7 @@
             const defenseRed = document.getElementById(`defenseRed-round${currentRound}`).value;
             const defenseBlue = document.getElementById(`defenseBlue-round${currentRound}`).value;
 
+            // Enable the submit button only when all fields are filled
             document.getElementById('submitButton').disabled = !(damageRed && damageBlue && controlRed && controlBlue && defenseRed && defenseBlue);
         }
 
@@ -537,25 +533,28 @@
 
         function prepareNextRoundOrEndFight() {
             const roundsLimit = championshipFight ? maxRounds : normalRounds;
+            
+            resetRoundSelects(currentRound);  // Clear the current round's fields before updating round
+
             currentRound++;
 
             if (currentRound <= roundsLimit) {
-                resetRoundSelects(currentRound);  // Reset the dropdowns for the previous round
-                document.getElementById('roundHeading').textContent = `Round ${currentRound}`;  // Update the round heading
+                document.getElementById('roundHeading').textContent = `Round ${currentRound}`;
+                document.getElementById('submitButton').disabled = true;  // Disable submit button until new scores are entered
             } else {
-                declareWinner();  // Final round reached, declare the winner
-                document.querySelector('.submit-button').disabled = true;
+                declareWinner();
+                document.getElementById('submitButton').disabled = true;
                 document.querySelector('.share-scorecard-button').style.display = "block";
             }
         }
 
         function resetRoundSelects(round) {
-            document.getElementById(`damageRed-round${round - 1}`).value = '';
-            document.getElementById(`damageBlue-round${round - 1}`).value = '';
-            document.getElementById(`controlRed-round${round - 1}`).value = '';
-            document.getElementById(`controlBlue-round${round - 1}`).value = '';
-            document.getElementById(`defenseRed-round${round - 1}`).value = '';
-            document.getElementById(`defenseBlue-round${round - 1}`).value = '';
+            document.getElementById(`damageRed-round${round}`).value = '';
+            document.getElementById(`damageBlue-round${round}`).value = '';
+            document.getElementById(`controlRed-round${round}`).value = '';
+            document.getElementById(`controlBlue-round${round}`).value = '';
+            document.getElementById(`defenseRed-round${round}`).value = '';
+            document.getElementById(`defenseBlue-round${round}`).value = '';
         }
 
         function declareWinner() {
@@ -582,7 +581,7 @@
             document.getElementById('blueCornerTotal').textContent = "Blue Corner Total Score: 0";
             document.getElementById('winnerAnnouncement').textContent = "";
             document.getElementById('results').innerHTML = "<h3>Results</h3>";
-            document.querySelector('.submit-button').disabled = false;
+            document.getElementById('submitButton').disabled = true;
             document.querySelector('.share-scorecard-button').style.display = "none";
 
             currentRound = 1;

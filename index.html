@@ -30,20 +30,20 @@
         /* Scorecard Container */
         .scorecard {
             background-color: #0d0d0d; /* Same as body background */
-            padding: 30px;
+            padding: 20px;
             border-radius: 15px;
-            max-width: 1000px; /* Increased max-width for larger screens */
+            max-width: 1000px;
             width: 100%;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 40px;
+            margin-top: 20px;
         }
 
         /* Heading Styles */
         h2 {
-            font-size: 36px;
+            font-size: 28px;
             color: #ff6347;
             margin-bottom: 20px;
             letter-spacing: 1.2px;
@@ -115,12 +115,12 @@
         /* Hashtag Container */
         .hashtag-container {
             width: 100%;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             position: relative;
         }
 
         .hashtag-container input {
-            max-width: 70%;
+            width: 100%;
             text-align: center;
         }
 
@@ -135,22 +135,28 @@
         /* Corners Section */
         .corners {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
             align-items: center;
             width: 100%;
             margin-bottom: 20px;
         }
 
-        .corners input {
-            width: 40%;
-            text-align: center;
-            margin: 0 5px;
+        .corners input, .corners button {
+            width: 100%;
+            margin: 5px 0;
         }
 
-        .corners button {
-            width: 15%;
-            font-weight: bold;
-            margin: 0 5px;
+        @media (min-width: 600px) {
+            .corners input {
+                width: 40%;
+                margin: 5px;
+            }
+
+            .corners button {
+                width: 15%;
+                margin: 5px;
+            }
         }
 
         /* Toggle Switch Container */
@@ -233,6 +239,7 @@
         /* Criteria Section */
         .criteria {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
@@ -243,8 +250,9 @@
         .criteria .select-red,
         .criteria .tooltip-container,
         .criteria .select-blue {
-            width: 30%;
+            width: 100%;
             text-align: center;
+            margin-bottom: 10px;
         }
 
         .criteria .select-red,
@@ -264,7 +272,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 10%;
         }
 
         .tooltip {
@@ -327,6 +334,7 @@
         /* Buttons Container */
         .buttons-container {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
             align-items: center;
             width: 100%;
@@ -334,8 +342,15 @@
         }
 
         .buttons-container button {
-            width: 30%;
-            margin: 5px;
+            width: 100%;
+            margin: 5px 0;
+        }
+
+        @media (min-width: 600px) {
+            .buttons-container button {
+                width: 30%;
+                margin: 5px;
+            }
         }
 
         /* Share Button Styles */
@@ -349,35 +364,6 @@
             margin-top: 20px;
             font-size: 12px;
             color: #888;
-        }
-
-        /* Media Queries */
-        @media (min-width: 768px) {
-            .scorecard {
-                width: 90%;
-            }
-
-            h2 {
-                font-size: 40px;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .scorecard {
-                width: 80%;
-            }
-
-            h2 {
-                font-size: 44px;
-            }
-
-            .criteria label {
-                font-size: 16px;
-            }
-
-            .total-score {
-                font-size: 24px;
-            }
         }
     </style>
 </head>
@@ -394,11 +380,11 @@
         <!-- Corners Section -->
         <div class="corners">
             <input type="text" id="redCornerName" placeholder="Enter Red Corner Name">
+            <span class="error-message" id="redCornerError"></span>
             <button id="lockInButton" disabled>LOCK IN</button>
             <input type="text" id="blueCornerName" placeholder="Enter Blue Corner Name">
+            <span class="error-message" id="blueCornerError"></span>
         </div>
-        <span class="error-message" id="redCornerError"></span>
-        <span class="error-message" id="blueCornerError"></span>
 
         <!-- Toggle Switch -->
         <div class="toggle-container">
@@ -567,6 +553,7 @@
             redCornerInput.addEventListener('input', checkInputs);
             blueCornerInput.addEventListener('input', checkInputs);
             lockInButton.addEventListener('click', lockInNames);
+            championshipToggle.addEventListener('change', () => { /* Optional additional logic */ });
 
             submitButton.addEventListener('click', submitRound);
             shareRoundButton.addEventListener('click', shareRoundScore);

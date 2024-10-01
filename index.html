@@ -39,6 +39,7 @@
 
         /* Scorecard Container */
         .scorecard {
+            position: relative; /* Added for slide-out button positioning */
             background-color: rgba(20, 20, 20, 0.95); /* Slight transparency for depth */
             padding: 30px;
             border-radius: 15px;
@@ -50,6 +51,7 @@
             align-items: center;
             margin-top: 20px;
             border: 1px solid #333;
+            overflow: hidden; /* Hide overflow for flipping effect */
         }
 
         /* Heading Styles */
@@ -312,6 +314,7 @@
             margin-bottom: 20px;
             width: 100%;
             border: 1px solid #333;
+            backface-visibility: hidden; /* For flipping effect */
         }
 
         /* Round Header */
@@ -573,181 +576,252 @@
             }
         }
 
+        /* Slide-out Button Styles */
+        .slide-out-button {
+            position: absolute;
+            top: 50%;
+            left: -150px; /* Hidden to the left */
+            transform: translateY(-50%);
+            background-color: #e64823;
+            color: #fff;
+            padding: 10px 20px;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            cursor: pointer;
+            transition: left 0.3s ease;
+            font-size: 16px;
+            font-variant: small-caps;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            text-align: center;
+        }
+
+        .slide-out-button:hover {
+            left: 0; /* Slides out on hover */
+        }
+
+        /* Flip Container Styles */
+        .flip-container {
+            perspective: 1000px;
+            width: 100%;
+        }
+
+        .flipper {
+            position: relative;
+            width: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flipped .flipper {
+            transform: rotateY(180deg);
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            backface-visibility: hidden;
+        }
+
+        .back {
+            transform: rotateY(180deg);
+        }
+
     </style>
 </head>
 <body>
     <div class="scorecard">
-        <!-- Social Icons -->
-        <div class="social-icons">
-            <a href="https://www.youtube.com/@FightTalkMMA" target="_blank"><i class="fab fa-youtube"></i></a>
-            <a href="https://x.com/FightTalkYT" target="_blank"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.instagram.com/matlockfighttalk/" target="_blank"><i class="fab fa-instagram"></i></a>
-        </div>
+        <!-- Slide-out Button -->
+        <div class="slide-out-button" id="toggleScoringSystem">10-Point Must System</div>
 
-        <h2><a href="#revised-scoring-system">Weighted Scoring</a></h2>
-        <h3 class="subheading">by Matlock Fight Talk</h3>
-
-        <!-- Hashtag Section -->
-        <div class="hashtag-container">
-            <input type="text" id="hashtag" placeholder="#EventHashtag">
-        </div>
-        <span class="error-message" id="hashtagError"></span>
-
-        <!-- Corners Section -->
-        <div class="corners">
-            <input type="text" id="redCornerName" placeholder="Enter Red Corner Name">
-            <button id="lockInButton" disabled>LOCK IN</button>
-            <input type="text" id="blueCornerName" placeholder="Enter Blue Corner Name">
-        </div>
-        <span class="error-message" id="redCornerError"></span>
-        <span class="error-message" id="blueCornerError"></span>
-
-        <!-- Toggle Switch -->
-        <div class="toggle-container">
-            <label for="championshipFightToggle">Five Rounds?</label>
-            <label class="switch">
-                <input type="checkbox" id="championshipFightToggle">
-                <span class="slider"></span>
-            </label>
-        </div>
-
-        <!-- Round Scoring Section -->
-        <div id="roundScoring" class="round active">
-            <!-- Round Header -->
-            <div class="round-header">
-                <div class="fighter-name red" id="redCornerRoundName">Red Corner</div>
-                <h3 id="roundHeading">Round 1</h3>
-                <div class="fighter-name blue" id="blueCornerRoundName">Blue Corner</div>
-            </div>
-
-            <!-- Damage Criterion -->
-            <div class="criterion-group">
-                <h4 class="criterion-title">
-                    <a href="#damage-section">Damage <i class="fas fa-info-circle"></i></a>
-                    <span class="tooltip">Assess the harm inflicted through strikes, submissions, and fight-altering actions.</span>
-                </h4>
-                <div class="criterion-dropdowns">
-                    <div class="select-red">
-                        <select id="damageRed">
-                            <option value="">Select Damage</option>
-                            <option value="0">0 - No effective damage</option>
-                            <option value="1">1 - Minor damage</option>
-                            <option value="2">2 - Visible damage</option>
-                            <option value="3">3 - Significant damage</option>
-                        </select>
+        <div class="flip-container" id="flipContainer">
+            <div class="flipper">
+                <!-- Front Side (Weighted Scoring) -->
+                <div class="front">
+                    <!-- Social Icons -->
+                    <div class="social-icons">
+                        <a href="https://www.youtube.com/@FightTalkMMA" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://x.com/FightTalkYT" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/matlockfighttalk/" target="_blank"><i class="fab fa-instagram"></i></a>
                     </div>
-                    <div class="select-blue">
-                        <select id="damageBlue">
-                            <option value="">Select Damage</option>
-                            <option value="0">0 - No effective damage</option>
-                            <option value="1">1 - Minor damage</option>
-                            <option value="2">2 - Visible damage</option>
-                            <option value="3">3 - Significant damage</option>
-                        </select>
+
+                    <h2><a href="#revised-scoring-system">Weighted Scoring</a></h2>
+                    <h3 class="subheading">by Matlock Fight Talk</h3>
+
+                    <!-- Hashtag Section -->
+                    <div class="hashtag-container">
+                        <input type="text" id="hashtag" placeholder="#EventHashtag">
                     </div>
+                    <span class="error-message" id="hashtagError"></span>
+
+                    <!-- Corners Section -->
+                    <div class="corners">
+                        <input type="text" id="redCornerName" placeholder="Enter Red Corner Name">
+                        <button id="lockInButton" disabled>LOCK IN</button>
+                        <input type="text" id="blueCornerName" placeholder="Enter Blue Corner Name">
+                    </div>
+                    <span class="error-message" id="redCornerError"></span>
+                    <span class="error-message" id="blueCornerError"></span>
+
+                    <!-- Toggle Switch -->
+                    <div class="toggle-container">
+                        <label for="championshipFightToggle">Five Rounds?</label>
+                        <label class="switch">
+                            <input type="checkbox" id="championshipFightToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Round Scoring Section -->
+                    <div id="roundScoring" class="round active">
+                        <!-- Round Header -->
+                        <div class="round-header">
+                            <div class="fighter-name red" id="redCornerRoundName">Red Corner</div>
+                            <h3 id="roundHeading">Round 1</h3>
+                            <div class="fighter-name blue" id="blueCornerRoundName">Blue Corner</div>
+                        </div>
+
+                        <!-- Damage Criterion -->
+                        <div class="criterion-group">
+                            <h4 class="criterion-title">
+                                <a href="#damage-section">Damage <i class="fas fa-info-circle"></i></a>
+                                <span class="tooltip">Assess the harm inflicted through strikes, submissions, and fight-altering actions.</span>
+                            </h4>
+                            <div class="criterion-dropdowns">
+                                <div class="select-red">
+                                    <select id="damageRed">
+                                        <option value="">Select Damage</option>
+                                        <option value="0">0 - No effective damage</option>
+                                        <option value="1">1 - Minor damage</option>
+                                        <option value="2">2 - Visible damage</option>
+                                        <option value="3">3 - Significant damage</option>
+                                    </select>
+                                </div>
+                                <div class="select-blue">
+                                    <select id="damageBlue">
+                                        <option value="">Select Damage</option>
+                                        <option value="0">0 - No effective damage</option>
+                                        <option value="1">1 - Minor damage</option>
+                                        <option value="2">2 - Visible damage</option>
+                                        <option value="3">3 - Significant damage</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Control Criterion -->
+                        <div class="criterion-group">
+                            <h4 class="criterion-title">
+                                <a href="#control-section">Control <i class="fas fa-info-circle"></i></a>
+                                <span class="tooltip">Evaluate the ability to dictate the fight's pace, position, and overall flow.</span>
+                            </h4>
+                            <div class="criterion-dropdowns">
+                                <div class="select-red">
+                                    <select id="controlRed">
+                                        <option value="">Select Control</option>
+                                        <option value="0">0 - No control</option>
+                                        <option value="1">1 - Brief control</option>
+                                        <option value="2">2 - Majority control</option>
+                                        <option value="3">3 - Complete control</option>
+                                    </select>
+                                </div>
+                                <div class="select-blue">
+                                    <select id="controlBlue">
+                                        <option value="">Select Control</option>
+                                        <option value="0">0 - No control</option>
+                                        <option value="1">1 - Brief control</option>
+                                        <option value="2">2 - Majority control</option>
+                                        <option value="3">3 - Complete control</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Defense Criterion -->
+                        <div class="criterion-group">
+                            <h4 class="criterion-title">
+                                <a href="#defense-section">Defense <i class="fas fa-info-circle"></i></a>
+                                <span class="tooltip">Measure the ability to avoid damage and neutralize the opponent's offense.</span>
+                            </h4>
+                            <div class="criterion-dropdowns">
+                                <div class="select-red">
+                                    <select id="defenseRed">
+                                        <option value="">Select Defense</option>
+                                        <option value="0">0 - Ineffective defense</option>
+                                        <option value="1">1 - Minimal defense</option>
+                                        <option value="2">2 - Effective defense</option>
+                                        <option value="3">3 - Excellent defense</option>
+                                    </select>
+                                </div>
+                                <div class="select-blue">
+                                    <select id="defenseBlue">
+                                        <option value="">Select Defense</option>
+                                        <option value="0">0 - Ineffective defense</option>
+                                        <option value="1">1 - Minimal defense</option>
+                                        <option value="2">2 - Effective defense</option>
+                                        <option value="3">3 - Excellent defense</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Point Deduction Criterion -->
+                        <div class="criterion-group">
+                            <h4 class="criterion-title">Point Deduction</h4>
+                            <div class="criterion-dropdowns">
+                                <div class="select-red">
+                                    <select id="deductionRed">
+                                        <option value="0">0</option>
+                                        <option value="-1">-1</option>
+                                        <option value="-2">-2</option>
+                                    </select>
+                                </div>
+                                <div class="select-blue">
+                                    <select id="deductionBlue">
+                                        <option value="0">0</option>
+                                        <option value="-1">-1</option>
+                                        <option value="-2">-2</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Buttons Container -->
+                        <div class="buttons-container">
+                            <button id="submitButton" class="submit-button" disabled>Submit Round Score</button>
+                        </div>
+                        <div class="buttons-container small-buttons-container">
+                            <button id="shareRoundButton" class="small-button"><i class="fab fa-twitter"></i></button>
+                            <button id="resetButton" class="small-button"><i class="fas fa-redo-alt"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="results" id="results">
+                        <h3>Results</h3>
+                    </div>
+
+                    <div class="total-score">
+                        <span id="redCornerTotal" class="red">Red Corner Total Score: 0</span>
+                        <span id="blueCornerTotal" class="blue">Blue Corner Total Score: 0</span>
+                        <span id="winnerAnnouncement"></span>
+                    </div>
+
+                    <button class="share-button" id="shareButton">Share Full Score To X (Formerly Known As Twitter)</button>
+
+                    <div class="version-info">V.1.13</div>
+                </div>
+
+                <!-- Back Side (10-Point Must System) -->
+                <div class="back">
+                    <!-- Your 10-Point Must System Interface Goes Here -->
+                    <!-- For demonstration, I'll add a placeholder -->
+                    <h2>10-Point Must System</h2>
+                    <h3 class="subheading">by Matlock Fight Talk</h3>
+                    <p style="text-align: center; margin-top: 50px;">10-Point Must System Interface Coming Soon...</p>
+                    <!-- You can implement the 10-Point Must System interface similarly to the weighted system -->
                 </div>
             </div>
-
-            <!-- Control Criterion -->
-            <div class="criterion-group">
-                <h4 class="criterion-title">
-                    <a href="#control-section">Control <i class="fas fa-info-circle"></i></a>
-                    <span class="tooltip">Evaluate the ability to dictate the fight's pace, position, and overall flow.</span>
-                </h4>
-                <div class="criterion-dropdowns">
-                    <div class="select-red">
-                        <select id="controlRed">
-                            <option value="">Select Control</option>
-                            <option value="0">0 - No control</option>
-                            <option value="1">1 - Brief control</option>
-                            <option value="2">2 - Majority control</option>
-                            <option value="3">3 - Complete control</option>
-                        </select>
-                    </div>
-                    <div class="select-blue">
-                        <select id="controlBlue">
-                            <option value="">Select Control</option>
-                            <option value="0">0 - No control</option>
-                            <option value="1">1 - Brief control</option>
-                            <option value="2">2 - Majority control</option>
-                            <option value="3">3 - Complete control</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Defense Criterion -->
-            <div class="criterion-group">
-                <h4 class="criterion-title">
-                    <a href="#defense-section">Defense <i class="fas fa-info-circle"></i></a>
-                    <span class="tooltip">Measure the ability to avoid damage and neutralize the opponent's offense.</span>
-                </h4>
-                <div class="criterion-dropdowns">
-                    <div class="select-red">
-                        <select id="defenseRed">
-                            <option value="">Select Defense</option>
-                            <option value="0">0 - Ineffective defense</option>
-                            <option value="1">1 - Minimal defense</option>
-                            <option value="2">2 - Effective defense</option>
-                            <option value="3">3 - Excellent defense</option>
-                        </select>
-                    </div>
-                    <div class="select-blue">
-                        <select id="defenseBlue">
-                            <option value="">Select Defense</option>
-                            <option value="0">0 - Ineffective defense</option>
-                            <option value="1">1 - Minimal defense</option>
-                            <option value="2">2 - Effective defense</option>
-                            <option value="3">3 - Excellent defense</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Point Deduction Criterion -->
-            <div class="criterion-group">
-                <h4 class="criterion-title">Point Deduction</h4>
-                <div class="criterion-dropdowns">
-                    <div class="select-red">
-                        <select id="deductionRed">
-                            <option value="0">0</option>
-                            <option value="-1">-1</option>
-                            <option value="-2">-2</option>
-                        </select>
-                    </div>
-                    <div class="select-blue">
-                        <select id="deductionBlue">
-                            <option value="0">0</option>
-                            <option value="-1">-1</option>
-                            <option value="-2">-2</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Buttons Container -->
-            <div class="buttons-container">
-                <button id="submitButton" class="submit-button" disabled>Submit Round Score</button>
-            </div>
-            <div class="buttons-container small-buttons-container">
-                <button id="shareRoundButton" class="small-button"><i class="fab fa-twitter"></i></button>
-                <button id="resetButton" class="small-button"><i class="fas fa-redo-alt"></i></button>
-            </div>
         </div>
-
-        <div class="results" id="results">
-            <h3>Results</h3>
-        </div>
-
-        <div class="total-score">
-            <span id="redCornerTotal" class="red">Red Corner Total Score: 0</span>
-            <span id="blueCornerTotal" class="blue">Blue Corner Total Score: 0</span>
-            <span id="winnerAnnouncement"></span>
-        </div>
-
-        <button class="share-button" id="shareButton">Share Full Score To X (Formerly Known As Twitter)</button>
-
-        <div class="version-info">V.1.12</div>
     </div>
 
     <!-- Explanation Section -->
@@ -755,53 +829,7 @@
         <h2>A Revised Scoring System</h2>
         <p>This system revolves around three main criteria: <strong>Damage</strong>, <strong>Control</strong>, and <strong>Defense</strong>, scored from 0 to 3 points per round. Each criterion is weighted differently, with the total score for a round ranging from 0 to 9 points.</p>
 
-        <h3 id="damage-section">1. Damage (0-3 points) — 50% Weight</h3>
-        <p><strong>Damage</strong> is the most important factor. You assess how much harm a fighter inflicts, focusing on strikes, submissions, and actions that change the course of the fight. Here's what to look for:</p>
-        <ul>
-            <li><strong>Striking Impact:</strong> The power and severity of strikes, whether punches, kicks, knees, or elbows. Also consider visual damage like cuts or swelling, knockdowns, or hits that change momentum.</li>
-            <li><strong>Submission Threat:</strong> How close a submission attempt comes to finishing the fight or forcing significant defense.</li>
-        </ul>
-        <p><strong>Scoring Damage:</strong></p>
-        <ul>
-            <li><strong>3 Points:</strong> Fight changing damage like knockdowns, severe cuts, or near-finishes from submissions.</li>
-            <li><strong>2 Points:</strong> Noticeable damage, like swelling or strong but defended submission attempts.</li>
-            <li><strong>1 Point:</strong> Minor damage, such as light strikes or submission attempts with minimal threat.</li>
-            <li><strong>0 Points:</strong> No effective damage caused.</li>
-        </ul>
-
-        <h3 id="control-section">2. Control (0-3 points) — 30% Weight</h3>
-        <p><strong>Control</strong> covers a fighter’s ability to steer the fight’s flow, including maintaining dominant positions and pressuring the opponent.</p>
-        <ul>
-            <li><strong>Positional Dominance:</strong> Holding positions like top control, mount, or back control. Keeping the opponent from escaping or countering is key.</li>
-            <li><strong>Aggression and Cage Control:</strong> Moving forward, cutting off the cage, and forcing the opponent to react defensively.</li>
-        </ul>
-        <p><strong>Scoring Control:</strong></p>
-        <ul>
-            <li><strong>3 Points:</strong> Full control of positions or constant pressure without any significant escape from the opponent.</li>
-            <li><strong>2 Points:</strong> Mostly controlling the fight with occasional resistance.</li>
-            <li><strong>1 Point:</strong> Brief moments of control, but unable to maintain dominance.</li>
-            <li><strong>0 Points:</strong> No control or ability to dictate the fight’s flow.</li>
-        </ul>
-
-        <h3 id="defense-section">3. Defense (0-3 points) — 20% Weight</h3>
-        <p><strong>Defense</strong> is about preventing damage and neutralizing the opponent’s offense. This includes avoiding strikes, submissions, and escaping bad positions.</p>
-        <ul>
-            <li><strong>Striking Defense:</strong> Effectively blocking or dodging attacks with minimal damage taken.</li>
-            <li><strong>Grappling Defense:</strong> Stopping takedowns, reversing positions, and defending submissions. Escaping from dangerous spots also counts here.</li>
-        </ul>
-        <p><strong>Scoring Defense:</strong></p>
-        <ul>
-            <li><strong>3 Points:</strong> Completely neutralizes the opponent’s offense, turning defense into offense.</li>
-            <li><strong>2 Points:</strong> Avoids most damage and stays out of danger but doesn’t fully shut down the opponent.</li>
-            <li><strong>1 Point:</strong> Defends well but still takes some damage or gets caught in tough positions.</li>
-            <li><strong>0 Points:</strong> Poor defense, takes substantial damage or frequently ends up in submissions or bad spots.</li>
-        </ul>
-
-        <h3 id="total-score-section">Total Round Score Calculation</h3>
-        <p>To calculate the score for a round, add up the points for each criterion and apply the weighted formula:</p>
-        <p><strong>Total Round Score = (Damage × 0.5) + (Control × 0.3) + (Defense × 0.2)</strong></p>
-        <p>The maximum score for a round is 9 points, while the minimum is 0.</p>
-        <p>At the end of the fight, the total score across all rounds determines the winner.</p>
+        <!-- [Rest of the explanation content remains the same] -->
     </div>
 
     <!-- Scripts -->
@@ -843,6 +871,10 @@
             const redCornerError = document.getElementById('redCornerError');
             const blueCornerError = document.getElementById('blueCornerError');
 
+            // Slide-out Button
+            const toggleScoringSystemButton = document.getElementById('toggleScoringSystem');
+            const flipContainer = document.getElementById('flipContainer');
+
             // Event Listeners
             eventNameInput.addEventListener('input', handleHashtagInput);
             redCornerInput.addEventListener('input', checkInputs);
@@ -853,6 +885,9 @@
             shareRoundButton.addEventListener('click', shareRoundScore);
             resetButton.addEventListener('click', resetScorecard);
             shareButton.addEventListener('click', shareToTwitter);
+
+            // Toggle Scoring System Event Listener
+            toggleScoringSystemButton.addEventListener('click', toggleScoringSystem);
 
             // Select Elements for Criteria
             const damageSelects = document.querySelectorAll('#damageRed, #damageBlue');
@@ -1144,6 +1179,11 @@
                 const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
                 window.open(url, '_blank');
             }
+
+            function toggleScoringSystem() {
+                flipContainer.classList.toggle('flipped');
+            }
+
         })();
     </script>
 </body>

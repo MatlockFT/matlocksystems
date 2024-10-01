@@ -66,10 +66,6 @@
             z-index: 100;
         }
 
-        .menu:hover .dropdown {
-            display: block;
-        }
-
         .dropdown {
             display: none;
             position: absolute;
@@ -80,6 +76,10 @@
             border-radius: 5px;
             width: 150px;
             text-align: right;
+        }
+
+        .dropdown.show {
+            display: block;
         }
 
         .dropdown a {
@@ -628,9 +628,9 @@
 <body>
     <div class="scorecard">
         <!-- Minimalist Menu -->
-        <div class="menu">
+        <div class="menu" id="menu">
             Menu
-            <div class="dropdown">
+            <div class="dropdown" id="dropdown">
                 <a href="index.html">Weighted Scoring</a>
                 <a href="10point.html">10-Point</a>
             </div>
@@ -683,7 +683,7 @@
             <div class="criterion-group">
                 <h4 class="criterion-title">
                     <a href="#damage-section">Damage <i class="fas fa-info-circle"></i></a>
-                    <span class="tooltip">Assess the harm inflicted through strikes, submissions, and fight-altering actions.</span>
+                    <span class="tooltip">Assesses harm inflicted through strikes, submissions, and fight-altering actions.</span>
                 </h4>
                 <div class="criterion-dropdowns">
                     <div class="select-red">
@@ -711,7 +711,7 @@
             <div class="criterion-group">
                 <h4 class="criterion-title">
                     <a href="#control-section">Control <i class="fas fa-info-circle"></i></a>
-                    <span class="tooltip">Evaluate the ability to dictate the fight's pace, position, and overall flow.</span>
+                    <span class="tooltip">Evaluates the ability to dictate the fight's pace, position, and overall flow.</span>
                 </h4>
                 <div class="criterion-dropdowns">
                     <div class="select-red">
@@ -739,7 +739,7 @@
             <div class="criterion-group">
                 <h4 class="criterion-title">
                     <a href="#defense-section">Defense <i class="fas fa-info-circle"></i></a>
-                    <span class="tooltip">Measure the ability to avoid damage and neutralize the opponent's offense.</span>
+                    <span class="tooltip">Measures the ability to avoid damage and neutralize the opponent's offense.</span>
                 </h4>
                 <div class="criterion-dropdowns">
                     <div class="select-red">
@@ -806,12 +806,61 @@
 
         <button class="share-button" id="shareButton">Share Full Score To X (Formerly Known As Twitter)</button>
 
-        <div class="version-info">V.1.13</div>
+        <div class="version-info">V.1.14</div>
     </div>
 
     <!-- Explanation Section -->
     <div class="explanation" id="revised-scoring-system">
-        <!-- [Content remains the same as your standard code] -->
+        <h2>Revised Scoring System for MMA</h2>
+        <p>This revised scoring system aims to provide a more nuanced and precise evaluation of fighters' performances in each round. The system is based on three main criteria: Damage, Control, and Defense, each weighted differently to reflect their importance in a fight.</p>
+
+        <h3 id="damage-section">1. Damage (0-3 points) — 50% Weight</h3>
+        <p><strong>Damage</strong> assesses the harm inflicted through strikes, submissions, and fight-altering actions.</p>
+        <ul>
+            <li><strong>Striking Damage:</strong> Includes knockdowns, cuts, swelling, and any strikes that visibly hurt the opponent.</li>
+            <li><strong>Grappling Damage:</strong> Successful submission attempts causing distress, joint locks, or chokes that significantly threaten the opponent.</li>
+        </ul>
+        <p><strong>Scoring Damage:</strong></p>
+        <ul>
+            <li><strong>3 Points:</strong> Significant damage causing visible harm or near fight-ending moments.</li>
+            <li><strong>2 Points:</strong> Clear damage that affects the opponent but not fight-ending.</li>
+            <li><strong>1 Point:</strong> Minor damage with some effect on the opponent.</li>
+            <li><strong>0 Points:</strong> No effective damage inflicted.</li>
+        </ul>
+
+        <h3 id="control-section">2. Control (0-3 points) — 30% Weight</h3>
+        <p><strong>Control</strong> covers a fighter’s ability to steer the fight’s flow, including maintaining dominant positions and pressuring the opponent.</p>
+        <ul>
+            <li><strong>Positional Dominance:</strong> Holding positions like top control, mount, or back control. Keeping the opponent from escaping or countering is key.</li>
+            <li><strong>Aggression and Cage Control:</strong> Moving forward, cutting off the cage, and forcing the opponent to react defensively.</li>
+        </ul>
+        <p><strong>Scoring Control:</strong></p>
+        <ul>
+            <li><strong>3 Points:</strong> Full control of positions or constant pressure without any significant escape from the opponent.</li>
+            <li><strong>2 Points:</strong> Mostly controlling the fight with occasional resistance.</li>
+            <li><strong>1 Point:</strong> Brief moments of control, but unable to maintain dominance.</li>
+            <li><strong>0 Points:</strong> No control or ability to dictate the fight’s flow.</li>
+        </ul>
+
+        <h3 id="defense-section">3. Defense (0-3 points) — 20% Weight</h3>
+        <p><strong>Defense</strong> is about preventing damage and neutralizing the opponent’s offense. This includes avoiding strikes, submissions, and escaping bad positions.</p>
+        <ul>
+            <li><strong>Striking Defense:</strong> Effectively blocking or dodging attacks with minimal damage taken.</li>
+            <li><strong>Grappling Defense:</strong> Stopping takedowns, reversing positions, and defending submissions. Escaping from dangerous spots also counts here.</li>
+        </ul>
+        <p><strong>Scoring Defense:</strong></p>
+        <ul>
+            <li><strong>3 Points:</strong> Completely neutralizes the opponent’s offense, turning defense into offense.</li>
+            <li><strong>2 Points:</strong> Avoids most damage and stays out of danger but doesn’t fully shut down the opponent.</li>
+            <li><strong>1 Point:</strong> Defends well but still takes some damage or gets caught in tough positions.</li>
+            <li><strong>0 Points:</strong> Poor defense, takes substantial damage or frequently ends up in submissions or bad spots.</li>
+        </ul>
+
+        <h3 id="total-score-section">Total Round Score Calculation</h3>
+        <p>To calculate the score for a round, add up the points for each criterion and apply the weighted formula:</p>
+        <p><strong>Total Round Score = (Damage × 0.5) + (Control × 0.3) + (Defense × 0.2)</strong></p>
+        <p>The maximum score for a round is 9 points, while the minimum is 0.</p>
+        <p>At the end of the fight, the total score across all rounds determines the winner.</p>
     </div>
 
     <!-- Scripts -->
@@ -852,6 +901,21 @@
             const hashtagError = document.getElementById('hashtagError');
             const redCornerError = document.getElementById('redCornerError');
             const blueCornerError = document.getElementById('blueCornerError');
+
+            // Menu Toggle
+            const menu = document.getElementById('menu');
+            const dropdown = document.getElementById('dropdown');
+
+            menu.addEventListener('click', function(event) {
+                event.stopPropagation();
+                dropdown.classList.toggle('show');
+            });
+
+            document.addEventListener('click', function(event) {
+                if (dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                }
+            });
 
             // Event Listeners
             eventNameInput.addEventListener('input', handleHashtagInput);

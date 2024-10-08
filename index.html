@@ -647,40 +647,28 @@
         <h3 class="subheading">by Matlock Fight Talk</h3>
 
         <!-- Hashtag Section -->
-                <span class="error-message" id="hashtagError"></span>
+        <div class="hashtag-container">
+            <input type="text" id="hashtag" placeholder="#EventHashtag">
+        </div>
+        <span class="error-message" id="hashtagError"></span>
 
         <!-- Corners Section -->
         <div class="corners">
             <input type="text" id="redCornerName" placeholder="Enter Red Corner Name">
-            <div class="toggle-container">
-                <label for="championshipFightToggle">Five Rounds?</label>
-                <label class="switch">
-                    <input type="checkbox" id="championshipFightToggle">
-                    <span class="slider"></span>
-                </label>
-            </div>
+            <button id="lockInButton" disabled>LOCK IN</button>
             <input type="text" id="blueCornerName" placeholder="Enter Blue Corner Name">
-        </div>
-        <div class="hashtag-container">
-            <input type="text" id="hashtag" placeholder="#EventHashtag">
-        </div>
-        </div>
-        <div class="hashtag-container">
-            <input type="text" id="hashtag" placeholder="#EventHashtag">
-        </div>
-        </div>
-        <div class="hashtag-container">
-            <input type="text" id="hashtag" placeholder="#EventHashtag">
-        </div>
-        </div>
-        <div class="hashtag-container">
-            <input type="text" id="hashtag" placeholder="#EventHashtag
         </div>
         <span class="error-message" id="redCornerError"></span>
         <span class="error-message" id="blueCornerError"></span>
 
         <!-- Toggle Switch -->
-        
+        <div class="toggle-container">
+            <label for="championshipFightToggle">Five Rounds?</label>
+            <label class="switch">
+                <input type="checkbox" id="championshipFightToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
 
         <!-- Round Scoring Section -->
         <div id="roundScoring" class="round active">
@@ -1126,4 +1114,112 @@
             }
 
             function declareWinner() {
-                const winnerAnnouncement = document.get
+                const winnerAnnouncement = document.getElementById('winnerAnnouncement');
+
+                const scoreDifference = Math.abs(redTotalScore - blueTotalScore);
+
+                if (scoreDifference <= 1) {
+                    winnerAnnouncement.textContent = "It's a Draw!";
+                } else if (redTotalScore > blueTotalScore) {
+                    winnerAnnouncement.textContent = `Winner: ${redCornerName}`;
+                } else {
+                    winnerAnnouncement.textContent = `Winner: ${blueCornerName}`;
+                }
+            }
+
+            function resetScorecard() {
+                // Reset variables
+                currentRound = 1;
+                redTotalScore = 0;
+                blueTotalScore = 0;
+                redScores.length = 0;
+                blueScores.length = 0;
+                redCornerName = '';
+                blueCornerName = '';
+
+                // Reset input fields
+                [eventNameInput, redCornerInput, blueCornerInput].forEach(input => {
+                    input.value = '';
+                    input.disabled = false;
+                    input.classList.remove('locked-field');
+                });
+
+                mainCriteriaSelects.forEach(select => {
+                    select.value = '';
+                });
+
+                pointDeductionSelects.forEach(select => {
+                    select.value = '0';
+                });
+
+                championshipToggle.disabled = false;
+                championshipToggle.checked = false;
+
+                // Reset UI elements
+                document.getElementById('redCornerTotal').textContent = `Red Corner Total Score: 0`;
+                document.getElementById('blueCornerTotal').textContent = `Blue Corner Total Score: 0`;
+                document.getElementById('redCornerTotal').classList.remove('red');
+                document.getElementById('blueCornerTotal').classList.remove('blue');
+                document.getElementById('winnerAnnouncement').textContent = "";
+                document.getElementById('results').innerHTML = "<h3>Results</h3>";
+
+                lockInButton.disabled = true;
+                lockInButton.textContent = "LOCK IN";
+                lockInButton.classList.remove("locked");
+
+                submitButton.disabled = true;
+
+                document.getElementById('roundHeading').textContent = "Round 1";
+
+                resetLabels();
+
+                // Clear error messages
+                hashtagError.textContent = '';
+                redCornerError.textContent = '';
+                blueCornerError.textContent = '';
+
+                checkInputs();
+            }
+
+            function resetLabels() {
+                document.getElementById('redCornerRoundName').textContent = 'Red Corner';
+                document.getElementById('blueCornerRoundName').textContent = 'Blue Corner';
+            }
+
+            function shareRoundScore() {
+                const eventName = eventNameInput.value.trim();
+                let tweetText = `Round ${currentRound} Score for ${eventName}:\n`;
+
+                const redScore = calculateScore('Red');
+                const blueScore = calculateScore('Blue');
+
+                const redTotalUpToNow = redScores.reduce((acc, score) => acc + score, 0) + redScore;
+                const blueTotalUpToNow = blueScores.reduce((acc, score) => acc + score, 0) + blueScore;
+
+                tweetText += `${redCornerName}: ${redScore.toFixed(1)} (${redTotalUpToNow.toFixed(1)} total)\n`;
+                tweetText += `${blueCornerName}: ${blueScore.toFixed(1)} (${blueTotalUpToNow.toFixed(1)} total)`;
+
+                const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+                window.open(url, '_blank');
+            }
+
+            function shareToTwitter() {
+                const eventName = eventNameInput.value.trim();
+                const winnerText = document.getElementById('winnerAnnouncement').textContent;
+                let tweetText = `My Scorecard for ${eventName}:\n`;
+
+                for (let i = 0; i < redScores.length; i++) {
+                    tweetText += `Round ${i + 1}: ${redCornerName} ${redScores[i].toFixed(1)} - ${blueScores[i].toFixed(1)} ${blueCornerName}\n`;
+                }
+
+                tweetText += `Total: ${redCornerName} ${redTotalScore.toFixed(1)} - ${blueTotalScore.toFixed(1)} ${blueCornerName}\n`;
+                tweetText += winnerText;
+
+                const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+                window.open(url, '_blank');
+            }
+
+        })();
+    </script>
+</body>
+</html>

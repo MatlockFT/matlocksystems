@@ -528,6 +528,7 @@
             margin-bottom: 20px;
             font-size: 18px;
             line-height: 1.5;
+            text-align: left;
         }
 
         .version-info {
@@ -1004,8 +1005,11 @@
             }
 
             function submitRound() {
-                const redScore = calculateScore('Red');
-                const blueScore = calculateScore('Blue');
+                const redScoreDetails = calculateScoreDetails('Red');
+                const blueScoreDetails = calculateScoreDetails('Blue');
+
+                const redScore = redScoreDetails.total;
+                const blueScore = blueScoreDetails.total;
 
                 redTotalScore += redScore;
                 blueTotalScore += blueScore;
@@ -1016,7 +1020,7 @@
 
                 const roundWinner = redScore > blueScore ? redCornerName : blueScore > redScore ? blueCornerName : redCornerName;
 
-                appendRoundResult(currentRound, redScore, blueScore, roundWinner);
+                appendRoundResult(currentRound, redScoreDetails, blueScoreDetails, roundWinner);
 
                 updateTotalScores();
                 resetRoundInputs();
@@ -1042,7 +1046,7 @@
                 }
             }
 
-            function appendRoundResult(roundNumber, redScore, blueScore, roundWinner) {
+            function appendRoundResult(roundNumber, redScoreDetails, blueScoreDetails, roundWinner) {
                 const resultsDiv = document.getElementById('results');
                 const roundResultDiv = document.createElement('div');
                 roundResultDiv.classList.add('round-result');
@@ -1052,19 +1056,30 @@
                 roundResultDiv.appendChild(roundTitle);
                 roundResultDiv.appendChild(document.createElement('br'));
 
-                const redScoreTotal = redScores.slice(0, roundNumber).reduce((a,b) => a+b, 0);
-                const blueScoreTotal = blueScores.slice(0, roundNumber).reduce((a,b) => a+b, 0);
-
-                const redScoreText = document.createTextNode(
-                    `${redCornerName}: ${redScore.toFixed(1)} (${redScoreTotal.toFixed(1)} total)`
-                );
-                roundResultDiv.appendChild(redScoreText);
+                // Red Corner Details
+                const redDetails = `
+                    ${redCornerName}:
+                    Damage: ${redScoreDetails.damage.toFixed(1)},
+                    Control: ${redScoreDetails.control.toFixed(1)},
+                    Defense: ${redScoreDetails.defense.toFixed(1)},
+                    Deductions: ${redScoreDetails.deduction.toFixed(1)},
+                    Total: ${redScoreDetails.total.toFixed(1)}
+                `;
+                const redDetailText = document.createTextNode(redDetails);
+                roundResultDiv.appendChild(redDetailText);
                 roundResultDiv.appendChild(document.createElement('br'));
 
-                const blueScoreText = document.createTextNode(
-                    `${blueCornerName}: ${blueScore.toFixed(1)} (${blueScoreTotal.toFixed(1)} total)`
-                );
-                roundResultDiv.appendChild(blueScoreText);
+                // Blue Corner Details
+                const blueDetails = `
+                    ${blueCornerName}:
+                    Damage: ${blueScoreDetails.damage.toFixed(1)},
+                    Control: ${blueScoreDetails.control.toFixed(1)},
+                    Defense: ${blueScoreDetails.defense.toFixed(1)},
+                    Deductions: ${blueScoreDetails.deduction.toFixed(1)},
+                    Total: ${blueScoreDetails.total.toFixed(1)}
+                `;
+                const blueDetailText = document.createTextNode(blueDetails);
+                roundResultDiv.appendChild(blueDetailText);
                 roundResultDiv.appendChild(document.createElement('br'));
 
                 const roundWinnerText = document.createTextNode(`Round Winner: ${roundWinner}`);
@@ -1073,15 +1088,26 @@
                 resultsDiv.appendChild(roundResultDiv);
             }
 
-            function calculateScore(color) {
-                const damage = parseInt(document.getElementById(`damage${color}`).value) || 0;
-                const control = parseInt(document.getElementById(`control${color}`).value) || 0;
-                const defense = parseInt(document.getElementById(`defense${color}`).value) || 0;
-                const deduction = parseInt(document.getElementById(`deduction${color}`).value) || 0;
+            function calculateScoreDetails(color) {
+                const damageValue = parseInt(document.getElementById(`damage${color}`).value) || 0;
+                const controlValue = parseInt(document.getElementById(`control${color}`).value) || 0;
+                const defenseValue = parseInt(document.getElementById(`defense${color}`).value) || 0;
+                const deductionValue = parseInt(document.getElementById(`deduction${color}`).value) || 0;
 
-                const score = (damage * 0.5) + (control * 0.3) + (defense * 0.2) + deduction;
+                const damage = damageValue * 0.5;
+                const control = controlValue * 0.3;
+                const defense = defenseValue * 0.2;
+                const deduction = deductionValue;
 
-                return score;
+                const total = damage + control + defense + deduction;
+
+                return {
+                    damage,
+                    control,
+                    defense,
+                    deduction,
+                    total
+                };
             }
 
             function updateTotalScores() {

@@ -1017,7 +1017,7 @@
                 redScores.push(redScore);
                 blueScores.push(blueScore);
 
-                const roundWinner = redScore > blueScore ? redCornerName : blueScore > redScore ? blueCornerName : 'Draw';
+                const roundWinner = redScore > blueScore ? redCornerName : blueScore > redScore ? blueCornerName : redCornerName;
 
                 appendRoundResult(currentRound, redScore, blueScore, roundWinner);
 
@@ -1095,11 +1095,7 @@
             function declareWinner() {
                 const winnerAnnouncement = document.getElementById('winnerAnnouncement');
 
-                const scoreDifference = Math.abs(redTotalScore - blueTotalScore);
-
-                if (scoreDifference <= 1) {
-                    winnerAnnouncement.textContent = "It's a Draw!";
-                } else if (redTotalScore > blueTotalScore) {
+                if (redTotalScore >= blueTotalScore) {
                     winnerAnnouncement.textContent = `Winner: ${redCornerName}`;
                 } else {
                     winnerAnnouncement.textContent = `Winner: ${blueCornerName}`;
@@ -1176,7 +1172,8 @@
                 const blueTotalUpToNow = blueScores.reduce((acc, score) => acc + score, 0) + blueScore;
 
                 tweetText += `${redCornerName}: ${redScore.toFixed(1)} (${redTotalUpToNow.toFixed(1)} total)\n`;
-                tweetText += `${blueCornerName}: ${blueScore.toFixed(1)} (${blueTotalUpToNow.toFixed(1)} total)`;
+                tweetText += `${blueCornerName}: ${blueScore.toFixed(1)} (${blueTotalUpToNow.toFixed(1)} total)\n`;
+                tweetText += `Weighted Results by https://matlockfighttalk.com`;
 
                 const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
                 window.open(url, '_blank');
@@ -1192,7 +1189,7 @@
                 }
 
                 tweetText += `Total: ${redCornerName} ${redTotalScore.toFixed(1)} - ${blueTotalScore.toFixed(1)} ${blueCornerName}\n`;
-                tweetText += winnerText;
+                tweetText += `${winnerText}\nWeighted Results by https://matlockfighttalk.com`;
 
                 const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
                 window.open(url, '_blank');

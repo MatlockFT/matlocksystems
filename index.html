@@ -25,6 +25,19 @@
             box-sizing: border-box;
         }
 
+        /* Footer Styles */
+.footer {
+    text-align: center;
+    padding: 15px;
+    font-size: 14px;
+    color: #888;
+    margin-top: 20px;
+}
+
+.footer p {
+    margin: 0;
+}
+
         /* Body Styles */
         body {
             font-family: 'Roboto', sans-serif;
@@ -1479,7 +1492,13 @@ Total: ${blueScoreDetails.total.toFixed(1)}
                 window.open(url, 'twitter', `width=${width},height=${height},left=${left},top=${top}`);
             }
 
+            <!-- Footer Section -->
+<footer class="footer">
+    <p>&copy; <span id="currentYear"></span> Matlock Fight Talk. All rights reserved.</p>
+</footer>
+
         })();
     </script>
 </body>
+    
 </html>

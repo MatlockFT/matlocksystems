@@ -813,10 +813,9 @@
 
         <!-- Buttons Container -->
         <div class="buttons-container">
-            <button id="submitButton" class="submit-button" disabled>Submit Round Score</button>
+            <button id="submitAndShareButton" class="submit-button" disabled>Submit Round Score <i class="fab fa-twitter"></i></button>
         </div>
         <div class="buttons-container small-buttons-container">
-            <button id="shareRoundButton" class="small-button"><i class="fab fa-twitter"></i></button>
             <button id="resetButton" class="small-button"><i class="fas fa-redo-alt"></i></button>
         </div>
     </div>
@@ -872,8 +871,7 @@
             const blueCornerInput = document.getElementById('blueCornerName');
             const lockInButton = document.getElementById('lockInButton');
             const championshipToggle = document.getElementById('championshipFightToggle');
-            const submitButton = document.getElementById('submitButton');
-            const shareRoundButton = document.getElementById('shareRoundButton');
+            const submitAndShareButton = document.getElementById('submitAndShareButton');
             const resetButton = document.getElementById('resetButton');
             const shareButton = document.getElementById('shareButton');
 
@@ -902,8 +900,7 @@
             blueCornerInput.addEventListener('input', checkInputs);
             lockInButton.addEventListener('click', lockInNames);
 
-            submitButton.addEventListener('click', submitRound);
-            shareRoundButton.addEventListener('click', shareRoundScore);
+            submitAndShareButton.addEventListener('click', submitAndShareRound);
             resetButton.addEventListener('click', resetScorecard);
             shareButton.addEventListener('click', shareToTwitter);
 
@@ -945,7 +942,7 @@
 
             function checkRoundInputs() {
                 const allMainCriteriaFilled = mainCriteriaSelects.every(select => select.value !== '');
-                submitButton.disabled = !allMainCriteriaFilled;
+                submitAndShareButton.disabled = !allMainCriteriaFilled;
             }
 
             function lockInNames() {
@@ -1023,15 +1020,24 @@
 
                 updateTotalScores();
                 resetRoundInputs();
+            }
 
+            function submitAndShareRound() {
+                // Submit the round
+                submitRound();
+
+                // Share the round score
+                shareRoundScore();
+
+                // Increment the round
                 currentRound++;
 
                 if (currentRound > totalRounds) {
                     declareWinner();
-                    submitButton.disabled = true;
+                    submitAndShareButton.disabled = true;
                 } else {
                     document.getElementById('roundHeading').textContent = `Round ${currentRound}`;
-                    submitButton.disabled = true;
+                    submitAndShareButton.disabled = true;
                     checkRoundInputs();
                 }
             }
@@ -1142,7 +1148,7 @@
                 lockInButton.textContent = "LOCK IN";
                 lockInButton.classList.remove("locked");
 
-                submitButton.disabled = true;
+                submitAndShareButton.disabled = true;
 
                 document.getElementById('roundHeading').textContent = "Round 1";
 
@@ -1165,18 +1171,21 @@
                 const eventName = eventNameInput.value.trim();
                 let tweetText = `Round ${currentRound} Score for ${eventName}:\n`;
 
-                const redScore = calculateScore('Red');
-                const blueScore = calculateScore('Blue');
+                const redScore = redScores[redScores.length - 1];
+                const blueScore = blueScores[blueScores.length - 1];
 
-                const redTotalUpToNow = redScores.reduce((acc, score) => acc + score, 0) + redScore;
-                const blueTotalUpToNow = blueScores.reduce((acc, score) => acc + score, 0) + blueScore;
-
-                tweetText += `${redCornerName}: ${redScore.toFixed(1)} (${redTotalUpToNow.toFixed(1)} total)\n`;
-                tweetText += `${blueCornerName}: ${blueScore.toFixed(1)} (${blueTotalUpToNow.toFixed(1)} total)\n`;
+                tweetText += `${redCornerName}: ${redScore.toFixed(1)} (${redTotalScore.toFixed(1)} total)\n`;
+                tweetText += `${blueCornerName}: ${blueScore.toFixed(1)} (${blueTotalScore.toFixed(1)} total)\n`;
                 tweetText += `Weighted Results by https://matlockfighttalk.com`;
 
                 const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
-                window.open(url, '_blank');
+
+                // Open in a popup window
+                const width = 550;
+                const height = 420;
+                const left = (screen.width - width) / 2;
+                const top = (screen.height - height) / 2;
+                window.open(url, 'twitter', `width=${width},height=${height},left=${left},top=${top}`);
             }
 
             function shareToTwitter() {
@@ -1192,7 +1201,13 @@
                 tweetText += `${winnerText}\nWeighted Results by https://matlockfighttalk.com`;
 
                 const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
-                window.open(url, '_blank');
+
+                // Open in a popup window
+                const width = 550;
+                const height = 420;
+                const left = (screen.width - width) / 2;
+                const top = (screen.height - height) / 2;
+                window.open(url, 'twitter', `width=${width},height=${height},left=${left},top=${top}`);
             }
 
         })();

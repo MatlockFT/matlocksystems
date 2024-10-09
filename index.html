@@ -1065,11 +1065,7 @@
             function declareWinner() {
                 const winnerAnnouncement = document.getElementById('winnerAnnouncement');
 
-                const scoreDifference = Math.abs(redTotalScore - blueTotalScore);
-
-                if (scoreDifference <= 1) {
-                    winnerAnnouncement.textContent = "It's a Draw!";
-                } else if (redTotalScore > blueTotalScore) {
+                if (redTotalScore > blueTotalScore) {
                     winnerAnnouncement.textContent = `Winner: ${redCornerName}`;
                 } else {
                     winnerAnnouncement.textContent = `Winner: ${blueCornerName}`;
@@ -1137,7 +1133,8 @@
 
             function shareRoundScore() {
                 const eventName = eventNameInput.value.trim();
-                let tweetText = `Round ${currentRound} Score for ${eventName}:\n`;
+                let tweetText = `Round ${currentRound} Score for ${eventName}:
+`;
 
                 const redScore = calculateScore('Red');
                 const blueScore = calculateScore('Blue');
@@ -1145,7 +1142,8 @@
                 const redTotalUpToNow = redScores.reduce((acc, score) => acc + score, 0) + redScore;
                 const blueTotalUpToNow = blueScores.reduce((acc, score) => acc + score, 0) + blueScore;
 
-                tweetText += `${redCornerName}: ${redScore.toFixed(1)} (${redTotalUpToNow.toFixed(1)} total)\n`;
+                tweetText += `${redCornerName}: ${redScore.toFixed(1)} (${redTotalUpToNow.toFixed(1)} total)
+`;
                 tweetText += `${blueCornerName}: ${blueScore.toFixed(1)} (${blueTotalUpToNow.toFixed(1)} total)`;
 
                 const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
@@ -1155,20 +1153,21 @@
             function shareToTwitter() {
                 const eventName = eventNameInput.value.trim();
                 const winnerText = document.getElementById('winnerAnnouncement').textContent;
-                let tweetText = `My Scorecard for ${eventName}:\n`;
+                let tweetText = `My Scorecard for ${eventName}:
+`;
 
                 for (let i = 0; i < redScores.length; i++) {
-                    tweetText += `Round ${i + 1}: ${redCornerName} ${redScores[i].toFixed(1)} - ${blueScores[i].toFixed(1)} ${blueCornerName}\n`;
+                    tweetText += `Round ${i + 1}: ${redCornerName} ${redScores[i].toFixed(1)} - ${blueScores[i].toFixed(1)} ${blueCornerName}
+`;
+
+                for (let i = 0; i < redScores.length; i++) {
+                    tweetText += `Round ${i + 1}: ${redCornerName} ${redScores[i].toFixed(1)} - ${blueScores[i].toFixed(1)} ${blueCornerName}
+`;
                 }
 
-                tweetText += `Total: ${redCornerName} ${redTotalScore.toFixed(1)} - ${blueTotalScore.toFixed(1)} ${blueCornerName}\n`;
+                tweetText += `Total: ${redCornerName} ${redTotalScore.toFixed(1)} - ${blueTotalScore.toFixed(1)} ${blueCornerName}
+`;
                 tweetText += winnerText;
 
                 const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
-                window.open(url, '_blank');
-            }
-
-        })();
-    </script>
-</body>
-</html>
+                win

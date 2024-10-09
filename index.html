@@ -757,7 +757,7 @@
 
         <!-- Corners Section -->
         <div class="corners">
-            <input type="text" id="redCornerName" placeholder="e.g. Lawler">
+            <input type="text" id="redCornerName" placeholder="e.g., Lawler">
             <!-- Five Rounds toggle -->
             <div class="toggle-container">
                 <label for="championshipFightToggle">Five Rounds?</label>
@@ -766,7 +766,7 @@
                     <span class="slider"></span>
                 </label>
             </div>
-            <input type="text" id="blueCornerName" placeholder="e.g. MacDonadl">
+            <input type="text" id="blueCornerName" placeholder="e.g., MacDonald">
         </div>
         <span class="error-message" id="redCornerError"></span>
         <span class="error-message" id="blueCornerError"></span>
@@ -916,7 +916,7 @@
         </div>
 
         <button class="share-button" id="shareButton">Share Full Score To X (Formerly Known As Twitter)</button>
-        <div class="version-info">Version 2.0</div>
+        <div class="version-info">Version 2.01</div>
     </div>
 
     <!-- Explanation Section -->
@@ -1445,7 +1445,7 @@ Total: ${blueScoreDetails.total.toFixed(1)}
 
                 tweetText += `${redCornerName}: ${redScore.toFixed(1)} (${redTotalScore.toFixed(1)} total)\n`;
                 tweetText += `${blueCornerName}: ${blueScore.toFixed(1)} (${blueTotalScore.toFixed(1)} total)\n`;
-                tweetText += `Weighted Results by https://matlockfighttalk.com`;
+                tweetText += `Weighted Results by https://www.matlockfighttalk.com`;
 
                 const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
 
@@ -1467,7 +1467,7 @@ Total: ${blueScoreDetails.total.toFixed(1)}
                 }
 
                 tweetText += `Total: ${redCornerName} ${redTotalScore.toFixed(1)} - ${blueTotalScore.toFixed(1)} ${blueCornerName}\n`;
-                tweetText += `${winnerText}\nWeighted Results by https://matlockfighttalk.com`;
+                tweetText += `${winnerText}\nWeighted Results by https://www.matlockfighttalk.com`;
 
                 const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
 

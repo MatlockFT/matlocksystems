@@ -14,7 +14,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> 
 
     <!-- Font Awesome -->
-    <!-- Updated to include the latest version for the X icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Styles -->
@@ -193,14 +192,6 @@
             width: 100%;
             padding: 15px;
             font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .share-button i {
-            margin-right: 10px;
-            font-size: 24px;
         }
 
         .share-button:hover {
@@ -645,7 +636,7 @@
         <!-- Social Icons -->
         <div class="social-icons">
             <a href="https://www.youtube.com/@FightTalkMMA" target="_blank"><i class="fab fa-youtube"></i></a>
-            <a href="https://x.com/FightTalkYT" target="_blank"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://x.com/FightTalkYT" target="_blank"><i class="fab fa-twitter"></i></a>
             <a href="https://www.instagram.com/matlockfighttalk/" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
 
@@ -796,7 +787,7 @@
                 <button id="submitButton" class="submit-button" disabled>Submit Round Score</button>
             </div>
             <div class="buttons-container small-buttons-container">
-                <button id="shareRoundButton" class="small-button"><i class="fab fa-x-twitter"></i></button>
+                <button id="shareRoundButton" class="small-button"><i class="fab fa-twitter"></i></button>
                 <button id="resetButton" class="small-button"><i class="fas fa-redo-alt"></i></button>
             </div>
         </div>
@@ -811,7 +802,7 @@
             <span id="winnerAnnouncement"></span>
         </div>
 
-        <button class="share-button" id="shareButton"><i class="fab fa-x-twitter"></i> Share Full Score To X</button>
+        <button class="share-button" id="shareButton">Share Full Score To X (Formerly Known As Twitter)</button>
 
         <div class="version-info">V.1.14</div>
     </div>
@@ -996,7 +987,7 @@
                 redScores.push(redScore);
                 blueScores.push(blueScore);
 
-                const roundWinner = redScore > blueScore ? redCornerName : blueScore > redScore ? blueCornerName : redCornerName;
+                const roundWinner = redScore > blueScore ? redCornerName : blueScore > redScore ? blueCornerName : 'Draw';
 
                 appendRoundResult(currentRound, redScore, blueScore, roundWinner);
 
@@ -1074,7 +1065,11 @@
             function declareWinner() {
                 const winnerAnnouncement = document.getElementById('winnerAnnouncement');
 
-                if (redTotalScore >= blueTotalScore) {
+                const scoreDifference = Math.abs(redTotalScore - blueTotalScore);
+
+                if (scoreDifference <= 1) {
+                    winnerAnnouncement.textContent = "It's a Draw!";
+                } else if (redTotalScore > blueTotalScore) {
                     winnerAnnouncement.textContent = `Winner: ${redCornerName}`;
                 } else {
                     winnerAnnouncement.textContent = `Winner: ${blueCornerName}`;

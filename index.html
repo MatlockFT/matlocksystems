@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weighted Scoring - by Matlock Fight Talk</title>
-   
+    
     <!-- Favicon -->
     <link rel="icon" href="https://github.com/MatlockFT/matlocksystems/blob/main/favicon.png?raw=true" type="image/x-icon">
 
@@ -23,19 +23,6 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-        
-        /* Footer Styles */
-        .footer {
-            text-align: center;
-            padding: 15px;
-            font-size: 14px;
-            color: #888;
-            margin-top: 20px;
-        }
-
-        .footer p {
-            margin: 0;
         }
 
         /* Body Styles */
@@ -909,9 +896,12 @@
             <button id="submitAndShareButton" class="submit-button" disabled>Submit Round Score <i class="fab fa-twitter"></i></button>
         </div>
 
-        <!-- Tooltip Element -->
-        <div class="option-tooltip" id="optionTooltip"></div>
+        <!-- Reset Button -->
+        <button id="resetButton" class="reset-button"><i class="fas fa-redo-alt"></i> Reset Scorecard</button>
     </div>
+
+    <!-- Tooltip Element -->
+    <div class="option-tooltip" id="optionTooltip"></div>
 
     <!-- Results Section -->
     <div class="results-section">
@@ -925,24 +915,98 @@
             <span id="winnerAnnouncement"></span>
         </div>
 
-        <!-- Share and Reset Buttons -->
-        <button class="share-button" id="shareButton">Share Full Score Card To X</button>
-        <!-- Reset Button -->
-        <button id="resetButton" class="reset-button"><i class="fas fa-redo-alt"></i> Reset Scorecard</button>
-
+        <button class="share-button" id="shareButton">Share Full Score To X (Formerly Known As Twitter)</button>
         <div class="version-info">Version 2.01</div>
     </div>
 
     <!-- Explanation Section -->
     <div class="explanation" id="revised-scoring-system">
-        <!-- Your explanation content remains the same -->
-        <!-- ... -->
-    </div>
+        <h2>A Revised Scoring System</h2>
+        <h3>by Matlock Fight Talk</h3>
+        <p>The scoring system is based on three key criteria: <a href="#damage-section">Damage</a>, <a href="#control-section">Control</a>, and <a href="#defense-section">Defense</a>. Each criterion is scored from 0 to 3 points per round, with each criterion weighted differently to reflect its importance in determining the overall winner of a fight. The maximum score per round is 9 points, and the minimum is 0 points. Here’s a detailed breakdown of how to score an MMA fight using these criteria:</p>
 
-    <!-- Footer Section -->
-    <footer class="footer">
-        <p>&copy; <span id="currentYear"></span> Matlock Fight Talk. All rights reserved.</p>
-    </footer>
+        <h3 id="damage-section">1. Damage (0-3 Points) — Weight: 50%</h3>
+        <p><strong>Damage</strong> is the most critical criterion, reflecting the effectiveness and impact of strikes, submissions, and other fight-altering actions. It evaluates the degree to which a fighter causes harm or threatens their opponent with fight-ending potential.</p>
+        <strong>Sub-Criteria for Damage:</strong>
+        <ul>
+            <li><strong>Striking Impact:</strong>
+                <ul>
+                    <li>The severity of strikes landed, such as punches, kicks, elbows, or knees.</li>
+                    <li>Visible effects like cuts, swelling, or visibly stunning the opponent.</li>
+                    <li>Knockdowns or strikes that significantly alter the course of the fight.</li>
+                </ul>
+            </li>
+            <li><strong>Submission Threat:</strong>
+                <ul>
+                    <li>Submission attempts that are deep and require significant defense.</li>
+                    <li>Near-finishes or submission attempts that visibly threaten to end the fight.</li>
+                </ul>
+            </li>
+        </ul>
+        <strong>Scoring Damage:</strong>
+        <ul>
+            <li><strong>3 Points:</strong> Significant, fight-altering damage that visibly affects the opponent (e.g., knockdowns, cuts, or deep submission attempts that almost end the fight).</li>
+            <li><strong>2 Points:</strong> Clear visible damage, but not fight-altering (e.g., cumulative damage like swelling, noticeable reactions to strikes, or significant but unsuccessful submission attempts).</li>
+            <li><strong>1 Point:</strong> Minor damage that doesn’t significantly impact the opponent’s ability to fight (e.g., light strikes, unsuccessful submission attempts with minimal threat).</li>
+            <li><strong>0 Points:</strong> No effective damage inflicted.</li>
+        </ul>
+
+        <h3 id="control-section">2. Control (0-3 Points) — Weight: 30%</h3>
+        <p><strong>Control</strong> reflects a fighter’s ability to dictate the pace, position, and overall flow of the fight. It includes both positional dominance and effective aggression in dictating the terms of engagement.</p>
+        <strong>Sub-Criteria for Control:</strong>
+        <ul>
+            <li><strong>Positional Dominance:</strong>
+                <ul>
+                    <li>Securing and maintaining dominant positions such as top control, mount, back control, or side control.</li>
+                    <li>Preventing the opponent from effectively countering or escaping.</li>
+                </ul>
+            </li>
+            <li><strong>Effective Aggression and Octagon Control:</strong>
+                <ul>
+                    <li>Walking down the opponent and cutting off the cage effectively.</li>
+                    <li>Pressing the pace and controlling the distance, forcing the opponent into defensive or reactive positions.</li>
+                </ul>
+            </li>
+        </ul>
+        <strong>Scoring Control:</strong>
+        <ul>
+            <li><strong>3 Points:</strong> Complete control, maintaining dominant positions or pressuring effectively without any significant opposition or ability from the opponent to escape or counter.</li>
+            <li><strong>2 Points:</strong> Majority control, maintaining effective pressure or positional dominance with some resistance from the opponent.</li>
+            <li><strong>1 Point:</strong> Brief control, gaining advantageous positions or effective aggression but not sustaining it long enough to impact the round significantly.</li>
+            <li><strong>0 Points:</strong> No control exhibited, unable to dictate the position or pace of the fight.</li>
+        </ul>
+
+        <h3 id="defense-section">3. Defense (0-3 Points) — Weight: 20%</h3>
+        <p><strong>Defense</strong> evaluates a fighter’s ability to avoid damage and nullify their opponent’s offense, including striking defense, submission defense, and positional escapes.</p>
+        <strong>Sub-Criteria for Defense:</strong>
+        <ul>
+            <li><strong>Striking Defense:</strong>
+                <ul>
+                    <li>Effectively blocking, parrying, or evading strikes with minimal damage taken.</li>
+                    <li>Countering effectively to nullify the opponent’s offensive attempts.</li>
+                </ul>
+            </li>
+            <li><strong>Grappling Defense:</strong>
+                <ul>
+                    <li>Defending takedown attempts, reversing positions, or escaping from dangerous situations like back control or submissions.</li>
+                    <li>Successfully avoiding submission attempts and turning defense into offense (e.g., countering a submission with your own or escaping to a neutral/dominant position).</li>
+                </ul>
+            </li>
+        </ul>
+        <strong>Scoring Defense:</strong>
+        <ul>
+            <li><strong>3 Points:</strong> Completely nullifies the opponent’s offense with effective counters or escapes, avoiding significant damage or danger entirely.</li>
+            <li><strong>2 Points:</strong> Defends effectively, minimizing damage and avoiding dangerous positions but not completely neutralizing the opponent’s offense.</li>
+            <li><strong>1 Point:</strong> Defends but takes some damage or loses control positions; able to avoid significant threat but still on the defensive.</li>
+            <li><strong>0 Points:</strong> Ineffective defense, unable to avoid damage, getting caught in submissions or dangerous positions frequently.</li>
+        </ul>
+
+        <h3>4. Total Round Score Calculation</h3>
+        <p>The round score is the sum of the points from each criterion, with the weighted formula applied to emphasize the importance of each criterion:</p>
+        <p><strong>Total Round Score = (Damage × 0.5) + (Control × 0.3) + (Defense × 0.2)</strong></p>
+        <p>Maximum Score per Round: 9 points (3 for each category).</p>
+        <p>Minimum Score per Round: 0 points.</p>
+    </div>
 
     <!-- Scripts -->
     <script>
@@ -955,9 +1019,6 @@
             if (isMobileDevice()) {
                 document.body.classList.add('mobile');
             }
-
-            // Set the current year in the footer
-            document.getElementById('currentYear').textContent = new Date().getFullYear();
 
             // Variables
             let currentRound = 1;

@@ -147,7 +147,7 @@
         }
 
         /* Input, Button, and Select Styles */
-        input, button, select {
+        input, button {
             width: 100%;
             padding: 12px 15px;
             font-size: 16px;
@@ -159,7 +159,7 @@
             transition: all 0.3s ease;
         }
 
-        input:not(:last-child), select:not(:last-child) {
+        input:not(:last-child) {
             margin-bottom: 15px;
         }
 
@@ -169,7 +169,7 @@
         }
 
         /* Focus Styles */
-        input:focus, select:focus {
+        input:focus {
             border-color: #e64823;
             box-shadow: 0 0 5px rgba(230, 72, 35, 0.5);
         }
@@ -482,20 +482,90 @@
         .criterion-dropdowns .select-blue {
             width: 45%;
             position: relative;
+            cursor: pointer;
+            user-select: none;
         }
 
-        /* Option Tooltip */
-        .option-tooltip {
+        .select-red .selected-option,
+        .select-blue .selected-option {
+            background-color: #1a1a1a;
+            padding: 12px 15px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            color: #f0f0f0;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .select-red .selected-option::after,
+        .select-blue .selected-option::after {
+            content: '\f078';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
             position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .select-red .options,
+        .select-blue .options {
+            display: none;
+            position: absolute;
+            background-color: #1a1a1a;
+            border: 1px solid #444;
+            border-radius: 5px;
+            margin-top: 5px;
+            width: 100%;
+            z-index: 10;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .select-red.open .options,
+        .select-blue.open .options {
+            display: block;
+        }
+
+        .select-red .option,
+        .select-blue .option {
+            padding: 12px 15px;
+            color: #f0f0f0;
+            font-size: 16px;
+            position: relative;
+        }
+
+        .select-red .option:hover,
+        .select-blue .option:hover {
+            background-color: #333;
+        }
+
+        .select-red .option .tooltip,
+        .select-blue .option .tooltip {
+            visibility: hidden;
             background-color: #333;
             color: #fff;
+            text-align: left;
             padding: 10px;
             border-radius: 5px;
+            position: absolute;
+            z-index: 11;
+            width: 250px;
+            top: 50%;
+            left: 105%;
+            transform: translateY(-50%);
             font-size: 14px;
             line-height: 1.4;
-            z-index: 100;
-            display: none;
-            width: 250px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .select-red .option:hover .tooltip,
+        .select-blue .option:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
         }
 
         /* Buttons Container */
@@ -747,25 +817,41 @@
                 <span class="tooltip">Assesses harm inflicted through strikes, submissions, and fight-altering actions.</span>
             </h4>
             <div class="criterion-dropdowns">
-                <div class="select-red">
-                    <select id="damageRed">
-                        <option value="">Select Damage</option>
-                        <option value="0">0 - No effective damage</option>
-                        <option value="1" data-tooltip="Minor damage that doesn’t significantly impact the opponent’s ability to fight (e.g., light strikes, unsuccessful submission attempts with minimal threat).">1 - Minor damage</option>
-                        <option value="2" data-tooltip="Clear visible damage, but not fight-altering (e.g., cumulative damage like swelling, noticeable reactions to strikes, or significant but unsuccessful submission attempts).">2 - Visible damage</option>
-                        <option value="3" data-tooltip="Significant, fight-altering damage that visibly affects the opponent (e.g., knockdowns, cuts, or deep submission attempts that almost end the fight).">3 - Significant damage</option>
-                    </select>
-                    <div class="option-tooltip" id="damageRedTooltip"></div>
+                <div class="select-red custom-select" id="damageRedSelect">
+                    <div class="selected-option">Select Damage</div>
+                    <div class="options">
+                        <div class="option" data-value="0">0 - No effective damage</div>
+                        <div class="option" data-value="1">
+                            1 - Minor damage
+                            <span class="tooltip">Minor damage that doesn’t significantly impact the opponent’s ability to fight (e.g., light strikes, unsuccessful submission attempts with minimal threat).</span>
+                        </div>
+                        <div class="option" data-value="2">
+                            2 - Visible damage
+                            <span class="tooltip">Clear visible damage, but not fight-altering (e.g., cumulative damage like swelling, noticeable reactions to strikes, or significant but unsuccessful submission attempts).</span>
+                        </div>
+                        <div class="option" data-value="3">
+                            3 - Significant damage
+                            <span class="tooltip">Significant, fight-altering damage that visibly affects the opponent (e.g., knockdowns, cuts, or deep submission attempts that almost end the fight).</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="select-blue">
-                    <select id="damageBlue">
-                        <option value="">Select Damage</option>
-                        <option value="0">0 - No effective damage</option>
-                        <option value="1" data-tooltip="Minor damage that doesn’t significantly impact the opponent’s ability to fight (e.g., light strikes, unsuccessful submission attempts with minimal threat).">1 - Minor damage</option>
-                        <option value="2" data-tooltip="Clear visible damage, but not fight-altering (e.g., cumulative damage like swelling, noticeable reactions to strikes, or significant but unsuccessful submission attempts).">2 - Visible damage</option>
-                        <option value="3" data-tooltip="Significant, fight-altering damage that visibly affects the opponent (e.g., knockdowns, cuts, or deep submission attempts that almost end the fight).">3 - Significant damage</option>
-                    </select>
-                    <div class="option-tooltip" id="damageBlueTooltip"></div>
+                <div class="select-blue custom-select" id="damageBlueSelect">
+                    <div class="selected-option">Select Damage</div>
+                    <div class="options">
+                        <div class="option" data-value="0">0 - No effective damage</div>
+                        <div class="option" data-value="1">
+                            1 - Minor damage
+                            <span class="tooltip">Minor damage that doesn’t significantly impact the opponent’s ability to fight (e.g., light strikes, unsuccessful submission attempts with minimal threat).</span>
+                        </div>
+                        <div class="option" data-value="2">
+                            2 - Visible damage
+                            <span class="tooltip">Clear visible damage, but not fight-altering (e.g., cumulative damage like swelling, noticeable reactions to strikes, or significant but unsuccessful submission attempts).</span>
+                        </div>
+                        <div class="option" data-value="3">
+                            3 - Significant damage
+                            <span class="tooltip">Significant, fight-altering damage that visibly affects the opponent (e.g., knockdowns, cuts, or deep submission attempts that almost end the fight).</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -777,25 +863,41 @@
                 <span class="tooltip">Evaluates the ability to dictate the fight's pace, position, and overall flow.</span>
             </h4>
             <div class="criterion-dropdowns">
-                <div class="select-red">
-                    <select id="controlRed">
-                        <option value="">Select Control</option>
-                        <option value="0">0 - No control</option>
-                        <option value="1" data-tooltip="Brief control, gaining advantageous positions or effective aggression but not sustaining it long enough to impact the round significantly.">1 - Brief control</option>
-                        <option value="2" data-tooltip="Majority control, maintaining effective pressure or positional dominance with some resistance from the opponent.">2 - Majority control</option>
-                        <option value="3" data-tooltip="Complete control, maintaining dominant positions or pressuring effectively without any significant opposition or ability from the opponent to escape or counter.">3 - Complete control</option>
-                    </select>
-                    <div class="option-tooltip" id="controlRedTooltip"></div>
+                <div class="select-red custom-select" id="controlRedSelect">
+                    <div class="selected-option">Select Control</div>
+                    <div class="options">
+                        <div class="option" data-value="0">0 - No control</div>
+                        <div class="option" data-value="1">
+                            1 - Brief control
+                            <span class="tooltip">Brief control, gaining advantageous positions or effective aggression but not sustaining it long enough to impact the round significantly.</span>
+                        </div>
+                        <div class="option" data-value="2">
+                            2 - Majority control
+                            <span class="tooltip">Majority control, maintaining effective pressure or positional dominance with some resistance from the opponent.</span>
+                        </div>
+                        <div class="option" data-value="3">
+                            3 - Complete control
+                            <span class="tooltip">Complete control, maintaining dominant positions or pressuring effectively without any significant opposition or ability from the opponent to escape or counter.</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="select-blue">
-                    <select id="controlBlue">
-                        <option value="">Select Control</option>
-                        <option value="0">0 - No control</option>
-                        <option value="1" data-tooltip="Brief control, gaining advantageous positions or effective aggression but not sustaining it long enough to impact the round significantly.">1 - Brief control</option>
-                        <option value="2" data-tooltip="Majority control, maintaining effective pressure or positional dominance with some resistance from the opponent.">2 - Majority control</option>
-                        <option value="3" data-tooltip="Complete control, maintaining dominant positions or pressuring effectively without any significant opposition or ability from the opponent to escape or counter.">3 - Complete control</option>
-                    </select>
-                    <div class="option-tooltip" id="controlBlueTooltip"></div>
+                <div class="select-blue custom-select" id="controlBlueSelect">
+                    <div class="selected-option">Select Control</div>
+                    <div class="options">
+                        <div class="option" data-value="0">0 - No control</div>
+                        <div class="option" data-value="1">
+                            1 - Brief control
+                            <span class="tooltip">Brief control, gaining advantageous positions or effective aggression but not sustaining it long enough to impact the round significantly.</span>
+                        </div>
+                        <div class="option" data-value="2">
+                            2 - Majority control
+                            <span class="tooltip">Majority control, maintaining effective pressure or positional dominance with some resistance from the opponent.</span>
+                        </div>
+                        <div class="option" data-value="3">
+                            3 - Complete control
+                            <span class="tooltip">Complete control, maintaining dominant positions or pressuring effectively without any significant opposition or ability from the opponent to escape or counter.</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -807,25 +909,41 @@
                 <span class="tooltip">Measures the ability to avoid damage and neutralize the opponent's offense.</span>
             </h4>
             <div class="criterion-dropdowns">
-                <div class="select-red">
-                    <select id="defenseRed">
-                        <option value="">Select Defense</option>
-                        <option value="0">0 - Ineffective defense</option>
-                        <option value="1" data-tooltip="Defends but takes some damage or loses control positions; able to avoid significant threat but still on the defensive.">1 - Minimal defense</option>
-                        <option value="2" data-tooltip="Defends effectively, minimizing damage and avoiding dangerous positions but not completely neutralizing the opponent’s offense.">2 - Effective defense</option>
-                        <option value="3" data-tooltip="Completely nullifies the opponent’s offense with effective counters or escapes, avoiding significant damage or danger entirely.">3 - Excellent defense</option>
-                    </select>
-                    <div class="option-tooltip" id="defenseRedTooltip"></div>
+                <div class="select-red custom-select" id="defenseRedSelect">
+                    <div class="selected-option">Select Defense</div>
+                    <div class="options">
+                        <div class="option" data-value="0">0 - Ineffective defense</div>
+                        <div class="option" data-value="1">
+                            1 - Minimal defense
+                            <span class="tooltip">Defends but takes some damage or loses control positions; able to avoid significant threat but still on the defensive.</span>
+                        </div>
+                        <div class="option" data-value="2">
+                            2 - Effective defense
+                            <span class="tooltip">Defends effectively, minimizing damage and avoiding dangerous positions but not completely neutralizing the opponent’s offense.</span>
+                        </div>
+                        <div class="option" data-value="3">
+                            3 - Excellent defense
+                            <span class="tooltip">Completely nullifies the opponent’s offense with effective counters or escapes, avoiding significant damage or danger entirely.</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="select-blue">
-                    <select id="defenseBlue">
-                        <option value="">Select Defense</option>
-                        <option value="0">0 - Ineffective defense</option>
-                        <option value="1" data-tooltip="Defends but takes some damage or loses control positions; able to avoid significant threat but still on the defensive.">1 - Minimal defense</option>
-                        <option value="2" data-tooltip="Defends effectively, minimizing damage and avoiding dangerous positions but not completely neutralizing the opponent’s offense.">2 - Effective defense</option>
-                        <option value="3" data-tooltip="Completely nullifies the opponent’s offense with effective counters or escapes, avoiding significant damage or danger entirely.">3 - Excellent defense</option>
-                    </select>
-                    <div class="option-tooltip" id="defenseBlueTooltip"></div>
+                <div class="select-blue custom-select" id="defenseBlueSelect">
+                    <div class="selected-option">Select Defense</div>
+                    <div class="options">
+                        <div class="option" data-value="0">0 - Ineffective defense</div>
+                        <div class="option" data-value="1">
+                            1 - Minimal defense
+                            <span class="tooltip">Defends but takes some damage or loses control positions; able to avoid significant threat but still on the defensive.</span>
+                        </div>
+                        <div class="option" data-value="2">
+                            2 - Effective defense
+                            <span class="tooltip">Defends effectively, minimizing damage and avoiding dangerous positions but not completely neutralizing the opponent’s offense.</span>
+                        </div>
+                        <div class="option" data-value="3">
+                            3 - Excellent defense
+                            <span class="tooltip">Completely nullifies the opponent’s offense with effective counters or escapes, avoiding significant damage or danger entirely.</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -834,19 +952,21 @@
         <div class="criterion-group">
             <h4 class="criterion-title">Point Deduction</h4>
             <div class="criterion-dropdowns">
-                <div class="select-red">
-                    <select id="deductionRed">
-                        <option value="0">0</option>
-                        <option value="-1">-1</option>
-                        <option value="-2">-2</option>
-                    </select>
+                <div class="select-red custom-select" id="deductionRedSelect">
+                    <div class="selected-option">0</div>
+                    <div class="options">
+                        <div class="option" data-value="0">0</div>
+                        <div class="option" data-value="-1">-1</div>
+                        <div class="option" data-value="-2">-2</div>
+                    </div>
                 </div>
-                <div class="select-blue">
-                    <select id="deductionBlue">
-                        <option value="0">0</option>
-                        <option value="-1">-1</option>
-                        <option value="-2">-2</option>
-                    </select>
+                <div class="select-blue custom-select" id="deductionBlueSelect">
+                    <div class="selected-option">0</div>
+                    <div class="options">
+                        <div class="option" data-value="0">0</div>
+                        <div class="option" data-value="-1">-1</div>
+                        <div class="option" data-value="-2">-2</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1028,18 +1148,42 @@
             resetButton.addEventListener('click', resetScorecard);
             shareButton.addEventListener('click', shareToTwitter);
 
-            // Select Elements for Criteria
-            const damageSelects = document.querySelectorAll('#damageRed, #damageBlue');
-            const controlSelects = document.querySelectorAll('#controlRed, #controlBlue');
-            const defenseSelects = document.querySelectorAll('#defenseRed, #defenseBlue');
-            const mainCriteriaSelects = [...damageSelects, ...controlSelects, ...defenseSelects];
+            // Custom Select Elements for Criteria
+            const customSelects = document.querySelectorAll('.custom-select');
+            customSelects.forEach(select => {
+                const selectedOption = select.querySelector('.selected-option');
+                const optionsContainer = select.querySelector('.options');
+                const optionsList = select.querySelectorAll('.option');
 
-            // Point Deduction Selects
-            const pointDeductionSelects = document.querySelectorAll('#deductionRed, #deductionBlue');
+                selectedOption.addEventListener('click', () => {
+                    closeAllSelects(select);
+                    select.classList.toggle('open');
+                });
 
-            // Add Event Listeners to Main Criteria Selects
-            mainCriteriaSelects.forEach(select => {
-                select.addEventListener('change', checkRoundInputs);
+                optionsList.forEach(option => {
+                    option.addEventListener('click', () => {
+                        const value = option.getAttribute('data-value');
+                        const text = option.childNodes[0].textContent.trim();
+                        selectedOption.textContent = text;
+                        selectedOption.setAttribute('data-value', value);
+                        select.classList.remove('open');
+                        checkRoundInputs();
+                    });
+                });
+            });
+
+            function closeAllSelects(currentSelect) {
+                customSelects.forEach(select => {
+                    if (select !== currentSelect) {
+                        select.classList.remove('open');
+                    }
+                });
+            }
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.custom-select')) {
+                    closeAllSelects();
+                }
             });
 
             function checkInputs() {
@@ -1065,7 +1209,14 @@
             }
 
             function checkRoundInputs() {
-                const allMainCriteriaFilled = mainCriteriaSelects.every(select => select.value !== '');
+                const damageRedValue = document.querySelector('#damageRedSelect .selected-option').getAttribute('data-value');
+                const damageBlueValue = document.querySelector('#damageBlueSelect .selected-option').getAttribute('data-value');
+                const controlRedValue = document.querySelector('#controlRedSelect .selected-option').getAttribute('data-value');
+                const controlBlueValue = document.querySelector('#controlBlueSelect .selected-option').getAttribute('data-value');
+                const defenseRedValue = document.querySelector('#defenseRedSelect .selected-option').getAttribute('data-value');
+                const defenseBlueValue = document.querySelector('#defenseBlueSelect .selected-option').getAttribute('data-value');
+
+                const allMainCriteriaFilled = damageRedValue && damageBlueValue && controlRedValue && controlBlueValue && defenseRedValue && defenseBlueValue;
                 submitAndShareButton.disabled = !allMainCriteriaFilled;
             }
 
@@ -1212,10 +1363,10 @@ Total: ${blueScoreDetails.total.toFixed(1)}
             }
 
             function calculateScoreDetails(color) {
-                const damageValue = parseInt(document.getElementById(`damage${color}`).value) || 0;
-                const controlValue = parseInt(document.getElementById(`control${color}`).value) || 0;
-                const defenseValue = parseInt(document.getElementById(`defense${color}`).value) || 0;
-                const deductionValue = parseInt(document.getElementById(`deduction${color}`).value) || 0;
+                const damageValue = parseInt(document.querySelector(`#damage${color}Select .selected-option`).getAttribute('data-value')) || 0;
+                const controlValue = parseInt(document.querySelector(`#control${color}Select .selected-option`).getAttribute('data-value')) || 0;
+                const defenseValue = parseInt(document.querySelector(`#defense${color}Select .selected-option`).getAttribute('data-value')) || 0;
+                const deductionValue = parseInt(document.querySelector(`#deduction${color}Select .selected-option`).getAttribute('data-value')) || 0;
 
                 const damage = damageValue * 0.5;
                 const control = controlValue * 0.3;
@@ -1239,11 +1390,11 @@ Total: ${blueScoreDetails.total.toFixed(1)}
             }
 
             function resetRoundInputs() {
-                mainCriteriaSelects.forEach(select => {
-                    select.value = '';
-                });
-                pointDeductionSelects.forEach(select => {
-                    select.value = '0'; // Reset to default '0'
+                customSelects.forEach(select => {
+                    const selectedOption = select.querySelector('.selected-option');
+                    const defaultText = select.id.includes('deduction') ? '0' : 'Select ' + select.id.replace(/(RedSelect|BlueSelect)/, '');
+                    selectedOption.textContent = defaultText;
+                    selectedOption.removeAttribute('data-value');
                 });
             }
 
@@ -1276,12 +1427,11 @@ Total: ${blueScoreDetails.total.toFixed(1)}
                     input.classList.remove('locked-field');
                 });
 
-                mainCriteriaSelects.forEach(select => {
-                    select.value = '';
-                });
-
-                pointDeductionSelects.forEach(select => {
-                    select.value = '0';
+                customSelects.forEach(select => {
+                    const selectedOption = select.querySelector('.selected-option');
+                    const defaultText = select.id.includes('deduction') ? '0' : 'Select ' + select.id.replace(/(RedSelect|BlueSelect)/, '');
+                    selectedOption.textContent = defaultText;
+                    selectedOption.removeAttribute('data-value');
                 });
 
                 championshipToggle.disabled = false;
@@ -1360,45 +1510,6 @@ Total: ${blueScoreDetails.total.toFixed(1)}
                 const top = (screen.height - height) / 2;
                 window.open(url, 'twitter', `width=${width},height=${height},left=${left},top=${top}`);
             }
-
-            // Tooltip functionality for select options
-            function addOptionTooltips(selectElement, tooltipElement) {
-                selectElement.addEventListener('mouseover', function(event) {
-                    const option = event.target;
-                    if (option.tagName === 'OPTION' && option.dataset.tooltip) {
-                        tooltipElement.textContent = option.dataset.tooltip;
-                        tooltipElement.style.display = 'block';
-                        const rect = selectElement.getBoundingClientRect();
-                        tooltipElement.style.top = rect.top + window.scrollY - tooltipElement.offsetHeight - 5 + 'px';
-                        tooltipElement.style.left = rect.left + window.scrollX + 'px';
-                    }
-                });
-
-                selectElement.addEventListener('mousemove', function(event) {
-                    const option = document.elementFromPoint(event.clientX, event.clientY);
-                    if (option && option.tagName === 'OPTION' && option.dataset.tooltip) {
-                        tooltipElement.textContent = option.dataset.tooltip;
-                        tooltipElement.style.display = 'block';
-                        const rect = selectElement.getBoundingClientRect();
-                        tooltipElement.style.top = rect.top + window.scrollY - tooltipElement.offsetHeight - 5 + 'px';
-                        tooltipElement.style.left = rect.left + window.scrollX + 'px';
-                    } else {
-                        tooltipElement.style.display = 'none';
-                    }
-                });
-
-                selectElement.addEventListener('mouseout', function() {
-                    tooltipElement.style.display = 'none';
-                });
-            }
-
-            // Apply tooltips to select elements
-            addOptionTooltips(document.getElementById('damageRed'), document.getElementById('damageRedTooltip'));
-            addOptionTooltips(document.getElementById('damageBlue'), document.getElementById('damageBlueTooltip'));
-            addOptionTooltips(document.getElementById('controlRed'), document.getElementById('controlRedTooltip'));
-            addOptionTooltips(document.getElementById('controlBlue'), document.getElementById('controlBlueTooltip'));
-            addOptionTooltips(document.getElementById('defenseRed'), document.getElementById('defenseRedTooltip'));
-            addOptionTooltips(document.getElementById('defenseBlue'), document.getElementById('defenseBlueTooltip'));
 
         })();
     </script>

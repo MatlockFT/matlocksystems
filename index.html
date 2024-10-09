@@ -542,41 +542,6 @@
             background-color: #333;
         }
 
-        /* Tooltip for Options */
-        .select-red .option .tooltip,
-        .select-blue .option .tooltip {
-            visibility: hidden;
-            background-color: #333;
-            color: #fff;
-            text-align: left;
-            padding: 10px;
-            border-radius: 5px;
-            position: absolute;
-            z-index: 1000; /* Increased z-index */
-            width: 250px;
-            top: 50%;
-            left: calc(100% + 10px); /* Adjusted positioning */
-            transform: translateY(-50%);
-            font-size: 14px;
-            line-height: 1.4;
-            opacity: 0;
-            transition: opacity 0.3s, visibility 0s linear 0.3s;
-            pointer-events: none; /* Prevents tooltip from interfering with mouse events */
-        }
-
-        .select-red .option:hover .tooltip,
-        .select-blue .option:hover .tooltip {
-            visibility: visible;
-            opacity: 1;
-            transition-delay: 0s;
-        }
-
-        /* Ensure options are positioned relative for tooltips to position correctly */
-        .select-red .option,
-        .select-blue .option {
-            position: relative;
-        }
-
         /* Buttons Container */
         .buttons-container {
             width: 100%;
@@ -648,6 +613,21 @@
             font-size: 12px;
             color: #888;
             text-align: center;
+        }
+
+        /* Tooltip Element */
+        .option-tooltip {
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            line-height: 1.4;
+            z-index: 1000;
+            display: none;
+            width: 250px;
+            pointer-events: none;
         }
 
         /* Explanation Section */
@@ -745,31 +725,6 @@
             margin-bottom: 10px;
         }
 
-        /* Tooltip Position Adjustment for Mobile */
-        @media (max-width: 600px) {
-            .select-red .option .tooltip,
-            .select-blue .option .tooltip {
-                left: 50%;
-                top: 100%;
-                transform: translate(-50%, 10px);
-                width: 90%;
-            }
-
-            .criterion-title .tooltip {
-                width: 90%;
-                top: 40px;
-            }
-
-            /* Adjust menu for mobile */
-            .menu {
-                right: 10px;
-            }
-
-            .dropdown {
-                width: 120px;
-            }
-        }
-
     </style>
 </head>
 <body>
@@ -839,37 +794,19 @@
                 <div class="select-red custom-select" id="damageRedSelect">
                     <div class="selected-option">Select Damage</div>
                     <div class="options">
-                        <div class="option" data-value="0">0 - No effective damage</div>
-                        <div class="option" data-value="1">
-                            1 - Minor damage
-                            <span class="tooltip">Minor damage that doesn’t significantly impact the opponent’s ability to fight (e.g., light strikes, unsuccessful submission attempts with minimal threat).</span>
-                        </div>
-                        <div class="option" data-value="2">
-                            2 - Visible damage
-                            <span class="tooltip">Clear visible damage, but not fight-altering (e.g., cumulative damage like swelling, noticeable reactions to strikes, or significant but unsuccessful submission attempts).</span>
-                        </div>
-                        <div class="option" data-value="3">
-                            3 - Significant damage
-                            <span class="tooltip">Significant, fight-altering damage that visibly affects the opponent (e.g., knockdowns, cuts, or deep submission attempts that almost end the fight).</span>
-                        </div>
+                        <div class="option" data-value="0" data-tooltip="No effective damage inflicted.">0 - No effective damage</div>
+                        <div class="option" data-value="1" data-tooltip="Minor damage that doesn’t significantly impact the opponent’s ability to fight (e.g., light strikes, unsuccessful submission attempts with minimal threat).">1 - Minor damage</div>
+                        <div class="option" data-value="2" data-tooltip="Clear visible damage, but not fight-altering (e.g., cumulative damage like swelling, noticeable reactions to strikes, or significant but unsuccessful submission attempts).">2 - Visible damage</div>
+                        <div class="option" data-value="3" data-tooltip="Significant, fight-altering damage that visibly affects the opponent (e.g., knockdowns, cuts, or deep submission attempts that almost end the fight).">3 - Significant damage</div>
                     </div>
                 </div>
                 <div class="select-blue custom-select" id="damageBlueSelect">
                     <div class="selected-option">Select Damage</div>
                     <div class="options">
-                        <div class="option" data-value="0">0 - No effective damage</div>
-                        <div class="option" data-value="1">
-                            1 - Minor damage
-                            <span class="tooltip">Minor damage that doesn’t significantly impact the opponent’s ability to fight (e.g., light strikes, unsuccessful submission attempts with minimal threat).</span>
-                        </div>
-                        <div class="option" data-value="2">
-                            2 - Visible damage
-                            <span class="tooltip">Clear visible damage, but not fight-altering (e.g., cumulative damage like swelling, noticeable reactions to strikes, or significant but unsuccessful submission attempts).</span>
-                        </div>
-                        <div class="option" data-value="3">
-                            3 - Significant damage
-                            <span class="tooltip">Significant, fight-altering damage that visibly affects the opponent (e.g., knockdowns, cuts, or deep submission attempts that almost end the fight).</span>
-                        </div>
+                        <div class="option" data-value="0" data-tooltip="No effective damage inflicted.">0 - No effective damage</div>
+                        <div class="option" data-value="1" data-tooltip="Minor damage that doesn’t significantly impact the opponent’s ability to fight (e.g., light strikes, unsuccessful submission attempts with minimal threat).">1 - Minor damage</div>
+                        <div class="option" data-value="2" data-tooltip="Clear visible damage, but not fight-altering (e.g., cumulative damage like swelling, noticeable reactions to strikes, or significant but unsuccessful submission attempts).">2 - Visible damage</div>
+                        <div class="option" data-value="3" data-tooltip="Significant, fight-altering damage that visibly affects the opponent (e.g., knockdowns, cuts, or deep submission attempts that almost end the fight).">3 - Significant damage</div>
                     </div>
                 </div>
             </div>
@@ -885,37 +822,19 @@
                 <div class="select-red custom-select" id="controlRedSelect">
                     <div class="selected-option">Select Control</div>
                     <div class="options">
-                        <div class="option" data-value="0">0 - No control</div>
-                        <div class="option" data-value="1">
-                            1 - Brief control
-                            <span class="tooltip">Brief control, gaining advantageous positions or effective aggression but not sustaining it long enough to impact the round significantly.</span>
-                        </div>
-                        <div class="option" data-value="2">
-                            2 - Majority control
-                            <span class="tooltip">Majority control, maintaining effective pressure or positional dominance with some resistance from the opponent.</span>
-                        </div>
-                        <div class="option" data-value="3">
-                            3 - Complete control
-                            <span class="tooltip">Complete control, maintaining dominant positions or pressuring effectively without any significant opposition or ability from the opponent to escape or counter.</span>
-                        </div>
+                        <div class="option" data-value="0" data-tooltip="No control exhibited, unable to dictate the position or pace of the fight.">0 - No control</div>
+                        <div class="option" data-value="1" data-tooltip="Brief control, gaining advantageous positions or effective aggression but not sustaining it long enough to impact the round significantly.">1 - Brief control</div>
+                        <div class="option" data-value="2" data-tooltip="Majority control, maintaining effective pressure or positional dominance with some resistance from the opponent.">2 - Majority control</div>
+                        <div class="option" data-value="3" data-tooltip="Complete control, maintaining dominant positions or pressuring effectively without any significant opposition or ability from the opponent to escape or counter.">3 - Complete control</div>
                     </div>
                 </div>
                 <div class="select-blue custom-select" id="controlBlueSelect">
                     <div class="selected-option">Select Control</div>
                     <div class="options">
-                        <div class="option" data-value="0">0 - No control</div>
-                        <div class="option" data-value="1">
-                            1 - Brief control
-                            <span class="tooltip">Brief control, gaining advantageous positions or effective aggression but not sustaining it long enough to impact the round significantly.</span>
-                        </div>
-                        <div class="option" data-value="2">
-                            2 - Majority control
-                            <span class="tooltip">Majority control, maintaining effective pressure or positional dominance with some resistance from the opponent.</span>
-                        </div>
-                        <div class="option" data-value="3">
-                            3 - Complete control
-                            <span class="tooltip">Complete control, maintaining dominant positions or pressuring effectively without any significant opposition or ability from the opponent to escape or counter.</span>
-                        </div>
+                        <div class="option" data-value="0" data-tooltip="No control exhibited, unable to dictate the position or pace of the fight.">0 - No control</div>
+                        <div class="option" data-value="1" data-tooltip="Brief control, gaining advantageous positions or effective aggression but not sustaining it long enough to impact the round significantly.">1 - Brief control</div>
+                        <div class="option" data-value="2" data-tooltip="Majority control, maintaining effective pressure or positional dominance with some resistance from the opponent.">2 - Majority control</div>
+                        <div class="option" data-value="3" data-tooltip="Complete control, maintaining dominant positions or pressuring effectively without any significant opposition or ability from the opponent to escape or counter.">3 - Complete control</div>
                     </div>
                 </div>
             </div>
@@ -931,37 +850,19 @@
                 <div class="select-red custom-select" id="defenseRedSelect">
                     <div class="selected-option">Select Defense</div>
                     <div class="options">
-                        <div class="option" data-value="0">0 - Ineffective defense</div>
-                        <div class="option" data-value="1">
-                            1 - Minimal defense
-                            <span class="tooltip">Defends but takes some damage or loses control positions; able to avoid significant threat but still on the defensive.</span>
-                        </div>
-                        <div class="option" data-value="2">
-                            2 - Effective defense
-                            <span class="tooltip">Defends effectively, minimizing damage and avoiding dangerous positions but not completely neutralizing the opponent’s offense.</span>
-                        </div>
-                        <div class="option" data-value="3">
-                            3 - Excellent defense
-                            <span class="tooltip">Completely nullifies the opponent’s offense with effective counters or escapes, avoiding significant damage or danger entirely.</span>
-                        </div>
+                        <div class="option" data-value="0" data-tooltip="Ineffective defense, unable to avoid damage, getting caught in submissions or dangerous positions frequently.">0 - Ineffective defense</div>
+                        <div class="option" data-value="1" data-tooltip="Defends but takes some damage or loses control positions; able to avoid significant threat but still on the defensive.">1 - Minimal defense</div>
+                        <div class="option" data-value="2" data-tooltip="Defends effectively, minimizing damage and avoiding dangerous positions but not completely neutralizing the opponent’s offense.">2 - Effective defense</div>
+                        <div class="option" data-value="3" data-tooltip="Completely nullifies the opponent’s offense with effective counters or escapes, avoiding significant damage or danger entirely.">3 - Excellent defense</div>
                     </div>
                 </div>
                 <div class="select-blue custom-select" id="defenseBlueSelect">
                     <div class="selected-option">Select Defense</div>
                     <div class="options">
-                        <div class="option" data-value="0">0 - Ineffective defense</div>
-                        <div class="option" data-value="1">
-                            1 - Minimal defense
-                            <span class="tooltip">Defends but takes some damage or loses control positions; able to avoid significant threat but still on the defensive.</span>
-                        </div>
-                        <div class="option" data-value="2">
-                            2 - Effective defense
-                            <span class="tooltip">Defends effectively, minimizing damage and avoiding dangerous positions but not completely neutralizing the opponent’s offense.</span>
-                        </div>
-                        <div class="option" data-value="3">
-                            3 - Excellent defense
-                            <span class="tooltip">Completely nullifies the opponent’s offense with effective counters or escapes, avoiding significant damage or danger entirely.</span>
-                        </div>
+                        <div class="option" data-value="0" data-tooltip="Ineffective defense, unable to avoid damage, getting caught in submissions or dangerous positions frequently.">0 - Ineffective defense</div>
+                        <div class="option" data-value="1" data-tooltip="Defends but takes some damage or loses control positions; able to avoid significant threat but still on the defensive.">1 - Minimal defense</div>
+                        <div class="option" data-value="2" data-tooltip="Defends effectively, minimizing damage and avoiding dangerous positions but not completely neutralizing the opponent’s offense.">2 - Effective defense</div>
+                        <div class="option" data-value="3" data-tooltip="Completely nullifies the opponent’s offense with effective counters or escapes, avoiding significant damage or danger entirely.">3 - Excellent defense</div>
                     </div>
                 </div>
             </div>
@@ -998,6 +899,9 @@
         <!-- Reset Button -->
         <button id="resetButton" class="reset-button"><i class="fas fa-redo-alt"></i> Reset Scorecard</button>
     </div>
+
+    <!-- Tooltip Element -->
+    <div class="option-tooltip" id="optionTooltip"></div>
 
     <!-- Results Section -->
     <div class="results-section">
@@ -1188,8 +1092,52 @@
                         select.classList.remove('open');
                         checkRoundInputs();
                     });
+
+                    // Tooltip handling
+                    option.addEventListener('mouseenter', (e) => {
+                        showTooltip(e, option);
+                    });
+
+                    option.addEventListener('mousemove', (e) => {
+                        moveTooltip(e);
+                    });
+
+                    option.addEventListener('mouseleave', hideTooltip);
                 });
             });
+
+            // Tooltip Element
+            const tooltip = document.getElementById('optionTooltip');
+
+            function showTooltip(event, option) {
+                const tooltipText = option.getAttribute('data-tooltip');
+                if (tooltipText) {
+                    tooltip.textContent = tooltipText;
+                    tooltip.style.display = 'block';
+                    moveTooltip(event);
+                }
+            }
+
+            function moveTooltip(event) {
+                const tooltipWidth = tooltip.offsetWidth;
+                const tooltipHeight = tooltip.offsetHeight;
+                const pageWidth = window.innerWidth;
+
+                let x = event.pageX + 15;
+                let y = event.pageY + 15;
+
+                // Prevent tooltip from going off the right edge
+                if (x + tooltipWidth > pageWidth) {
+                    x = pageWidth - tooltipWidth - 10;
+                }
+
+                tooltip.style.left = x + 'px';
+                tooltip.style.top = y + 'px';
+            }
+
+            function hideTooltip() {
+                tooltip.style.display = 'none';
+            }
 
             function closeAllSelects(currentSelect) {
                 customSelects.forEach(select => {
@@ -1197,6 +1145,7 @@
                         select.classList.remove('open');
                     }
                 });
+                hideTooltip();
             }
 
             document.addEventListener('click', (e) => {
